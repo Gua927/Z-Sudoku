@@ -104,8 +104,10 @@ class Diffusion(L.LightningModule):
     self.tokenizer = tokenizer
     self.vocab_size = self.tokenizer.vocab_size
     self.sampler = self.config.sampling.predictor
-    self.sample_method = getattr(self.config.sampling, 'sample_method', 'origin').lower()
-    if self.sample_method not in {'origin', 'top-k'}:
+    self.sample_method = getattr(self.config.sampling, 'sample_method', 'origin')
+    self.sample_method = self.sample_method.strip().lower()
+    self.sample_method = self.sample_method.replace('_', '-').replace(' ', '-')
+    if self.sample_method not in {'origin', 'top-k', 'top-k-margin'}:
       raise ValueError(f'Unknown sample method: {self.sample_method}')
     self.sample_top_k = getattr(self.config.sampling, 'sample_top_k', None)
     if self.sample_top_k is not None:
@@ -728,7 +730,7 @@ class Diffusion(L.LightningModule):
 
   def _compute_update_mask(self, x, p_x0, mask_value, decode_prob=None):
     masked_positions = x == mask_value
-    if self.sample_method != 'top-k':
+    if self.sample_method not in {'top-k', 'top-k-margin'}:
       return masked_positions
     if decode_prob is None:
       raise ValueError('decode_prob must be provided for top-k sampling')
@@ -751,6 +753,20 @@ class Diffusion(L.LightningModule):
       max_scores = non_mask_scores.max(dim=-1).values
     else:
       max_scores = p_x0.max(dim=-1).values
+
+    if self.sample_method == 'top-k-margin':
+      log_probs = torch.log(p_x0.clamp_min(1e-12))
+      if 0 <= mask_channel_index < log_probs.shape[-1]:
+        log_probs[..., mask_channel_index] = float('-inf')
+      if log_probs.shape[-1] >= 2:
+        topk_vals = torch.topk(log_probs, k=2, dim=-1).values
+        margin_scores = topk_vals[..., 0] - topk_vals[..., 1]
+        margin_scores = torch.nan_to_num(margin_scores)
+      else:
+        margin_scores = torch.zeros_like(log_probs[..., 0])
+    else:
+      margin_scores = None
+
     for b in range(x.shape[0]):
       masked_count = masked_positions[b].sum()
       if masked_count == 0:
@@ -765,7 +781,10 @@ class Diffusion(L.LightningModule):
         continue
       if self.sample_top_k is not None and self.sample_top_k > 0:
         k = min(self.sample_top_k, k)
-      candidate_scores = max_scores[b].masked_fill(~masked_positions[b], float('-inf'))
+      if self.sample_method == 'top-k-margin':
+        candidate_scores = margin_scores[b].masked_fill(~masked_positions[b], float('-inf'))
+      else:
+        candidate_scores = max_scores[b].masked_fill(~masked_positions[b], float('-inf'))
       _, topk_idx = torch.topk(candidate_scores, k)
       update_mask[b, topk_idx] = True
     return update_mask & masked_positions
@@ -893,7 +912,7 @@ class Diffusion(L.LightningModule):
     x = self._sample_prior(
       batch_size_per_gpu,
       self.config.model.length * self.config.prime.target_length).to(self.device)
-    if self.sample_method == 'top-k':
+    if self.sample_method in {'top-k', 'top-k-margin'}:
       self._topk_residual = torch.zeros(x.shape[0], dtype=self.sampling_dtype, device=self.device)
     else:
       self._topk_residual = None

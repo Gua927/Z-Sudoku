@@ -19,6 +19,10 @@ from main import _load_from_checkpoint  # noqa: E402
 from utils.eval_utils import compute_entropy, compute_generative_perplexity as compute_gen_ppl  # noqa: E402
 
 
+def normalize_sample_method(name: str) -> str:
+  return name.lower().replace('_', '-').replace(' ', '-')
+
+
 def parse_args() -> argparse.Namespace:
   parser = argparse.ArgumentParser(description="Plot GenPPL and entropy vs sampling steps.")
   parser.add_argument("--checkpoint", type=str, required=True, help="Path to the diffusion checkpoint.")
@@ -28,8 +32,8 @@ def parse_args() -> argparse.Namespace:
   parser.add_argument("--perplexity-batch", type=int, default=2, help="Batch size used when computing GenPPL.")
   parser.add_argument("--nucleus-p", type=float, default=1.0, help="Nucleus sampling probability.")
   parser.add_argument("--sampling-dtype", type=str, default="fp32", choices=["fp32", "fp64"], help="Sampling dtype for categorical draws.")
-  parser.add_argument("--sample-method", "--sample-methods", dest="sample_methods", type=str, nargs="+", default=["origin"], help="Sampling strategies to use during decoding. Provide one or more values (e.g. origin top-k).")
-  parser.add_argument("--sample-top-k", type=int, default=None, help="Optional hard cap on decoded tokens per step when using top-k.")
+  parser.add_argument("--sample-method", "--sample-methods", dest="sample_methods", type=str, nargs="+", default=["origin"], help="Sampling strategies to use during decoding. Provide one or more values (e.g. origin top-k top-k-margin).")
+  parser.add_argument("--sample-top-k", type=int, default=None, help="Optional hard cap on decoded tokens per step when using top-k or top-k-margin.")
   parser.add_argument("--eval-model", type=str, default="gpt2-large", help="AR model for GenPPL (e.g., gpt2-large or meta-llama/Llama-2-7b-hf).")
   parser.add_argument("--cache-dir", type=str, default=None, help="Optional HF cache directory override.")
   parser.add_argument("--output", type=str, default="plots/genppl_vs_steps.png", help="Output plot path.")
@@ -39,6 +43,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def init_config(args: argparse.Namespace, sample_method: str) -> Any:
+  sample_method = normalize_sample_method(sample_method)
   config_dir = Path(__file__).resolve().parent.parent / "configs"
   overrides = [
     "mode=ppl_eval",
@@ -63,7 +68,7 @@ def init_config(args: argparse.Namespace, sample_method: str) -> Any:
   cfg.eval.gen_ppl_eval_model_name_or_path = args.eval_model
   cfg.sampling.total_samples = args.total_samples
   cfg.sampling.sample_method = sample_method
-  cfg.sampling.sample_top_k = args.sample_top_k if sample_method == "top-k" else None
+  cfg.sampling.sample_top_k = args.sample_top_k if sample_method in {"top-k", "top-k-margin"} else None
   return cfg
 
 
@@ -82,10 +87,10 @@ def load_diffusion(cfg: Any) -> torch.nn.Module:
 
 
 def configure_sampling_method(model: torch.nn.Module, sample_method: str, sample_top_k: Optional[int]) -> None:
-  method = sample_method.lower()
+  method = normalize_sample_method(sample_method)
   model.sample_method = method
   model.config.sampling.sample_method = method
-  top_k_value = sample_top_k if method == "top-k" else None
+  top_k_value = sample_top_k if method in {"top-k", "top-k-margin"} else None
   if hasattr(model.config.sampling, "sample_top_k"):
     model.config.sampling.sample_top_k = top_k_value
   model.sample_top_k = top_k_value
@@ -110,7 +115,7 @@ def evaluate_setting(model, texts: List[str]) -> tuple:
 
 def main() -> None:
   args = parse_args()
-  method_pairs = [(method, method.lower()) for method in args.sample_methods]
+  method_pairs = [(method, normalize_sample_method(method)) for method in args.sample_methods]
   if not method_pairs:
     raise ValueError("At least one sampling method must be specified.")
 

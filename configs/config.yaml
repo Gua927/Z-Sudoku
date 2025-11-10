@@ -99,7 +99,7 @@ sampling:
   predictor: ddpm_cache  # analytic, ddpm, ddpm_cache
   steps: 256
   noise_removal: True
-  sample_method: origin  # origin, top-k
+  sample_method: origin  # origin, top-k, top-k-margin
   sample_top_k: null
   # TODO(yair): @subham, why aren't these params under `eval`?
   num_sample_batches: 1  # Total samples: `num_gpus` * `loader.eval_batch_size` * num_sample_batches

@@ -194,20 +194,22 @@ python scripts/plot_genppl_vs_steps.py \
  --batch-size 50 \
  --perplexity-batch 5 \
  --cache-dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
- --output plots/genppl_vs_steps_topk.png \
- --sample-method top-k
+ --output plots/genppl_vs_steps_topk-margin.png \
+ --sample-method top-k-margin
 ```
 
+`top-k-margin` 会使用掩码位置预测分布中的最大与次大 log-prob 差值来排序，因此更易与传统 `top-k` 区分，同时延续相同的解码条数控制逻辑。
+
 ```bash
-python scripts/plot_genppl_vs_steps.py \
+nohup python scripts/plot_genppl_vs_steps.py \
  --checkpoint /root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
  --steps  256 512 1024 2048\
- --total-samples 500 \
- --batch-size 80 \
+ --total-samples 100 \
+ --batch-size 50 \
  --perplexity-batch 5 \
  --cache-dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
- --output plots/genppl_vs_steps.png \
- --sample-method origin top-k
+ --output plots/genppl_vs_steps-all1.png \
+ --sample-method origin top-k top-k-margin &
 ```
 
 ### Sampling
