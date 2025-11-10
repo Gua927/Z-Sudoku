@@ -166,7 +166,7 @@ python -u -m main mode=ppl_eval eval.compute_zero_shot=True eval.generate_sample
 
 ```bash
 python -u -m main mode=ppl_eval \
-  eval.checkpoint_path=/root/code/mdm-prime/text/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
+  eval.checkpoint_path=/root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
   eval.generate_samples=True \
   eval.compute_generative_perplexity=True \
   eval.perplexity_batch_size=20 \
@@ -177,13 +177,37 @@ python -u -m main mode=ppl_eval \
 
 ```bash
 python scripts/plot_genppl_vs_steps.py \
-  --checkpoint /root/code/mdm-prime/text/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
-  --steps 256 512 1024 2048 \
-  --total-samples 100 \
-  --batch-size 25 \
-  --perplexity-batch 10 \
+  --checkpoint /root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
+  --steps 256  \
+  --total-samples 50 \
+  --batch-size 50 \
+  --perplexity-batch 5 \
   --cache-dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
   --output plots/genppl_vs_steps.png
+```
+
+```bash
+python scripts/plot_genppl_vs_steps.py \
+ --checkpoint /root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
+ --steps 256  \
+ --total-samples 50 \
+ --batch-size 50 \
+ --perplexity-batch 5 \
+ --cache-dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
+ --output plots/genppl_vs_steps_topk.png \
+ --sample-method top-k
+```
+
+```bash
+python scripts/plot_genppl_vs_steps.py \
+ --checkpoint /root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
+ --steps  256 512 1024 2048\
+ --total-samples 500 \
+ --batch-size 80 \
+ --perplexity-batch 5 \
+ --cache-dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
+ --output plots/genppl_vs_steps.png \
+ --sample-method origin top-k
 ```
 
 ### Sampling

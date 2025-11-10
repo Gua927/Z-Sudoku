@@ -104,6 +104,13 @@ class Diffusion(L.LightningModule):
     self.tokenizer = tokenizer
     self.vocab_size = self.tokenizer.vocab_size
     self.sampler = self.config.sampling.predictor
+    self.sample_method = getattr(self.config.sampling, 'sample_method', 'origin').lower()
+    if self.sample_method not in {'origin', 'top-k'}:
+      raise ValueError(f'Unknown sample method: {self.sample_method}')
+    self.sample_top_k = getattr(self.config.sampling, 'sample_top_k', None)
+    if self.sample_top_k is not None:
+      self.sample_top_k = int(self.sample_top_k)
+    self._topk_residual = None
     self.gen_ppl_eval_model_name_or_path = self.config.eval.gen_ppl_eval_model_name_or_path
     self.antithetic_sampling = self.config.training.antithetic_sampling
     self.importance_sampling = self.config.training.importance_sampling
@@ -719,6 +726,50 @@ class Diffusion(L.LightningModule):
       return self.mask_index_enc * torch.ones(
         * batch_dims, dtype=torch.int64)
 
+  def _compute_update_mask(self, x, p_x0, mask_value, decode_prob=None):
+    masked_positions = x == mask_value
+    if self.sample_method != 'top-k':
+      return masked_positions
+    if decode_prob is None:
+      raise ValueError('decode_prob must be provided for top-k sampling')
+    if decode_prob.ndim < masked_positions.ndim:
+      view_shape = decode_prob.shape + (1,) * (masked_positions.ndim - decode_prob.ndim)
+      decode_prob = decode_prob.view(view_shape)
+    decode_prob = decode_prob.expand_as(masked_positions).to(p_x0.dtype)
+    if (self._topk_residual is None
+        or self._topk_residual.shape[0] != x.shape[0]):
+      self._topk_residual = torch.zeros(x.shape[0], dtype=p_x0.dtype, device=x.device)
+    elif (self._topk_residual.device != x.device
+          or self._topk_residual.dtype != p_x0.dtype):
+      self._topk_residual = self._topk_residual.to(device=x.device, dtype=p_x0.dtype)
+    update_mask = torch.zeros_like(masked_positions)
+    mask_channel_index = mask_value
+    if 0 <= mask_channel_index < p_x0.shape[-1]:
+      # 根据非 mask 的最高 logit（概率）来衡量置信度，排除 mask 通道
+      non_mask_scores = p_x0.clone()
+      non_mask_scores[..., mask_channel_index] = float('-inf')
+      max_scores = non_mask_scores.max(dim=-1).values
+    else:
+      max_scores = p_x0.max(dim=-1).values
+    for b in range(x.shape[0]):
+      masked_count = masked_positions[b].sum()
+      if masked_count == 0:
+        continue
+      masked_count_float = masked_count.to(p_x0.dtype)
+      expected = decode_prob[b][masked_positions[b]].sum() + self._topk_residual[b]
+      expected = torch.clamp(expected, min=0.)
+      k_float = torch.clamp(expected.floor(), max=masked_count_float)
+      k = int(k_float.item())
+      self._topk_residual[b] = expected - k_float
+      if k == 0:
+        continue
+      if self.sample_top_k is not None and self.sample_top_k > 0:
+        k = min(self.sample_top_k, k)
+      candidate_scores = max_scores[b].masked_fill(~masked_positions[b], float('-inf'))
+      _, topk_idx = torch.topk(candidate_scores, k)
+      update_mask[b, topk_idx] = True
+    return update_mask & masked_positions
+
   def _ddpm_caching_update(self, x, t, dt, p_x0=None, return_x0=False):
     assert self.config.noise.type == 'loglinear'
     sigma_t, _ = self.noise(t)
@@ -736,13 +787,15 @@ class Diffusion(L.LightningModule):
     q_xs = p_x0 * (move_chance_t - move_chance_s)
     q_xs[:, :, self.mask_index] = move_chance_s[:, :, 0]
     _x = _sample_categorical(q_xs, dtype=self.sampling_dtype)
-    
-    copy_flag = (x != self.mask_index).to(x.dtype)
+
+    decode_prob = (1 - move_chance_s[:, :, 0])
+    update_mask = self._compute_update_mask(x, p_x0, self.mask_index, decode_prob=decode_prob)
+    x_next = torch.where(update_mask, _x, x)
     if return_x0:
       _x0 = _sample_categorical(p_x0, dtype=self.sampling_dtype)
-      return p_x0, copy_flag * x + (1 - copy_flag) * _x, _x0
+      return p_x0, x_next, _x0
     else:
-      return p_x0, copy_flag * x + (1 - copy_flag) * _x
+      return p_x0, x_next
 
   def _ddpm_update(self, x, t, dt):
     sigma_t, _ = self.noise(t)
@@ -763,13 +816,13 @@ class Diffusion(L.LightningModule):
     # Technically, this isn't q_xs since there's a division
     # term that is missing. This division term doesn't affect
     # the samples.
-    q_xs = log_p_x0.exp() * (move_chance_t
-                             - move_chance_s)
+    p_x0 = log_p_x0.exp()
+    q_xs = p_x0 * (move_chance_t - move_chance_s)
     q_xs[:, :, self.mask_index] = move_chance_s[:, :, 0]
     _x = _sample_categorical(q_xs, dtype=self.sampling_dtype)
-
-    copy_flag = (x != self.mask_index).to(x.dtype)
-    return copy_flag * x + (1 - copy_flag) * _x
+    decode_prob = (1 - move_chance_s[:, :, 0])
+    update_mask = self._compute_update_mask(x, p_x0, self.mask_index, decode_prob=decode_prob)
+    return torch.where(update_mask, _x, x)
   
   def _mdm_prime_update(self, x, t, dt, p_x0=None, return_x0=False):
     assert self.config.noise.type == 'loglinear'
@@ -792,12 +845,14 @@ class Diffusion(L.LightningModule):
     q_xs = delta_x * (move_chance_t - move_chance_s) # alpha_s - alpha_t
     q_xs[:, :, self.mask_index_enc] = move_chance_s[:, :, 0] # 1 - alpha_s
     _x = _sample_categorical(q_xs, dtype=self.sampling_dtype)
-    
-    copy_flag = (x != self.mask_index_enc).to(x.dtype)
+
+    decode_prob = (1 - move_chance_s[:, :, 0])
+    update_mask = self._compute_update_mask(x, p_x0, self.mask_index_enc, decode_prob=decode_prob)
+    x_next = torch.where(update_mask, _x, x)
     if return_x0: # for visualization
-      return p_x0, copy_flag * x + (1 - copy_flag) * _x, _x0
+      return p_x0, x_next, _x0
     else:
-      return p_x0, copy_flag * x + (1 - copy_flag) * _x
+      return p_x0, x_next
 
   def _ar_sampler(self, bsz, conditions=None):
     # precompute token buffer
@@ -838,6 +893,10 @@ class Diffusion(L.LightningModule):
     x = self._sample_prior(
       batch_size_per_gpu,
       self.config.model.length * self.config.prime.target_length).to(self.device)
+    if self.sample_method == 'top-k':
+      self._topk_residual = torch.zeros(x.shape[0], dtype=self.sampling_dtype, device=self.device)
+    else:
+      self._topk_residual = None
     
     if conditions is not None:
       conditions = conditions.to(self.device)
@@ -890,6 +949,7 @@ class Diffusion(L.LightningModule):
     if self.config.prime.target_length != 1:
       x = self.wrapped_decoder(x)
 
+    self._topk_residual = None
     return x
 
   def restore_model_and_sample(self, num_steps, eps=1e-5, conditions=None):
