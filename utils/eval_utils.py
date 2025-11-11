@@ -144,7 +144,9 @@ def compute_generative_perplexity(
         eval_model = transformers.AutoModelForCausalLM.from_pretrained(model.gen_ppl_eval_model_name_or_path).eval()
     if max_length is None:
         max_length = model.config.model.length
-    if 'llama2' not in model.gen_ppl_eval_model_name_or_path:
+    llama_detector = getattr(model, '_is_llama_eval_model', None)
+    uses_llama = llama_detector() if callable(llama_detector) else (('llama' in model.gen_ppl_eval_model_name_or_path.lower() or 'lamma' in model.gen_ppl_eval_model_name_or_path.lower()) and '7b' in model.gen_ppl_eval_model_name_or_path.lower())
+    if not uses_llama:
         eval_model = eval_model.to(model.device)
     # Re-tokenize using eval model's tokenizer
     if retokenize:

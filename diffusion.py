@@ -1,6 +1,7 @@
 import os
 import math
 import typing
+from collections.abc import Sequence
 import itertools
 import hydra.utils
 import numpy as np
@@ -112,8 +113,10 @@ class Diffusion(L.LightningModule):
     self.sample_top_k = getattr(self.config.sampling, 'sample_top_k', None)
     if self.sample_top_k is not None:
       self.sample_top_k = int(self.sample_top_k)
-    self._topk_residual = None
-    self.gen_ppl_eval_model_name_or_path = self.config.eval.gen_ppl_eval_model_name_or_path
+    # 不再使用残差机制，移除_topk_residual的初始化
+    self._eval_model_candidates = self._coerce_eval_model_candidates(
+      self.config.eval.gen_ppl_eval_model_name_or_path)
+    self.gen_ppl_eval_model_name_or_path = None
     self.antithetic_sampling = self.config.training.antithetic_sampling
     self.importance_sampling = self.config.training.importance_sampling
     self.change_of_variables = self.config.training.change_of_variables
@@ -180,13 +183,24 @@ class Diffusion(L.LightningModule):
 
     # generative perplexity
     self.gen_ppl_metric = Perplexity()
-    self.eval_model_tokenizer =\
-      transformers.AutoTokenizer.from_pretrained(self.gen_ppl_eval_model_name_or_path)
-    if self.eval_model_tokenizer.pad_token is None:
-      self.eval_model_tokenizer.pad_token =\
-          self.eval_model_tokenizer.eos_token
-      self.eval_model_tokenizer.pad_token_id =\
-          self.eval_model_tokenizer.eos_token_id
+    # Lazy-load eval tokenizer only when actually needed (e.g., gen_ppl/entropy/self-bleu)
+    # This avoids hard dependency on HF downloads during plain ppl_eval.
+    self.eval_model_tokenizer = None
+    self.gen_ppl_eval_model_name_or_path = None
+    needs_eval_tokenizer = (
+      bool(getattr(self.config.eval, 'compute_generative_perplexity', False))
+      or bool(getattr(self.config.performance, 'gen_perplexity', False))
+      or bool(getattr(self.config.performance, 'entropy', False))
+      or bool(getattr(self.config.performance, 'bleu', False))
+    )
+    if needs_eval_tokenizer:
+      eval_tokenizer = self._load_eval_model_tokenizer()
+      self.eval_model_tokenizer = eval_tokenizer
+      if self.eval_model_tokenizer.pad_token is None:
+        self.eval_model_tokenizer.pad_token = \
+            self.eval_model_tokenizer.eos_token
+        self.eval_model_tokenizer.pad_token_id = \
+            self.eval_model_tokenizer.eos_token_id
 
     self.noise = get_noise(self.config, dtype=self.dtype)
     if self.config.training.ema > 0:
@@ -597,7 +611,15 @@ class Diffusion(L.LightningModule):
         attn_mask: Attention mask for the eval model
         eval_context_size: Size of the context for the eval model
     """
-    if 'llama2' in self.gen_ppl_eval_model_name_or_path:
+    # Ensure eval tokenizer is available on first use (lazy-load)
+    if self.eval_model_tokenizer is None:
+      eval_tokenizer = self._load_eval_model_tokenizer()
+      self.eval_model_tokenizer = eval_tokenizer
+      if self.eval_model_tokenizer.pad_token is None:
+        self.eval_model_tokenizer.pad_token = self.eval_model_tokenizer.eos_token
+        self.eval_model_tokenizer.pad_token_id = self.eval_model_tokenizer.eos_token_id
+
+    if self._is_llama_eval_model():
       tokenizer_kwargs = {
         'text_samples': text_samples,
         'return_tensors': 'pt',
@@ -618,11 +640,12 @@ class Diffusion(L.LightningModule):
         'max_length': max_length,
       }
       eval_context_size = 1024
+    
     samples = self.eval_model_tokenizer(text_samples, ** tokenizer_kwargs)
     attn_mask = samples['attention_mask']
     samples = samples['input_ids']
 
-    if 'llama2' not in self.gen_ppl_eval_model_name_or_path:
+    if not self._is_llama_eval_model():
       attn_mask = attn_mask.to(self.device)
       samples = samples.to(self.device)
     return samples, attn_mask, eval_context_size
@@ -647,7 +670,7 @@ class Diffusion(L.LightningModule):
       self.gen_ppl_eval_model_name_or_path).eval()
     if max_length is None:
       max_length = self.config.model.length
-    if 'llama2' not in self.gen_ppl_eval_model_name_or_path:
+    if not self._is_llama_eval_model():
       eval_model = eval_model.to(self.device)
     # Re-tokenize using eval model's tokenizer
     if retokenize:
@@ -738,12 +761,7 @@ class Diffusion(L.LightningModule):
       view_shape = decode_prob.shape + (1,) * (masked_positions.ndim - decode_prob.ndim)
       decode_prob = decode_prob.view(view_shape)
     decode_prob = decode_prob.expand_as(masked_positions).to(p_x0.dtype)
-    if (self._topk_residual is None
-        or self._topk_residual.shape[0] != x.shape[0]):
-      self._topk_residual = torch.zeros(x.shape[0], dtype=p_x0.dtype, device=x.device)
-    elif (self._topk_residual.device != x.device
-          or self._topk_residual.dtype != p_x0.dtype):
-      self._topk_residual = self._topk_residual.to(device=x.device, dtype=p_x0.dtype)
+    # 不再使用残差机制，移除_topk_residual的初始化
     update_mask = torch.zeros_like(masked_positions)
     mask_channel_index = mask_value
     if 0 <= mask_channel_index < p_x0.shape[-1]:
@@ -772,11 +790,11 @@ class Diffusion(L.LightningModule):
       if masked_count == 0:
         continue
       masked_count_float = masked_count.to(p_x0.dtype)
-      expected = decode_prob[b][masked_positions[b]].sum() + self._topk_residual[b]
+      # 忽略残差，直接计算期望值
+      expected = decode_prob[b][masked_positions[b]].sum()
       expected = torch.clamp(expected, min=0.)
       k_float = torch.clamp(expected.floor(), max=masked_count_float)
       k = int(k_float.item())
-      self._topk_residual[b] = expected - k_float
       if k == 0:
         continue
       if self.sample_top_k is not None and self.sample_top_k > 0:
@@ -912,10 +930,7 @@ class Diffusion(L.LightningModule):
     x = self._sample_prior(
       batch_size_per_gpu,
       self.config.model.length * self.config.prime.target_length).to(self.device)
-    if self.sample_method in {'top-k', 'top-k-margin'}:
-      self._topk_residual = torch.zeros(x.shape[0], dtype=self.sampling_dtype, device=self.device)
-    else:
-      self._topk_residual = None
+    # 不再使用残差机制，移除_topk_residual的初始化
     
     if conditions is not None:
       conditions = conditions.to(self.device)
@@ -968,7 +983,7 @@ class Diffusion(L.LightningModule):
     if self.config.prime.target_length != 1:
       x = self.wrapped_decoder(x)
 
-    self._topk_residual = None
+    # 不再使用残差机制，移除_topk_residual的重置
     return x
 
   def restore_model_and_sample(self, num_steps, eps=1e-5, conditions=None):
@@ -1087,6 +1102,13 @@ class Diffusion(L.LightningModule):
     if self.importance_sampling:
       return self.noise.importance_sampling_transformation(t)
     return t
+
+  def _is_llama_eval_model(self) -> bool:
+    name = self.gen_ppl_eval_model_name_or_path
+    if not isinstance(name, str):
+      return False
+    lname = name.lower()
+    return ('llama' in lname or 'lamma' in lname) and '7b' in lname
 
   def _maybe_sub_sample(self, x0, attention_mask):
     if self.parameterization == 'ar':
@@ -1303,6 +1325,39 @@ class Diffusion(L.LightningModule):
   def calculate_zero_shot_ppl(self):
     return 0
   
+  def _coerce_eval_model_candidates(self, value):
+    if value is None:
+      return []
+    if isinstance(value, str):
+      return [value.strip()]
+    if isinstance(value, Sequence):
+      return [str(item).strip() for item in value if item is not None]
+    return [str(value).strip()]
+
+  def _load_eval_model_tokenizer(self):
+    if not self._eval_model_candidates:
+      raise ValueError('eval.gen_ppl_eval_model_name_or_path must provide at least one model name or path.')
+    errors = []
+    local_only = os.environ.get('TRANSFORMERS_OFFLINE', '').lower() in {'1', 'true', 'yes'}
+    for candidate in self._eval_model_candidates:
+      if not candidate:
+        continue
+      try:
+        tokenizer = transformers.AutoTokenizer.from_pretrained(
+          candidate,
+          local_files_only=local_only)
+        self.gen_ppl_eval_model_name_or_path = candidate
+        self.config.eval.gen_ppl_eval_model_name_or_path = candidate
+        print(f'Using eval AR model: {candidate}')
+        return tokenizer
+      except Exception as exc:  # noqa: BLE001
+        errors.append((candidate, exc))
+        print(f'Failed to load eval tokenizer from {candidate}: {exc}')
+    if not errors:
+      raise RuntimeError('Unable to load any eval tokenizer. All provided candidates were empty or invalid.')
+    tried = ', '.join(str(c) for c, _ in errors if c)
+    raise RuntimeError(f'Unable to load any eval tokenizer. Tried: {tried}')
+
   # monitor mauve score
   @torch.no_grad
   def calculate_mauve_score(self):

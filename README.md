@@ -154,18 +154,20 @@ python -u -m main data=openwebtext-split data.cache_dir=/app/huggingface_cache \
 
 ```
 python -u -m main mode=ppl_eval eval.compute_zero_shot=True eval.generate_samples=False \
-                  eval.checkpoint_path=/root/code/mdm-prime/text/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
-                  data=openwebtext-split data.cache_dir=/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
-                  loader.batch_size=16 loader.eval_batch_size=16 model=small \
-                  prime.target_length=1 prime.carry_over=True
+    eval.checkpoint_path=/root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
+    data=openwebtext-split data.cache_dir=/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
+    loader.batch_size=16 loader.eval_batch_size=16 model=small \
+    prime.target_length=1 prime.carry_over=True
 ```
 
 - **Arguments:**
     - `mode`: `train` / `ppl_eval` / `sample_and_save`. (default: `train`)
     - `eval.checkpoint_path`: path to the checkpoint. (default: ` `)
+    - 默认的 AR 评估模型为 `meta-llama/Llama-2-7b-hf` (LLaMA 7B)。如需使用其它模型，可将 `eval.gen_ppl_eval_model_name_or_path` 设置为单个字符串或字符串列表（按优先级排列），也可在脚本中通过 `--eval-model gpt2-large meta-llama/Llama-2-7b-hf` 之类的形式传入可选项。
 
 ```bash
 python -u -m main mode=ppl_eval \
+  eval-model gpt2-large \
   eval.checkpoint_path=/root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
   eval.generate_samples=True \
   eval.compute_generative_perplexity=True \
@@ -178,9 +180,10 @@ python -u -m main mode=ppl_eval \
 ```bash
 python scripts/plot_genppl_vs_steps.py \
   --checkpoint /root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
-  --steps 256  \
-  --total-samples 50 \
-  --batch-size 50 \
+  --eval-model gpt2-large
+  --steps 256 512 1024 2048 \
+  --total-samples 10 \
+  --batch-size 10 \
   --perplexity-batch 5 \
   --cache-dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
   --output plots/genppl_vs_steps.png
@@ -189,28 +192,34 @@ python scripts/plot_genppl_vs_steps.py \
 ```bash
 python scripts/plot_genppl_vs_steps.py \
  --checkpoint /root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
- --steps 256  \
+ --model-config small \
+ --eval-model Qwen/Qwen2.5-7b \
+ --steps 512  \
  --total-samples 50 \
  --batch-size 50 \
- --perplexity-batch 5 \
+ --perplexity-batch 1 \
  --cache-dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
  --output plots/genppl_vs_steps_topk-margin.png \
  --sample-method top-k-margin
 ```
 
+
 `top-k-margin` 会使用掩码位置预测分布中的最大与次大 log-prob 差值来排序，因此更易与传统 `top-k` 区分，同时延续相同的解码条数控制逻辑。
 
 ```bash
-nohup python scripts/plot_genppl_vs_steps.py \
+python scripts/plot_genppl_vs_steps.py \
  --checkpoint /root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
- --steps  256 512 1024 2048\
- --total-samples 100 \
- --batch-size 50 \
- --perplexity-batch 5 \
+ --eval-model Qwen/Qwen2.5-7b \
+ --steps 1\
+ --total-samples 5 \
+ --batch-size 5 \
+ --perplexity-batch 1 \
  --cache-dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
- --output plots/genppl_vs_steps-all1.png \
- --sample-method origin top-k top-k-margin &
+ --output plots/genppl_vs_steps-all3.png \
+ --sample-method origin top-k top-k-margin
 ```
+
+
 
 ### Sampling
 
@@ -235,9 +244,9 @@ python -u -m main mode=sample_and_save eval.checkpoint_path=/root/code/mdm-prime
 :pushpin: **Conditional Sampling**
 
 ```
-python -u -m main mode=sample_and_save eval.checkpoint_path=${path_to_checkpoint} \
+python -u -m main mode=sample_and_save eval.checkpoint_path=/root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
                   sampling.split_size=100 sampling.steps=512 \
-                  sampling.sampling_dir=/app/results_prime_l2_owt/samples \
+                  sampling.sampling_dir=outputs/results_prime_l1_owt/samples \
                   sampling.sampling_dtype=fp64 sampling.nucleus_p=0.95 \
                   sampling.conditions=True sampling.prefix_len=35 \
                   data=openwebtext-split data.cache_dir=/app/huggingface_cache \
@@ -299,12 +308,18 @@ Pass `checkpointing.from_huggingface=True` and set `eval.checkpoint_path=text/ow
 **Example.** Evalute PPL using MDLM-Prime ($\ell=2$)
 
 ```bash
-python -u -m main mode=ppl_eval eval.compute_zero_shot=False eval.generate_samples=False \
-                  eval.checkpoint_path=text/owt/results_prime_l2_owt/checkpoint.ckpt \
-                  data=openwebtext-split data.cache_dir=/app/huggingface_cache \
-                  loader.batch_size=16 loader.eval_batch_size=16 model=small \
-                  prime.target_length=2 prime.carry_over=False \
-                  checkpointing.from_huggingface=True
+PYTHONWARNINGS="ignore::FutureWarning" python -u -m main mode=ppl_eval \
+    eval.compute_zero_shot=True \
+    eval.generate_samples=False \
+    eval.checkpoint_path=/root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
+    data=wikitext2 \
+    data.cache_dir=/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
+    loader.batch_size=16 \
+    loader.eval_batch_size=16 \
+    model=small \
+    prime.target_length=1 \
+    prime.carry_over=False \
+    checkpointing.from_huggingface=False
 ```
 
 **Example.** Sampling using MDLM-Prime ($\ell=2$)

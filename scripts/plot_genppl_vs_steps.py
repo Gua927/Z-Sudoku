@@ -9,6 +9,7 @@ from typing import Any, Dict, List, Optional
 import matplotlib.pyplot as plt
 import torch
 from hydra import compose, initialize_config_dir
+from omegaconf import OmegaConf
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 if str(REPO_ROOT) not in sys.path:
@@ -34,11 +35,17 @@ def parse_args() -> argparse.Namespace:
   parser.add_argument("--sampling-dtype", type=str, default="fp32", choices=["fp32", "fp64"], help="Sampling dtype for categorical draws.")
   parser.add_argument("--sample-method", "--sample-methods", dest="sample_methods", type=str, nargs="+", default=["origin"], help="Sampling strategies to use during decoding. Provide one or more values (e.g. origin top-k top-k-margin).")
   parser.add_argument("--sample-top-k", type=int, default=None, help="Optional hard cap on decoded tokens per step when using top-k or top-k-margin.")
-  parser.add_argument("--eval-model", type=str, default="gpt2-large", help="AR model for GenPPL (e.g., gpt2-large or meta-llama/Llama-2-7b-hf).")
+  parser.add_argument(
+    "--eval-model",
+    type=str,
+    nargs="+",
+    default=None,
+    help="GenPPL AR model(s). Provide one or more names/paths in priority order, e.g. meta-llama/Llama-2-7b-hf gpt2-large.")
   parser.add_argument("--cache-dir", type=str, default=None, help="Optional HF cache directory override.")
   parser.add_argument("--output", type=str, default="plots/genppl_vs_steps.png", help="Output plot path.")
   parser.add_argument("--device", type=str, default="cuda", help="Torch device to run sampling on.")
   parser.add_argument("--seed", type=int, default=1, help="Random seed for sampling.")
+  parser.add_argument("--model-config", type=str, default="small", choices=["tiny", "small", "medium"], help="Diffusion model configuration size (tiny, small, medium).")
   return parser.parse_args()
 
 
@@ -60,12 +67,14 @@ def init_config(args: argparse.Namespace, sample_method: str) -> Any:
     "trainer.num_nodes=1",
     f"sampling.sampling_dtype={args.sampling_dtype}",
     f"sampling.nucleus_p={args.nucleus_p}",
+    f"model={args.model_config}",
   ]
   if args.cache_dir:
     overrides.append(f"data.cache_dir={args.cache_dir}")
   with initialize_config_dir(version_base=None, config_dir=str(config_dir)):
     cfg = compose(config_name="config", overrides=overrides)
-  cfg.eval.gen_ppl_eval_model_name_or_path = args.eval_model
+  if args.eval_model:
+    cfg.eval.gen_ppl_eval_model_name_or_path = args.eval_model if len(args.eval_model) > 1 else args.eval_model[0]
   cfg.sampling.total_samples = args.total_samples
   cfg.sampling.sample_method = sample_method
   cfg.sampling.sample_top_k = args.sample_top_k if sample_method in {"top-k", "top-k-margin"} else None
@@ -111,6 +120,7 @@ def evaluate_setting(model, texts: List[str]) -> tuple:
   model.gen_ppl_metric.reset()
   entropy = compute_entropy(model, texts)
   return gen_ppl, entropy
+
 
 
 def main() -> None:
@@ -170,12 +180,14 @@ def main() -> None:
       "color": cmap(idx % cmap.N),
     })
 
+  
   fig, ax1 = plt.subplots(figsize=(7, 4))
   ax1.set_xlabel("Sampling Steps")
   ax1.set_ylabel("Generative Perplexity")
 
   ax2 = ax1.twinx()
   ax2.set_ylabel("Entropy")
+  ax2.set_ylim(4.0, 8.5)
 
   metric_markers = {"ppl": "o", "entropy": "*"}
   handles: List[Any] = []
