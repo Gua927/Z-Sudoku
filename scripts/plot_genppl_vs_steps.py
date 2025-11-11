@@ -35,6 +35,7 @@ def parse_args() -> argparse.Namespace:
   parser.add_argument("--sampling-dtype", type=str, default="fp32", choices=["fp32", "fp64"], help="Sampling dtype for categorical draws.")
   parser.add_argument("--sample-method", "--sample-methods", dest="sample_methods", type=str, nargs="+", default=["origin"], help="Sampling strategies to use during decoding. Provide one or more values (e.g. origin top-k top-k-margin).")
   parser.add_argument("--sample-top-k", type=int, default=None, help="Optional hard cap on decoded tokens per step when using top-k or top-k-margin.")
+  parser.add_argument("--temperature", type=float, default=1.0, help="Sampling temperature. 0.0 for greedy decoding, 1.0 for standard sampling, >1.0 for more randomness, <1.0 for less randomness.")
   parser.add_argument(
     "--eval-model",
     type=str,
@@ -67,6 +68,7 @@ def init_config(args: argparse.Namespace, sample_method: str) -> Any:
     "trainer.num_nodes=1",
     f"sampling.sampling_dtype={args.sampling_dtype}",
     f"sampling.nucleus_p={args.nucleus_p}",
+    f"sampling.temperature={args.temperature}",
     f"model={args.model_config}",
   ]
   if args.cache_dir:
@@ -78,6 +80,7 @@ def init_config(args: argparse.Namespace, sample_method: str) -> Any:
   cfg.sampling.total_samples = args.total_samples
   cfg.sampling.sample_method = sample_method
   cfg.sampling.sample_top_k = args.sample_top_k if sample_method in {"top-k", "top-k-margin"} else None
+  cfg.sampling.temperature = args.temperature
   return cfg
 
 
@@ -92,10 +95,11 @@ def load_diffusion(cfg: Any) -> torch.nn.Module:
   model.config.sampling.sampling_dtype = cfg.sampling.sampling_dtype
   model.config.sampling.sample_method = cfg.sampling.sample_method
   model.config.sampling.sample_top_k = cfg.sampling.sample_top_k
+  model.config.sampling.temperature = cfg.sampling.temperature
   return model
 
 
-def configure_sampling_method(model: torch.nn.Module, sample_method: str, sample_top_k: Optional[int]) -> None:
+def configure_sampling_method(model: torch.nn.Module, sample_method: str, sample_top_k: Optional[int], temperature: float = 1.0) -> None:
   method = normalize_sample_method(sample_method)
   model.sample_method = method
   model.config.sampling.sample_method = method
@@ -103,6 +107,13 @@ def configure_sampling_method(model: torch.nn.Module, sample_method: str, sample
   if hasattr(model.config.sampling, "sample_top_k"):
     model.config.sampling.sample_top_k = top_k_value
   model.sample_top_k = top_k_value
+  
+  # 设置温度参数
+  if hasattr(model.config.sampling, "temperature"):
+    model.config.sampling.temperature = temperature
+  # 如果模型有temperature属性，也设置它
+  if hasattr(model, 'temperature'):
+    model.temperature = temperature
 
 
 def decode_batches(model, num_steps: int, total_samples: int) -> List[str]:
@@ -147,7 +158,7 @@ def main() -> None:
   output_path.parent.mkdir(parents=True, exist_ok=True)
 
   for idx, (method_label, method_key) in enumerate(method_pairs):
-    configure_sampling_method(model, method_key, args.sample_top_k)
+    configure_sampling_method(model, method_key, args.sample_top_k, args.temperature)
     method_seed = args.seed
     torch.manual_seed(method_seed)
     if torch.cuda.is_available():

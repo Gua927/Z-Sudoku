@@ -101,6 +101,7 @@ sampling:
   noise_removal: True
   sample_method: origin  # origin, top-k, top-k-margin
   sample_top_k: null
+  temperature: 1.0  # 采样温度，0表示贪婪解码，>1增加随机性，<1减少随机性
   # TODO(yair): @subham, why aren't these params under `eval`?
   num_sample_batches: 1  # Total samples: `num_gpus` * `loader.eval_batch_size` * num_sample_batches
   num_sample_log: 2

@@ -207,16 +207,17 @@ python scripts/plot_genppl_vs_steps.py \
 `top-k-margin` 会使用掩码位置预测分布中的最大与次大 log-prob 差值来排序，因此更易与传统 `top-k` 区分，同时延续相同的解码条数控制逻辑。
 
 ```bash
-python scripts/plot_genppl_vs_steps.py \
+nohup python scripts/plot_genppl_vs_steps.py \
  --checkpoint /root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
  --eval-model Qwen/Qwen2.5-7b \
- --steps 1\
- --total-samples 5 \
- --batch-size 5 \
+ --temperature 1.0 \
+ --steps 256 256 512 1024 2048\
+ --total-samples 80 \
+ --batch-size 80 \
  --perplexity-batch 1 \
  --cache-dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
- --output plots/genppl_vs_steps-all3.png \
- --sample-method origin top-k top-k-margin
+ --output plots/genppl_vs_steps-all.png \
+ --sample-method origin top-k top-k-margin &
 ```
 
 
