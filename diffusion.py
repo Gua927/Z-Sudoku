@@ -823,35 +823,30 @@ class Diffusion(L.LightningModule):
     assert move_chance_t.ndim == p_x0.ndim
     q_xs = p_x0 * (move_chance_t - move_chance_s)
     q_xs[:, :, self.mask_index] = move_chance_s[:, :, 0]
-    if self.sample_method in {'top-k', 'top-k-margin'}:
-      # 使用温度参数控制的采样
-      temperature = getattr(self.config.sampling, 'temperature', 1.0)
-      if temperature == 0.0:
-        # 温度为0时使用argmax（贪婪解码）
-        _x = q_xs.argmax(dim=-1)
-      else:
-        # 使用温度缩放的概率分布采样
-        scaled_q_xs = q_xs.pow(1.0 / temperature)
-        _x = _sample_categorical(scaled_q_xs, dtype=self.sampling_dtype)
+    
+    # 使用温度参数控制的采样
+    temperature = getattr(self.config.sampling, 'temperature', 1.0)
+    if temperature == 0.0:
+      # 温度为0时使用argmax（贪婪解码）
+      _x = q_xs.argmax(dim=-1)
     else:
-      _x = _sample_categorical(q_xs, dtype=self.sampling_dtype)
+      # 使用温度缩放的概率分布采样
+      scaled_q_xs = q_xs.pow(1.0 / temperature)
+      _x = _sample_categorical(scaled_q_xs, dtype=self.sampling_dtype)
 
     decode_prob = (1 - move_chance_s[:, :, 0])
     update_mask = self._compute_update_mask(x, p_x0, self.mask_index, decode_prob=decode_prob)
     x_next = torch.where(update_mask, _x, x)
     if return_x0:
-      if self.sample_method in {'top-k', 'top-k-margin'}:
-        # 使用温度参数控制的采样
-        temperature = getattr(self.config.sampling, 'temperature', 1.0)
-        if temperature == 0.0:
-          # 温度为0时使用argmax（贪婪解码）
-          _x0 = p_x0.argmax(dim=-1)
-        else:
-          # 使用温度缩放的概率分布采样
-          scaled_p_x0 = p_x0.pow(1.0 / temperature)
-          _x0 = _sample_categorical(scaled_p_x0, dtype=self.sampling_dtype)
+      # 使用温度参数控制的采样
+      temperature = getattr(self.config.sampling, 'temperature', 1.0)
+      if temperature == 0.0:
+        # 温度为0时使用argmax（贪婪解码）
+        _x0 = p_x0.argmax(dim=-1)
       else:
-        _x0 = _sample_categorical(p_x0, dtype=self.sampling_dtype)
+        # 使用温度缩放的概率分布采样
+        scaled_p_x0 = p_x0.pow(1.0 / temperature)
+        _x0 = _sample_categorical(scaled_p_x0, dtype=self.sampling_dtype)
       return p_x0, x_next, _x0
     else:
       return p_x0, x_next
@@ -878,18 +873,17 @@ class Diffusion(L.LightningModule):
     p_x0 = log_p_x0.exp()
     q_xs = p_x0 * (move_chance_t - move_chance_s)
     q_xs[:, :, self.mask_index] = move_chance_s[:, :, 0]
-    if self.sample_method in {'top-k', 'top-k-margin'}:
-      # 使用温度参数控制的采样
-      temperature = getattr(self.config.sampling, 'temperature', 1.0)
-      if temperature == 0.0:
-        # 温度为0时使用argmax（贪婪解码）
-        _x = q_xs.argmax(dim=-1)
-      else:
-        # 使用温度缩放的概率分布采样
-        scaled_q_xs = q_xs.pow(1.0 / temperature)
-        _x = _sample_categorical(scaled_q_xs, dtype=self.sampling_dtype)
+    
+    # 使用温度参数控制的采样
+    temperature = getattr(self.config.sampling, 'temperature', 1.0)
+    if temperature == 0.0:
+      # 温度为0时使用argmax（贪婪解码）
+      _x = q_xs.argmax(dim=-1)
     else:
-      _x = _sample_categorical(q_xs, dtype=self.sampling_dtype)
+      # 使用温度缩放的概率分布采样
+      scaled_q_xs = q_xs.pow(1.0 / temperature)
+      _x = _sample_categorical(scaled_q_xs, dtype=self.sampling_dtype)
+
     decode_prob = (1 - move_chance_s[:, :, 0])
     update_mask = self._compute_update_mask(x, p_x0, self.mask_index, decode_prob=decode_prob)
     return torch.where(update_mask, _x, x)
@@ -909,34 +903,30 @@ class Diffusion(L.LightningModule):
 
     assert move_chance_t.ndim == p_x0.ndim
     
-    if self.sample_method in {'top-k', 'top-k-margin'}:
-      # 使用温度参数控制的采样
-      temperature = getattr(self.config.sampling, 'temperature', 1.0)
-      if temperature == 0.0:
-        # 温度为0时使用argmax（贪婪解码）
-        _x0 = p_x0.argmax(dim=-1)
-      else:
-        # 使用温度缩放的概率分布采样
-        scaled_p_x0 = p_x0.pow(1.0 / temperature)
-        _x0 = _sample_categorical(scaled_p_x0, dtype=self.sampling_dtype)
+    # 使用温度参数控制的采样
+    temperature = getattr(self.config.sampling, 'temperature', 1.0)
+    if temperature == 0.0:
+      # 温度为0时使用argmax（贪婪解码）
+      _x0 = p_x0.argmax(dim=-1)
     else:
-      _x0 = _sample_categorical(p_x0, dtype=self.sampling_dtype)
+      # 使用温度缩放的概率分布采样
+      scaled_p_x0 = p_x0.pow(1.0 / temperature)
+      _x0 = _sample_categorical(scaled_p_x0, dtype=self.sampling_dtype)
+
     _x_encoded = self.wrapped_encoder(_x0)
     delta_x = F.one_hot(_x_encoded, num_classes=self.mask_index_enc + 1)
     q_xs = delta_x * (move_chance_t - move_chance_s) # alpha_s - alpha_t
     q_xs[:, :, self.mask_index_enc] = move_chance_s[:, :, 0] # 1 - alpha_s
-    if self.sample_method in {'top-k', 'top-k-margin'}:
-      # 使用温度参数控制的采样
-      temperature = getattr(self.config.sampling, 'temperature', 1.0)
-      if temperature == 0.0:
-        # 温度为0时使用argmax（贪婪解码）
-        _x = q_xs.argmax(dim=-1)
-      else:
-        # 使用温度缩放的概率分布采样
-        scaled_q_xs = q_xs.pow(1.0 / temperature)
-        _x = _sample_categorical(scaled_q_xs, dtype=self.sampling_dtype)
+    
+    # 使用温度参数控制的采样
+    temperature = getattr(self.config.sampling, 'temperature', 1.0)
+    if temperature == 0.0:
+      # 温度为0时使用argmax（贪婪解码）
+      _x = q_xs.argmax(dim=-1)
     else:
-      _x = _sample_categorical(q_xs, dtype=self.sampling_dtype)
+      # 使用温度缩放的概率分布采样
+      scaled_q_xs = q_xs.pow(1.0 / temperature)
+      _x = _sample_categorical(scaled_q_xs, dtype=self.sampling_dtype)
 
     decode_prob = (1 - move_chance_s[:, :, 0])
     update_mask = self._compute_update_mask(x, p_x0, self.mask_index_enc, decode_prob=decode_prob)
@@ -964,18 +954,16 @@ class Diffusion(L.LightningModule):
     for i in range(num_pred_tokens):
       p_x0 = torch.exp(self.forward(x[:, :i + indent], None)[:, -1])
       p_x0 = self._nucleus_sample(p_x0)
-      if self.sample_method in {'top-k', 'top-k-margin'}:
-        # 使用温度参数控制的采样
-        temperature = getattr(self.config.sampling, 'temperature', 1.0)
-        if temperature == 0.0:
-          # 温度为0时使用argmax（贪婪解码）
-          y = p_x0.argmax(dim=-1)
-        else:
-          # 使用温度缩放的概率分布采样
-          scaled_p_x0 = p_x0.pow(1.0 / temperature)
-          y = _sample_categorical(scaled_p_x0, dtype=self.sampling_dtype)
+      
+      # 使用温度参数控制的采样
+      temperature = getattr(self.config.sampling, 'temperature', 1.0)
+      if temperature == 0.0:
+        # 温度为0时使用argmax（贪婪解码）
+        y = p_x0.argmax(dim=-1)
       else:
-        y = _sample_categorical(p_x0, dtype=self.sampling_dtype)
+        # 使用温度缩放的概率分布采样
+        scaled_p_x0 = p_x0.pow(1.0 / temperature)
+        y = _sample_categorical(scaled_p_x0, dtype=self.sampling_dtype)
       x[:, i + indent] = y
 
     if self.config.prime.target_length != 1:
@@ -1043,18 +1031,16 @@ class Diffusion(L.LightningModule):
           x = self.forward(x, unet_conditioning).argmax(dim=-1)
         else:
           p = torch.exp(self.forward(x, unet_conditioning))
-          if self.sample_method in {'top-k', 'top-k-margin'}:
-            # 使用温度参数控制的采样
-            temperature = getattr(self.config.sampling, 'temperature', 1.0)
-            if temperature == 0.0:
-              # 温度为0时使用argmax（贪婪解码）
-              _x = self.wrapped_encoder(p.argmax(dim=-1))
-            else:
-              # 使用温度缩放的概率分布采样
-              scaled_p = p.pow(1.0 / temperature)
-              _x = self.wrapped_encoder(_sample_categorical(scaled_p, dtype=self.sampling_dtype))
+          
+          # 使用温度参数控制的采样
+          temperature = getattr(self.config.sampling, 'temperature', 1.0)
+          if temperature == 0.0:
+            # 温度为0时使用argmax（贪婪解码）
+            _x = self.wrapped_encoder(p.argmax(dim=-1))
           else:
-            _x = self.wrapped_encoder(_sample_categorical(p, dtype=self.sampling_dtype))
+            # 使用温度缩放的概率分布采样
+            scaled_p = p.pow(1.0 / temperature)
+            _x = self.wrapped_encoder(_sample_categorical(scaled_p, dtype=self.sampling_dtype))
           x[x == self.mask_index_enc] = _x[x == self.mask_index_enc]
           
     if self.config.prime.target_length != 1:

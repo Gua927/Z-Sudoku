@@ -210,14 +210,26 @@ python scripts/plot_genppl_vs_steps.py \
 nohup python scripts/plot_genppl_vs_steps.py \
  --checkpoint /root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
  --eval-model Qwen/Qwen2.5-7b \
- --temperature 1.0 \
- --steps 256 256 512 1024 2048\
- --total-samples 80 \
- --batch-size 80 \
+ --temperature 0.7 \
+ --steps 256 512 1024 2048\
+ --total-samples 64 \
+ --batch-size 64 \
  --perplexity-batch 1 \
  --cache-dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
- --output plots/genppl_vs_steps-all.png \
- --sample-method origin top-k top-k-margin &
+ --output plots/genppl_vs_steps-temp0.7.png \
+ --sample-method origin top-k top-k-margin > temperature0.7.log 2>&1 &
+
+CUDA_VISIBLE_DEVICES=1 nohup python scripts/plot_genppl_vs_steps.py \
+ --checkpoint /root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
+ --eval-model Qwen/Qwen2.5-7b \
+ --temperature 0.9 \
+ --steps 256 512 1024 2048\
+ --total-samples 64 \
+ --batch-size 64 \
+ --perplexity-batch 1 \
+ --cache-dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
+ --output plots/genppl_vs_steps-temp0.9.png \
+ --sample-method origin top-k top-k-margin > temperature0.9.log 2>&1 &
 ```
 
 
@@ -309,7 +321,7 @@ Pass `checkpointing.from_huggingface=True` and set `eval.checkpoint_path=text/ow
 **Example.** Evalute PPL using MDLM-Prime ($\ell=2$)
 
 ```bash
-PYTHONWARNINGS="ignore::FutureWarning" python -u -m main mode=ppl_eval \
+nohup python -u -m main mode=ppl_eval \
     eval.compute_zero_shot=True \
     eval.generate_samples=False \
     eval.checkpoint_path=/root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
@@ -320,7 +332,7 @@ PYTHONWARNINGS="ignore::FutureWarning" python -u -m main mode=ppl_eval \
     model=small \
     prime.target_length=1 \
     prime.carry_over=False \
-    checkpointing.from_huggingface=False
+    checkpointing.from_huggingface=False & nohup2.txt
 ```
 
 **Example.** Sampling using MDLM-Prime ($\ell=2$)
