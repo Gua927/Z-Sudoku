@@ -1,82 +1,64 @@
-# 🔋 On Powerful Ways to Generate: Autoregression, Diffusion, and Beyond
+# Beyond Autoregression: Discrete Diffusion for Complex Reasoning and Planning
 
-This is the official implementation for paper "On Powerful Ways to Generate: Autoregression, Diffusion, and Beyond". 
 
-<!-- We propose masked diffusion models with Any-Process Generation (AP-MDM). -->
+This repository contains code for training and evaluating the models in the paper [Beyond Autoregression: Discrete Diffusion for Complex Reasoning and Planning](https://arxiv.org/abs/2410.14157).
 
-Materials: 
-[Paper](https://arxiv.org/pdf/2510.06190)
-
-<p align="center">
-    <img width="800" src="assets/overview.png">
+<p align = "center">
+<img src="simple_task.png" width="95%" alt="simple_task" align=center />
 </p>
 
+- Autoregressive language models, despite their impressive capabilities, struggle with complex reasoning and long-term planning tasks. Can we go beyond autoregression for these challanges?
+- First, what is planning essentially? We design a straightforward task to minimally illustrate planning, where we can also control the extent of planning through a term called Planning Distance. We find AR struggles a lot on this simple task. 
+- Then, we delve into the comparison between the objective of autoregression and discrete diffusion, and demonstrate how discrete diffusion models effectively learn difficult subgoals that elude autoregressive models. 
+- Based on above, we further introduce Multi-granularity Diffusion Modeling (MDM), which prioritizes subgoals based on difficulty during learning. We find MDM significantly outperforms AR on various more complex reasoning and planning challanges.
 
-## Installation
 
-- Install other required packages via
+## Setup
+All required packages can be found in requirements.txt. You can install them in a new environment with
+```
+conda create -n diffusion python=3.9
+conda activate diffusion
+git clone git@github.com:HKUNLP/diffusion-vs-ar.git
 
-```bash
-pip install -r requirements.txt
+cd diffusion-vs-ar
+pip install -r requirements.txt -f https://download.pytorch.org/whl/torch_stable.html
 ```
 
-- Install flash-attention
-
-```bash
-pip install flash-attn --no-build-isolation
+## Usage
+Training and evaluation commands are provided under the `scripts` directory. Download data from [here](https://drive.google.com/file/d/1b0OIlYL76rVVuNYIfIb-L_Ptdg6k_y0c/view?usp=sharing) first.
+The synthetic planning dataset can also be generated using `data/synthetic_graph.py` script.
 ```
+# run AR (training from scratch)
+bash scripts/sudoku/train-sft.sh
 
-## Datasets
+# run AR (finetuning from LLaMA)
+bash scripts/sudoku/train-sft-llama-7b.sh
 
-### Sudoku
-
-```bash
-cd dataset/sudoku
-python sudoku_generator.py sudoku-100.npy
+# run Diffusion (training from scratch)
+bash scripts/sudoku/train-mdm.sh
 ```
+(📌check our work on scaling diffusion langauge model by adapting from LLaMA at https://github.com/HKUNLP/DiffuLLaMA)
 
-This generates `sudoku-100.pkl.gz` containing APMDM training samples and `vocab_cache.pkl` containing the token vocabulary. You can process multiple files at once: `python sudoku_generator.py sudoku-100.npy sudoku-test.npy`. To visualize the generation process, run `python serve.py` and open http://localhost:8001/apmdm in your browser.
+For experiment on different model size, change `--model_name_or_path` to `model_config_tiny` (~6M), `model_config` (~85M) or `model_config_medium` (~303M). A slightly larger learning rate (i.e., 1e-3) is used for the tiny model.
 
-### Parity
+For experiment on different datasets, change `--dataset` (dataset name in `data/dataset_info.json`) and adjust `--cutoff_len` (make sure equal or larger than the largest token length on that dataset). For AR, make sure the `--max_new_tokens` during generation is also larger than that seen in the training time. Here are the `cutoff_len` and `--max_new_tokens` used in the paper:
 
-```bash
-cd dataset/parity
-python parity_generator.py
-```
+|                      | Minimal Planning | Countdown 3 | Countdown 4 | Countdown 5 | Sudoku | 3-SAT 5v | 3-SAT 7v | 3-SAT 9v |
+|----------------------|:----------------:|:-----------:|:-----------:|:-----------:|:------:|:--------:|:--------:|:--------:|
+| cutoff_len           |               75 |      37     |      64     |          74 |    164 |      258 |      285 |      325 |
+| max_new_tokens (sft) | 24               |          24 |          32 |          54 |     82 |       10 |       14 |       18 |
 
-This generates `parity_train.pkl.gz` containing 7 APMDM training samples (expanded to 1000 with repetition) and `parity_vocab_cache.pkl` containing the token vocabulary (5 tokens: BOS, EOS, MASK, 0, 1).
-
-### Graph Generation
-
-```bash
-cd dataset/max_flow
-python maxflow_solver.py \
-  --num_instances 10000 \
-  --min_nodes 10 --max_nodes 10 \
-  --min_edges 50 --max_edges 50 \
-  --output graph.pkl.gz
-```
-
-This generates `graph.pkl.gz` containing APMDM training samples for max-flow problems and `vocab_cache.pkl` containing the token vocabulary. Customize graph parameters: `--num_instances` (number of graphs), `--min_nodes/max_nodes` (node count range), `--min_edges/max_edges` (edge count range), `--min_flow/max_flow` (flow guarantee range).
-
-
-## Training and Evaluation
-
-See scripts in `train/scripts`.
+Please refer to Appendix C.2 for other illustraion of implementation details.
 
 ## Citation
-
-If you find our codes useful, please consider citing our work
-
-```bibtex
-@article{yang2025powerful,
-  title={On Powerful Ways to Generate: Autoregression, Diffusion, and Beyond},
-  author={Yang, Chenxiao and Zhou, Cai and Wipf, David and Li, Zhiyuan},
-  journal={arXiv preprint arXiv:2510.06190},
-  year={2025}
+If you find our code or data helpful, please cite us as follows 
+```
+@article{ye2024beyond,
+  title={Beyond Autoregression: Discrete Diffusion for Complex Reasoning and Planning},
+  author={Ye, Jiacheng and Gao, Jiahui and Gong, Shansan and Zheng, Lin and Jiang, Xin and Li, Zhenguo and Kong, Lingpeng},
+  journal={arXiv preprint arXiv:2410.14157},
+  year={2024}
 }
 ```
 
-## Acknowledgement
-
-The training pipeline is adapted from [MDLM](https://github.com/kuleshov-group/mdlm).
+The code framework is adapted from [LLaMAFactory](https://github.com/hiyouga/LLaMA-Factory), thanks for their great work.

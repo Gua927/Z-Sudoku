@@ -224,7 +224,7 @@ CUDA_VISIBLE_DEVICES=1 nohup python scripts/plot_genppl_vs_steps.py \
  --eval-model Qwen/Qwen2.5-7b \
  --temperature 0.9 \
  --steps 256 512 1024 2048\
- --total-samples 64 \
+ --total-samples 512 \
  --batch-size 64 \
  --perplexity-batch 1 \
  --cache-dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
