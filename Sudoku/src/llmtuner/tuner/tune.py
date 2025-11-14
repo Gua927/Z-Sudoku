@@ -21,7 +21,7 @@ def run_exp(args: Optional[Dict[str, Any]] = None, callbacks: Optional[List["Tra
     else:
         lib = importlib.import_module(f"llmtuner.tuner.mdm.workflow")
         trainer_cls = importlib.import_module(f"llmtuner.tuner.mdm.trainer")
-        eval(f'lib.run')(eval(f'trainer_cls.CustomDiffusionTrainer'), model_args, diffusion_args, data_args, training_args, finetuning_args, callbacks)
+        eval(f'lib.run')(eval(f'trainer_cls.CustomDiffusionTrainer'), model_args, diffusion_args, data_args, training_args, finetuning_args, generating_args, callbacks)
 
 def export_model(args: Optional[Dict[str, Any]] = None, max_shard_size: Optional[str] = "10GB"):
     model_args, _, finetuning_args, _ = get_infer_args(args)

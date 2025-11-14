@@ -37,14 +37,14 @@ src/train_bash.py \
     --save_safetensors False \
     --token_reweighting True \
     --time_reweighting linear \
-    --topk_decoding True \
+    --denoise_method topk \
     --alpha 0.25 \
     --gamma 1 \
     > $exp/train.log
 
 for dataset in path_test
 do
-topk_decoding=True
+denoise_method=topk
 mkdir $exp/$dataset
 CUDA_VISIBLE_DEVICES=1  \
 python3 -u src/train_bash.py \
@@ -59,9 +59,9 @@ python3 -u src/train_bash.py \
     --output_dir $exp/${dataset} \
     --checkpoint_dir $exp  \
     --remove_unused_columns False \
-    --decoding_strategy stochastic0.5-linear \
-    --topk_decoding $topk_decoding \
-    > $exp/${dataset}/eval-TopK$topk_decoding.log
+    --decoding_strategy linear \
+    --denoise_method $denoise_method \
+    > $exp/${dataset}/eval-TopK-${denoise_method}-linear.log
     
 python scripts/path/cal_path_acc.py data/path_test.jsonl $exp/${dataset}/generated_predictions.jsonl > $exp/pd_acc.log
 done

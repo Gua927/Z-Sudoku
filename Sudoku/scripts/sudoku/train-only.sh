@@ -3,6 +3,7 @@ export WANDB_MODE=offline
 
 # Define dataset explicitly for run_name usage
 dataset=sudoku_train
+temperature=1.0
 
 exp=output/sudoku/mdm-alpha0.25-gamma1-lr1e-3-ep300-T20-`date "+%Y%m%d-%H%M%S"`
 mkdir -p $exp
@@ -43,9 +44,10 @@ src/train_bash.py \
     --save_safetensors False \
     --token_reweighting False \
     --time_reweighting linear \
-    --topk_decoding False \
+    --denoise_method origin \
     --alpha 0.25 \
     --gamma 1 \
+    --temperature ${temperature} \
     > $exp/train.log
 
 echo "训练完成！输出目录: $exp"

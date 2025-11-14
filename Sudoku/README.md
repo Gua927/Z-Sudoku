@@ -39,6 +39,13 @@ bash scripts/sudoku/train-mdm.sh
 ```
 (📌check our work on scaling diffusion langauge model by adapting from LLaMA at https://github.com/HKUNLP/DiffuLLaMA)
 
+### Denoising strategies
+- `--denoise_method origin` keeps the original random unmasking schedule (default).
+- `--denoise_method topk` re-masks the least confident tokens measured by their maximum log-probability.
+- `--denoise_method topk-margin` focuses on positions whose logit margin (best vs. second best token) is the smallest, prioritizing ambiguous tokens for further denoising.
+- `--decoding_strategy {linear|cosine}` controls how many masks remain at each diffusion step; the selection itself is now deterministic.
+- `--temperature` provides a unified knob for all denoising methods: we still score tokens using the original logits, but sampled replacements are drawn from a temperature-scaled distribution (`0` falls back to greedy decoding, `>1` increases randomness).
+
 For experiment on different model size, change `--model_name_or_path` to `model_config_tiny` (~6M), `model_config` (~85M) or `model_config_medium` (~303M). A slightly larger learning rate (i.e., 1e-3) is used for the tiny model.
 
 For experiment on different datasets, change `--dataset` (dataset name in `data/dataset_info.json`) and adjust `--cutoff_len` (make sure equal or larger than the largest token length on that dataset). For AR, make sure the `--max_new_tokens` during generation is also larger than that seen in the training time. Here are the `cutoff_len` and `--max_new_tokens` used in the paper:

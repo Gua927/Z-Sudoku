@@ -2,6 +2,7 @@ export WANDB_MODE=offline
 
 # Define dataset explicitly for run_name usage
 dataset=sudoku_train
+temperature=1.0
 
 exp=output/sudoku/mdm-alpha0.25-gamma1-lr1e-3-ep300-T20-`date "+%Y%m%d-%H%M%S"`
 mkdir -p $exp
@@ -42,9 +43,10 @@ src/train_bash.py \
     --save_safetensors False \
     --token_reweighting False \
     --time_reweighting linear \
-    --topk_decoding False \
+    --denoise_method origin \
     --alpha 0.25 \
     --gamma 1 \
+    --temperature ${temperature} \
     > $exp/train.log
 
 for dataset in sudoku_test
@@ -63,7 +65,8 @@ python3 -u src/train_bash.py \
     --output_dir $exp/${dataset} \
     --checkpoint_dir $exp  \
     --remove_unused_columns False \
-    --topk_decoding False \
+    --denoise_method origin \
+    --temperature ${temperature} \
     > $exp/${dataset}/eval-TopK-False.log
 done
 
@@ -83,8 +86,9 @@ python3 -u src/train_bash.py \
     --output_dir $exp/${dataset} \
     --checkpoint_dir $exp  \
     --remove_unused_columns False \
-    --topk_decoding True \
-    --decoding_strategy stochastic0.5-linear \
-    > $exp/${dataset}/eval-TopK-True-stochastic0.5-linear.log
+    --denoise_method topk \
+    --decoding_strategy linear \
+    --temperature ${temperature} \
+    > $exp/${dataset}/eval-TopK-linear.log
 done
 

@@ -42,6 +42,7 @@ def run(
         data_collator=data_collator,
         callbacks=callbacks,
         compute_metrics=partial(compute_acc, tokenizer=tokenizer, data_name=data_args.dataset),
+        sampling_temperature=generating_args.temperature,
         **split_dataset(dataset, data_args, training_args)
     )
 

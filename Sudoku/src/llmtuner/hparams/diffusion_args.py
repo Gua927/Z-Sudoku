@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from typing import Optional
 
 @dataclass
 class DiffusionArguments:
@@ -10,8 +11,8 @@ class DiffusionArguments:
         metadata={"help": "timesteps of diffusion models."}
     )
     decoding_strategy: str = field(
-        default="stochastic0.5-linear",
-        metadata={"help": "<topk_mode>-<schedule>"}
+        default="linear",
+        metadata={"help": "Mask scheduling strategy, e.g., linear or cosine."}
     )
     token_reweighting: bool = field(
         default=False,
@@ -29,10 +30,22 @@ class DiffusionArguments:
         default='original',
         metadata={"help": "use focal loss for token-level reweighting"}
     )
-    topk_decoding: bool = field(
-        default=False,
-        metadata={"help": "use focal loss for token-level reweighting"}
+    denoise_method: str = field(
+        default="origin",
+        metadata={"help": "Denoising method: origin | topk | topk-margin."}
+    )
+    topk_decoding: Optional[bool] = field(
+        default=None,
+        metadata={"help": "[Deprecated] Backwards compatibility alias for denoise_method."}
     )
 
     def __post_init__(self):
-        pass
+        supported = {"origin", "topk", "topk-margin"}
+        if self.denoise_method not in supported:
+            raise ValueError(f"Unsupported denoise_method: {self.denoise_method}. Choose from {supported}.")
+
+        if self.topk_decoding is not None:
+            if self.topk_decoding and self.denoise_method == "origin":
+                self.denoise_method = "topk"
+            elif (not self.topk_decoding) and self.denoise_method == "topk":
+                self.denoise_method = "origin"

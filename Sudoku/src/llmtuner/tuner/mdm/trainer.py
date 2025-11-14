@@ -35,6 +35,7 @@ class CustomDiffusionTrainer(Trainer):
         callbacks: Optional[List[TrainerCallback]] = None,
         optimizers: Optional[Tuple[torch.optim.Optimizer, torch.optim.lr_scheduler.LambdaLR]] = None,
         preprocess_logits_for_metrics: Optional[Callable[[torch.Tensor, torch.Tensor], torch.Tensor]] = None,
+        sampling_temperature: Optional[float] = None,
     ):
         optimizers = optimizers or (None, None)
         super().__init__(
@@ -51,6 +52,12 @@ class CustomDiffusionTrainer(Trainer):
             preprocess_logits_for_metrics=preprocess_logits_for_metrics,
         )
         self.diff_args = diff_args
+        fallback = getattr(diff_args, "temperature", None)
+        temperature = sampling_temperature if sampling_temperature is not None else fallback
+        temperature = 1.0 if temperature is None else float(temperature)
+        if temperature < 0:
+            raise ValueError("sampling_temperature must be non-negative.")
+        self.temperature = temperature
         print(self.diff_args)
         
         # 确保tokenizer配置文件被保存到输出目录
@@ -186,6 +193,8 @@ class CustomDiffusionTrainer(Trainer):
         batch_size = x.size(0)
 
         init_maskable_mask = maskable_mask = ~src_mask
+        denoise_method = getattr(self.diff_args, "denoise_method", "origin")
+        decoding_schedule = self._extract_schedule(getattr(self.diff_args, "decoding_strategy", "linear"))
         
         for t in range(self.diff_args.diffusion_steps-1, -1, -1): # t from T-1 to 0
             with torch.no_grad():
@@ -201,96 +210,139 @@ class CustomDiffusionTrainer(Trainer):
                 logits = torch.cat([logits[:,0:1], logits[:,:-1]], dim=1)
 
                 scores = torch.log_softmax(logits, dim=-1)
-                scores[:,:,self.tokenizer.vocab_size:]=-1000
-                x0_scores, x0 = scores.max(-1)
+                scores[:, :, self.tokenizer.vocab_size:] = -1000
+                probs = scores.exp()
+                x0_scores, _ = scores.max(-1)
+                sampled_x0 = self._sample_tokens(probs)
 
                 #### keep non-[MASK] positions as still
-                x0 = xt.masked_scatter(maskable_mask, x0[maskable_mask])
+                x0 = xt.masked_scatter(maskable_mask, sampled_x0[maskable_mask])
                 if verbose:
                     print(f"t={t+1}(out):", self.tokenizer.decode(x0.tolist()[0]))
                 
                 if t > 0:
-                    if self.diff_args.topk_decoding:
-                        xt = topk_decoding(
-                            x0,
-                            x0_scores,
-                            self.diff_args.decoding_strategy,
-                            init_maskable_mask, 
-                            t,
-                            self.diff_args.diffusion_steps,
-                            self.tokenizer.mask_token_id
-                        )
-                    else:
-                        ## randomly unmask some mask positions as in D3PM
-                        unmask_prob = 1 / (t+1)
-                        mask_to_x0 = torch.rand(xt.shape, device=xt.device) < unmask_prob
-                        # don't unmask somewhere already unmasked
-                        mask_to_x0 = torch.bitwise_and(mask_to_x0, maskable_mask)
-                        xt[mask_to_x0] = x0[mask_to_x0]
-                        maskable_mask.masked_fill_(mask_to_x0, False) 
+                    selection_scores = None
+                    if denoise_method == "topk":
+                        selection_scores = x0_scores
+                    elif denoise_method == "topk-margin":
+                        selection_scores = self._compute_margin_scores(scores)
+
+                    xt, maskable_mask = self._apply_denoise_strategy(
+                        xt=xt,
+                        x0=x0,
+                        selection_scores=selection_scores,
+                        maskable_mask=maskable_mask,
+                        init_maskable_mask=init_maskable_mask,
+                        t=t,
+                        schedule=decoding_schedule,
+                    )
                 else:
                     xt = x0
         return xt
 
-def topk_masking(scores, cutoff_len, stochastic=False, temp=1.0):
-    """
-    scores: [b, n]
-    cutoff_len: [b, 1]
-    stochastic: bool, whether to add noise to select top_k or not
-    returns:
-        mask: [b, n], with 1 if the token is in top-k lowest scores, 0 otherwise
-    """
-    if stochastic:
-        gumbel_noise = -torch.log(-torch.log(torch.rand_like(scores) + 1e-8) + 1e-8)
-        _scores = scores + temp * gumbel_noise
-    else:
-        _scores = scores
-    sorted_index = _scores.sort(-1)[0]
-    cutoff = sorted_index.gather(dim=-1, index=cutoff_len) # + 1e-10
-    # cutoff_len = k -> select k + 1 tokens
-    masking = _scores < cutoff
-    return masking
+    def _apply_denoise_strategy(
+        self,
+        xt,
+        x0,
+        selection_scores,
+        maskable_mask,
+        init_maskable_mask,
+        t,
+        schedule,
+    ):
+        method = getattr(self.diff_args, "denoise_method", "origin")
+        if method == "origin":
+            return self._origin_denoise_step(xt, x0, maskable_mask, t)
+
+        if method in {"topk", "topk-margin"}:
+            if selection_scores is None:
+                raise ValueError("Selection scores are required for topk-based denoising.")
+            xt = topk_decoding(
+                x0,
+                selection_scores,
+                schedule,
+                init_maskable_mask,
+                t,
+                self.diff_args.diffusion_steps,
+                self.tokenizer.mask_token_id,
+            )
+            return xt, maskable_mask
+
+        raise ValueError(f"Unsupported denoise_method: {method}")
+
+    @staticmethod
+    def _compute_margin_scores(log_scores: torch.Tensor) -> torch.Tensor:
+        top2_scores, _ = torch.topk(log_scores, k=2, dim=-1)
+        return top2_scores[..., 0] - top2_scores[..., 1]
+
+    @staticmethod
+    def _origin_denoise_step(xt, x0, maskable_mask, t):
+        unmask_prob = 1 / (t+1)
+        mask_to_x0 = torch.rand(xt.shape, device=xt.device) < unmask_prob
+        mask_to_x0 = torch.bitwise_and(mask_to_x0, maskable_mask)
+        xt[mask_to_x0] = x0[mask_to_x0]
+        maskable_mask = maskable_mask.clone()
+        maskable_mask.masked_fill_(mask_to_x0, False)
+        return xt, maskable_mask
+
+    def _sample_tokens(self, probs: torch.Tensor) -> torch.Tensor:
+        r"""Sample tokens under the configured temperature."""
+        temperature = self.temperature
+        if temperature <= 0:
+            return probs.argmax(dim=-1)
+
+        scaled = torch.clamp(probs, min=0)
+        exponent = 1.0 / max(temperature, torch.finfo(probs.dtype).tiny)
+        scaled = torch.pow(scaled, exponent)
+        scaled_sum = scaled.sum(dim=-1, keepdim=True)
+        zero_mask = scaled_sum <= 0
+        scaled_sum = scaled_sum.clamp_min(1e-12)
+        scaled = scaled / scaled_sum
+        if zero_mask.any():
+            uniform = torch.full_like(scaled, 1.0 / scaled.size(-1))
+            scaled = torch.where(zero_mask, uniform, scaled)
+        flat = scaled.view(-1, scaled.size(-1)).to(dtype=torch.float32)
+        samples = torch.multinomial(flat, num_samples=1).squeeze(-1)
+        return samples.view(*probs.shape[:-1])
+
+    @staticmethod
+    def _extract_schedule(decoding_strategy: str) -> str:
+        if "-" in decoding_strategy:
+            decoding_strategy = decoding_strategy.split("-")[-1]
+        return decoding_strategy
+
+def topk_masking(scores, cutoff_len):
+    """Selects the lowest-scored positions deterministically."""
+    sorted_scores = scores.sort(-1)[0]
+    cutoff_len = cutoff_len.clamp(min=0, max=scores.size(-1) - 1)
+    cutoff = sorted_scores.gather(dim=-1, index=cutoff_len)
+    return scores < cutoff
 
 
 def topk_decoding(
-        x0, 
-        x0_scores,
-        decoding_strategy,
-        init_maskable_mask, 
+        x0,
+        selection_scores,
+        schedule,
+        init_maskable_mask,
         t,
         max_step,
         noise
     ):
-        # decoding_strategy needs to take the form of "<topk_mode>-<schedule>"
-        topk_mode, schedule = decoding_strategy.split("-")
-
-        # select rate% not confident tokens, ~1 -> 0
         if schedule == "linear":
             rate = t / max_step
         elif schedule == "cosine":
-            rate = np.cos((max_step-t) / max_step * np.pi * 0.5)
+            rate = np.cos((max_step - t) / max_step * np.pi * 0.5)
         else:
             raise NotImplementedError
-        
-        # compute the cutoff length for denoising top-k positions
+
         cutoff_len = (init_maskable_mask.sum(1, keepdim=True) * rate).long()
-        # set the scores of unmaskable symbols to a large value so that they will never be selected
-        _scores_for_topk = x0_scores.masked_fill(~init_maskable_mask, 1000.0)
+        _scores_for_topk = selection_scores.masked_fill(~init_maskable_mask, 1000.0)
+        lowest_k_mask = topk_masking(_scores_for_topk, cutoff_len)
 
-        if topk_mode.startswith("stochastic"):
-            noise_scale = float(topk_mode.replace("stochastic", ""))
-            lowest_k_mask = topk_masking(_scores_for_topk, cutoff_len, stochastic=True, temp=noise_scale * rate)
-        elif topk_mode == "deterministic":
-            lowest_k_mask = topk_masking(_scores_for_topk, cutoff_len, stochastic=False)
-        else:
-            raise NotImplementedError
-
-        ### recovered tokens can also be remasked based on current scores
-        masked_to_noise = lowest_k_mask
         if isinstance(noise, torch.Tensor):
-            xt = x0.masked_scatter(masked_to_noise, noise[masked_to_noise])
+            xt = x0.masked_scatter(lowest_k_mask, noise[lowest_k_mask])
         elif isinstance(noise, (int, float)):
-            xt = x0.masked_fill(masked_to_noise, noise)
+            xt = x0.masked_fill(lowest_k_mask, noise)
         else:
             raise NotImplementedError("noise should be either a tensor or a scalar")
 
