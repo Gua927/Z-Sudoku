@@ -1,0 +1,137 @@
+2025-11-14 09:22:17,053 INFO    StreamThr :733217 [internal.py:wandb_internal():86] W&B internal server running at pid: 733217, started at: 2025-11-14 09:22:17.052788
+2025-11-14 09:22:17,054 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: status
+2025-11-14 09:22:17,056 INFO    WriterThread:733217 [datastore.py:open_for_write():85] open: /root/code/EasyMDM/Sudoku/wandb/offline-run-20251114_092217-06zsciqh/run-06zsciqh.wandb
+2025-11-14 09:22:17,116 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: run_start
+2025-11-14 09:22:17,218 DEBUG   HandlerThread:733217 [system_info.py:__init__():31] System info init
+2025-11-14 09:22:17,218 DEBUG   HandlerThread:733217 [system_info.py:__init__():46] System info init done
+2025-11-14 09:22:17,218 INFO    HandlerThread:733217 [system_monitor.py:start():181] Starting system monitor
+2025-11-14 09:22:17,219 INFO    SystemMonitor:733217 [system_monitor.py:_start():145] Starting system asset monitoring threads
+2025-11-14 09:22:17,219 INFO    HandlerThread:733217 [system_monitor.py:probe():201] Collecting system info
+2025-11-14 09:22:17,219 INFO    SystemMonitor:733217 [interfaces.py:start():190] Started cpu monitoring
+2025-11-14 09:22:17,220 INFO    SystemMonitor:733217 [interfaces.py:start():190] Started disk monitoring
+2025-11-14 09:22:17,220 INFO    SystemMonitor:733217 [interfaces.py:start():190] Started gpu monitoring
+2025-11-14 09:22:17,220 INFO    SystemMonitor:733217 [interfaces.py:start():190] Started memory monitoring
+2025-11-14 09:22:17,221 INFO    SystemMonitor:733217 [interfaces.py:start():190] Started network monitoring
+2025-11-14 09:22:17,335 DEBUG   HandlerThread:733217 [system_info.py:probe():195] Probing system
+2025-11-14 09:22:17,336 DEBUG   HandlerThread:733217 [system_info.py:_probe_git():180] Probing git
+2025-11-14 09:22:17,349 DEBUG   HandlerThread:733217 [system_info.py:_probe_git():188] Probing git done
+2025-11-14 09:22:17,349 DEBUG   HandlerThread:733217 [system_info.py:probe():240] Probing system done
+2025-11-14 09:22:17,349 DEBUG   HandlerThread:733217 [system_monitor.py:probe():210] {'os': 'Linux-5.4.250-2-velinux1u1-amd64-x86_64-with-glibc2.35', 'python': '3.9.25', 'heartbeatAt': '2025-11-14T09:22:17.335964', 'startedAt': '2025-11-14T09:22:17.044506', 'docker': None, 'cuda': None, 'args': ('--stage', 'mdm', '--overwrite_output_dir', '--cache_dir', '/root/code/EasyMDM/Sudoku/cache', '--model_name_or_path', 'model_config_tiny', '--do_predict', '--cutoff_len', '164', '--dataset', 'sudoku_test', '--finetuning_type', 'full', '--diffusion_steps', '20', '--output_dir', 'output/sudoku/mdm-alpha0.25-gamma1-lr1e-3-ep300-T20-20251113-183444/sudoku_test-TopK', '--checkpoint_dir', 'output/sudoku/mdm-alpha0.25-gamma1-lr1e-3-ep300-T20-20251113-183444', '--remove_unused_columns', 'False', '--denoise_method', 'topk', '--decoding_strategy', 'linear', '--temperature', '0.7', '--run_name', 'Sudoku-NOTKRW-TopK-temp1.0'), 'state': 'running', 'program': '/root/code/EasyMDM/Sudoku/src/train_bash.py', 'codePath': 'Sudoku/src/train_bash.py', 'git': {'remote': 'git@github.com:Gua927/EasyMDM.git', 'commit': '8b4d74585afcf1e9b2cadd953f7c943acd1c6f2b'}, 'email': 'trunzer@ruc.edu.cn', 'root': '/root/code/EasyMDM', 'host': 'di-20251105112956-hx8p2', 'username': 'root', 'executable': '/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-prime/bin/python3', 'cpu_count': 64, 'cpu_count_logical': 26, 'cpu_freq': {'current': 2998.9897968749997, 'min': 800.0, 'max': 3500.0}, 'cpu_freq_per_core': [{'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.99, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3002.265, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 2999.973, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3010.344, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.292, 'min': 800.0, 'max': 3500.0}, {'current': 3000.667, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 2999.966, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.764, 'min': 800.0, 'max': 3500.0}, {'current': 2989.361, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 2999.658, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 2999.094, 'min': 800.0, 'max': 3500.0}, {'current': 2998.269, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.229, 'min': 800.0, 'max': 3500.0}, {'current': 3000.753, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3009.375, 'min': 800.0, 'max': 3500.0}, {'current': 3009.868, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 2990.825, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 2995.282, 'min': 800.0, 'max': 3500.0}, {'current': 2995.578, 'min': 800.0, 'max': 3500.0}, {'current': 2999.403, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 2957.834, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3010.38, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3006.355, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 2999.883, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 2999.981, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 2999.417, 'min': 800.0, 'max': 3500.0}, {'current': 2998.665, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 2999.403, 'min': 800.0, 'max': 3500.0}, {'current': 2999.417, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 2999.73, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.422, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.57, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3001.461, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3007.371, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.622, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 2995.238, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.942, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 2990.825, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 2954.838, 'min': 800.0, 'max': 3500.0}, {'current': 2988.712, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 2991.452, 'min': 800.0, 'max': 3500.0}, {'current': 2998.285, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.002, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3009.174, 'min': 800.0, 'max': 3500.0}, {'current': 2998.708, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}, {'current': 3000.0, 'min': 800.0, 'max': 3500.0}], 'disk': {'total': 19.518142700195312, 'used': 14.541942596435547}, 'gpu': 'NVIDIA A100-SXM4-80GB', 'gpu_count': 2, 'gpu_devices': [{'name': 'NVIDIA A100-SXM4-80GB', 'memory_total': 85899345920}, {'name': 'NVIDIA A100-SXM4-80GB', 'memory_total': 85899345920}], 'memory': {'total': 463.5}}
+2025-11-14 09:22:17,349 INFO    HandlerThread:733217 [system_monitor.py:probe():211] Finished collecting system info
+2025-11-14 09:22:17,349 INFO    HandlerThread:733217 [system_monitor.py:probe():214] Publishing system info
+2025-11-14 09:22:17,349 DEBUG   HandlerThread:733217 [system_info.py:_save_pip():51] Saving list of pip packages installed into the current environment
+2025-11-14 09:22:17,349 DEBUG   HandlerThread:733217 [system_info.py:_save_pip():67] Saving pip packages done
+2025-11-14 09:22:17,350 DEBUG   HandlerThread:733217 [system_info.py:_save_conda():74] Saving list of conda packages installed into the current environment
+2025-11-14 09:22:21,939 DEBUG   HandlerThread:733217 [system_info.py:_save_conda():86] Saving conda packages done
+2025-11-14 09:22:21,941 INFO    HandlerThread:733217 [system_monitor.py:probe():216] Finished publishing system info
+2025-11-14 09:22:21,971 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: partial_history
+2025-11-14 09:22:22,056 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: status_report
+2025-11-14 09:22:22,056 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: status_report
+2025-11-14 09:22:27,057 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: status_report
+2025-11-14 09:22:27,057 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: status_report
+2025-11-14 09:22:29,334 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: partial_history
+2025-11-14 09:22:29,546 DEBUG   SenderThread:733217 [sender.py:send():375] send: exit
+2025-11-14 09:22:29,546 INFO    SenderThread:733217 [sender.py:send_exit():598] handling exit code: 0
+2025-11-14 09:22:29,546 INFO    SenderThread:733217 [sender.py:send_exit():600] handling runtime: 12
+2025-11-14 09:22:29,547 INFO    SenderThread:733217 [sender.py:_save_file():1378] saving file wandb-summary.json with policy end
+2025-11-14 09:22:29,547 INFO    SenderThread:733217 [sender.py:send_exit():606] send defer
+2025-11-14 09:22:29,547 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: defer
+2025-11-14 09:22:29,547 INFO    HandlerThread:733217 [handler.py:handle_request_defer():170] handle defer: 0
+2025-11-14 09:22:29,547 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: defer
+2025-11-14 09:22:29,547 INFO    SenderThread:733217 [sender.py:send_request_defer():622] handle sender defer: 0
+2025-11-14 09:22:29,547 INFO    SenderThread:733217 [sender.py:transition_state():626] send defer: 1
+2025-11-14 09:22:29,547 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: defer
+2025-11-14 09:22:29,547 INFO    HandlerThread:733217 [handler.py:handle_request_defer():170] handle defer: 1
+2025-11-14 09:22:29,547 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: defer
+2025-11-14 09:22:29,547 INFO    SenderThread:733217 [sender.py:send_request_defer():622] handle sender defer: 1
+2025-11-14 09:22:29,547 INFO    SenderThread:733217 [sender.py:transition_state():626] send defer: 2
+2025-11-14 09:22:29,547 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: defer
+2025-11-14 09:22:29,547 INFO    HandlerThread:733217 [handler.py:handle_request_defer():170] handle defer: 2
+2025-11-14 09:22:29,547 INFO    HandlerThread:733217 [system_monitor.py:finish():190] Stopping system monitor
+2025-11-14 09:22:29,548 INFO    HandlerThread:733217 [interfaces.py:finish():202] Joined cpu monitor
+2025-11-14 09:22:29,548 INFO    HandlerThread:733217 [interfaces.py:finish():202] Joined disk monitor
+2025-11-14 09:22:29,548 DEBUG   SystemMonitor:733217 [system_monitor.py:_start():159] Starting system metrics aggregation loop
+2025-11-14 09:22:29,549 DEBUG   SystemMonitor:733217 [system_monitor.py:_start():166] Finished system metrics aggregation loop
+2025-11-14 09:22:29,549 DEBUG   SystemMonitor:733217 [system_monitor.py:_start():170] Publishing last batch of metrics
+2025-11-14 09:22:29,582 INFO    HandlerThread:733217 [interfaces.py:finish():202] Joined gpu monitor
+2025-11-14 09:22:29,582 INFO    HandlerThread:733217 [interfaces.py:finish():202] Joined memory monitor
+2025-11-14 09:22:29,582 INFO    HandlerThread:733217 [interfaces.py:finish():202] Joined network monitor
+2025-11-14 09:22:29,582 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: defer
+2025-11-14 09:22:29,583 INFO    SenderThread:733217 [sender.py:send_request_defer():622] handle sender defer: 2
+2025-11-14 09:22:29,583 INFO    SenderThread:733217 [sender.py:transition_state():626] send defer: 3
+2025-11-14 09:22:29,583 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: defer
+2025-11-14 09:22:29,583 INFO    HandlerThread:733217 [handler.py:handle_request_defer():170] handle defer: 3
+2025-11-14 09:22:29,583 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: defer
+2025-11-14 09:22:29,583 INFO    SenderThread:733217 [sender.py:send_request_defer():622] handle sender defer: 3
+2025-11-14 09:22:29,583 INFO    SenderThread:733217 [sender.py:transition_state():626] send defer: 4
+2025-11-14 09:22:29,583 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: defer
+2025-11-14 09:22:29,583 INFO    HandlerThread:733217 [handler.py:handle_request_defer():170] handle defer: 4
+2025-11-14 09:22:29,583 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: defer
+2025-11-14 09:22:29,583 INFO    SenderThread:733217 [sender.py:send_request_defer():622] handle sender defer: 4
+2025-11-14 09:22:29,583 INFO    SenderThread:733217 [sender.py:transition_state():626] send defer: 5
+2025-11-14 09:22:29,583 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: defer
+2025-11-14 09:22:29,583 INFO    HandlerThread:733217 [handler.py:handle_request_defer():170] handle defer: 5
+2025-11-14 09:22:29,583 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: defer
+2025-11-14 09:22:29,583 INFO    SenderThread:733217 [sender.py:send_request_defer():622] handle sender defer: 5
+2025-11-14 09:22:29,584 INFO    SenderThread:733217 [sender.py:transition_state():626] send defer: 6
+2025-11-14 09:22:29,584 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: defer
+2025-11-14 09:22:29,584 INFO    HandlerThread:733217 [handler.py:handle_request_defer():170] handle defer: 6
+2025-11-14 09:22:29,584 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: defer
+2025-11-14 09:22:29,584 INFO    SenderThread:733217 [sender.py:send_request_defer():622] handle sender defer: 6
+2025-11-14 09:22:29,584 INFO    SenderThread:733217 [sender.py:transition_state():626] send defer: 7
+2025-11-14 09:22:29,584 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: status_report
+2025-11-14 09:22:29,584 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: defer
+2025-11-14 09:22:29,584 INFO    HandlerThread:733217 [handler.py:handle_request_defer():170] handle defer: 7
+2025-11-14 09:22:29,584 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: status_report
+2025-11-14 09:22:29,584 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: defer
+2025-11-14 09:22:29,584 INFO    SenderThread:733217 [sender.py:send_request_defer():622] handle sender defer: 7
+2025-11-14 09:22:29,584 INFO    SenderThread:733217 [sender.py:transition_state():626] send defer: 8
+2025-11-14 09:22:29,584 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: defer
+2025-11-14 09:22:29,584 INFO    HandlerThread:733217 [handler.py:handle_request_defer():170] handle defer: 8
+2025-11-14 09:22:29,584 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: defer
+2025-11-14 09:22:29,584 INFO    SenderThread:733217 [sender.py:send_request_defer():622] handle sender defer: 8
+2025-11-14 09:22:29,584 INFO    SenderThread:733217 [sender.py:transition_state():626] send defer: 9
+2025-11-14 09:22:29,584 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: defer
+2025-11-14 09:22:29,585 INFO    HandlerThread:733217 [handler.py:handle_request_defer():170] handle defer: 9
+2025-11-14 09:22:29,585 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: defer
+2025-11-14 09:22:29,585 INFO    SenderThread:733217 [sender.py:send_request_defer():622] handle sender defer: 9
+2025-11-14 09:22:29,585 INFO    SenderThread:733217 [sender.py:transition_state():626] send defer: 10
+2025-11-14 09:22:29,585 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: defer
+2025-11-14 09:22:29,585 INFO    HandlerThread:733217 [handler.py:handle_request_defer():170] handle defer: 10
+2025-11-14 09:22:29,585 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: defer
+2025-11-14 09:22:29,585 INFO    SenderThread:733217 [sender.py:send_request_defer():622] handle sender defer: 10
+2025-11-14 09:22:29,585 INFO    SenderThread:733217 [sender.py:transition_state():626] send defer: 11
+2025-11-14 09:22:29,585 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: defer
+2025-11-14 09:22:29,585 INFO    HandlerThread:733217 [handler.py:handle_request_defer():170] handle defer: 11
+2025-11-14 09:22:29,585 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: defer
+2025-11-14 09:22:29,585 INFO    SenderThread:733217 [sender.py:send_request_defer():622] handle sender defer: 11
+2025-11-14 09:22:29,585 INFO    SenderThread:733217 [sender.py:transition_state():626] send defer: 12
+2025-11-14 09:22:29,585 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: defer
+2025-11-14 09:22:29,585 INFO    HandlerThread:733217 [handler.py:handle_request_defer():170] handle defer: 12
+2025-11-14 09:22:29,585 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: defer
+2025-11-14 09:22:29,585 INFO    SenderThread:733217 [sender.py:send_request_defer():622] handle sender defer: 12
+2025-11-14 09:22:29,585 INFO    SenderThread:733217 [sender.py:transition_state():626] send defer: 13
+2025-11-14 09:22:29,585 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: defer
+2025-11-14 09:22:29,586 INFO    HandlerThread:733217 [handler.py:handle_request_defer():170] handle defer: 13
+2025-11-14 09:22:29,586 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: defer
+2025-11-14 09:22:29,586 INFO    SenderThread:733217 [sender.py:send_request_defer():622] handle sender defer: 13
+2025-11-14 09:22:29,586 INFO    SenderThread:733217 [sender.py:transition_state():626] send defer: 14
+2025-11-14 09:22:29,586 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: defer
+2025-11-14 09:22:29,586 INFO    HandlerThread:733217 [handler.py:handle_request_defer():170] handle defer: 14
+2025-11-14 09:22:29,586 DEBUG   SenderThread:733217 [sender.py:send():375] send: final
+2025-11-14 09:22:29,586 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: defer
+2025-11-14 09:22:29,586 INFO    SenderThread:733217 [sender.py:send_request_defer():622] handle sender defer: 14
+2025-11-14 09:22:29,586 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: poll_exit
+2025-11-14 09:22:29,586 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: poll_exit
+2025-11-14 09:22:29,587 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: poll_exit
+2025-11-14 09:22:29,587 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: server_info
+2025-11-14 09:22:29,587 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: poll_exit
+2025-11-14 09:22:29,587 DEBUG   SenderThread:733217 [sender.py:send_request():402] send_request: server_info
+2025-11-14 09:22:29,587 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: get_summary
+2025-11-14 09:22:29,587 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: sampled_history
+2025-11-14 09:22:29,588 INFO    MainThread:733217 [wandb_run.py:_footer_history_summary_info():3469] rendering history
+2025-11-14 09:22:29,588 INFO    MainThread:733217 [wandb_run.py:_footer_history_summary_info():3501] rendering summary
+2025-11-14 09:22:29,588 DEBUG   HandlerThread:733217 [handler.py:handle_request():144] handle_request: shutdown
+2025-11-14 09:22:29,588 INFO    HandlerThread:733217 [handler.py:finish():842] shutting down handler
+2025-11-14 09:22:30,587 INFO    WriterThread:733217 [datastore.py:close():298] close: /root/code/EasyMDM/Sudoku/wandb/offline-run-20251114_092217-06zsciqh/run-06zsciqh.wandb
+2025-11-14 09:22:30,587 INFO    SenderThread:733217 [sender.py:finish():1550] shutting down sender

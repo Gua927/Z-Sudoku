@@ -2,9 +2,8 @@ export WANDB_MODE=offline
 
 # Define dataset explicitly for run_name usage
 dataset=sudoku_train
-temperature=1.0
 
-exp=output/sudoku/mdm-alpha0.25-gamma1-lr1e-3-ep300-T20-`date "+%Y%m%d-%H%M%S"`
+exp=output/sudoku/mdm-TKRW-ep300
 mkdir -p $exp
 
 # Ensure absolute path to model config to avoid cwd issues
@@ -34,24 +33,28 @@ src/train_bash.py \
     --learning_rate 1e-3 \
     --num_train_epochs 300.0 \
     --plot_loss \
-    --run_name Sudoku-NOTKRW-Linear \
+    --run_name Sudoku-TKRW-Linear \
     --preprocessing_num_workers 8 \
     --fp16 \
     --save_total_limit 1 \
     --remove_unused_columns False \
     --diffusion_steps 20 \
     --save_safetensors False \
-    --token_reweighting False \
+    --token_reweighting True \
     --time_reweighting linear \
-    --denoise_method origin \
     --alpha 0.25 \
     --gamma 1 \
-    --temperature ${temperature} \
     > $exp/train.log
+
+
+
+for temperature in 0, 0.3, 0.5, 0.7, 1.0
+do
 
 for dataset in sudoku_test
 do
-mkdir $exp/$dataset
+mkdir -p $exp/${dataset}-origin
+echo "运行评测: Origin denoising"
 CUDA_VISIBLE_DEVICES=1  \
 python3 -u src/train_bash.py \
     --stage mdm --overwrite_output_dir \
@@ -62,17 +65,21 @@ python3 -u src/train_bash.py \
     --dataset $dataset \
     --finetuning_type full \
     --diffusion_steps 20 \
-    --output_dir $exp/${dataset} \
+    --output_dir $exp/${dataset}-origin \
     --checkpoint_dir $exp  \
     --remove_unused_columns False \
     --denoise_method origin \
     --temperature ${temperature} \
-    > $exp/${dataset}/eval-TopK-False.log
+    --run_name Sudoku-TKRW-origin-temp${temperature} \
+    > $exp/${dataset}-origin/eval-origin-temp${temperature}.log
+echo "Origin denoising 评测完成，日志保存到: $exp/${dataset}-origin/eval-origin-temp${temperature}.log"
 done
 
+# 第二次评测：TopK=True, linear 调度
 for dataset in sudoku_test
 do
-mkdir $exp/$dataset
+mkdir -p $exp/${dataset}-TopK
+echo "运行评测: TopK denoising"
 CUDA_VISIBLE_DEVICES=1  \
 python3 -u src/train_bash.py \
     --stage mdm --overwrite_output_dir \
@@ -83,12 +90,43 @@ python3 -u src/train_bash.py \
     --dataset $dataset \
     --finetuning_type full \
     --diffusion_steps 20 \
-    --output_dir $exp/${dataset} \
+    --output_dir $exp/${dataset}-TopK \
     --checkpoint_dir $exp  \
     --remove_unused_columns False \
     --denoise_method topk \
     --decoding_strategy linear \
     --temperature ${temperature} \
-    > $exp/${dataset}/eval-TopK-linear.log
+    --run_name Sudoku-TKRW-TopK-temp${temperature} \
+    > $exp/${dataset}-TopK/eval-TopK-temp${temperature}.log
+echo "TopK denoising 评测完成，日志保存到: $exp/${dataset}-TopK/eval-TopK-temp${temperature}.log"
 done
 
+# 第三次评测：TopK-margin=True, linear 调度
+for dataset in sudoku_test
+do
+mkdir -p $exp/${dataset}-TopK-margin
+echo "运行评测: TopK-margin denoising"
+CUDA_VISIBLE_DEVICES=1  \
+python3 -u src/train_bash.py \
+    --stage mdm --overwrite_output_dir \
+    --cache_dir /root/code/EasyMDM/Sudoku/cache \
+    --model_name_or_path model_config_tiny \
+    --do_predict \
+    --cutoff_len 164 \
+    --dataset $dataset \
+    --finetuning_type full \
+    --diffusion_steps 20 \
+    --output_dir $exp/${dataset}-TopK-margin \
+    --checkpoint_dir $exp  \
+    --remove_unused_columns False \
+    --denoise_method topk-margin \
+    --decoding_strategy linear \
+    --temperature ${temperature} \
+    --run_name Sudoku-TKRW-TopK-margin-temp${temperature} \
+    > $exp/${dataset}-TopK-margin/eval-TopK-margin-temp${temperature}.log
+echo "TopK-margin 评测完成，日志保存到: $exp/${dataset}-TopK-margin/eval-TopK-margin-temp${temperature}.log"
+done
+
+echo "temperature=${temperature}评测完成！"
+
+done

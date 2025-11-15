@@ -10,6 +10,26 @@ from llmtuner.tuner.core.metric import compute_acc
 import torch.distributed as dist
 from functools import partial
 
+try:
+    import wandb
+except ImportError:  # pragma: no cover
+    wandb = None
+
+
+def _log_temperature_vs_acc(acc_value: Optional[float], temperature: float, dataset: str, method: str):
+    if wandb is None or wandb.run is None or acc_value is None:
+        return
+    table = wandb.Table(columns=["temperature", "accuracy", "dataset", "method"])
+    table.add_data(float(temperature), float(acc_value), dataset, method)
+    wandb.log({
+        "temperature_vs_acc": wandb.plot.scatter(
+            table,
+            "temperature",
+            "accuracy",
+            title=f"Eval Accuracy vs Temperature ({dataset}/{method})"
+        )
+    })
+
 if TYPE_CHECKING:
     from transformers import TrainerCallback
     from llmtuner.hparams import ModelArguments, DiffusionArguments, DataArguments, FinetuningArguments, GeneratingArguments
@@ -72,3 +92,6 @@ def run(
         trainer.log_metrics("predict", predict_results.metrics)
         trainer.save_metrics("predict", predict_results.metrics)
         trainer.save_predictions(predict_results)
+        acc_value = predict_results.metrics.get("predict_acc") or predict_results.metrics.get("predict_accuracy")
+        temperature = getattr(trainer, "temperature", getattr(generating_args, "temperature", 1.0))
+        _log_temperature_vs_acc(acc_value, temperature, data_args.dataset, diffusion_args.denoise_method)
