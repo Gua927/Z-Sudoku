@@ -17,6 +17,7 @@ src/train_bash.py \
     --cache_dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache \
     --model_name_or_path $MODEL_DIR \
     --do_train \
+    --d0_eval \
     --dataset $dataset \
     --finetuning_type full \
     --cutoff_len 164 \
@@ -28,8 +29,8 @@ src/train_bash.py \
     --logging_steps 1 \
     --val_size 2048 \
     --per_device_eval_batch_size 512 \
-    --eval_steps 50 \
-    --save_steps 100 \
+    --eval_steps 100 \
+    --save_steps 500 \
     --learning_rate 1e-3 \
     --num_train_epochs 300.0 \
     --plot_loss \
