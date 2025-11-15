@@ -34,6 +34,10 @@ class DiffusionArguments:
         default="origin",
         metadata={"help": "Denoising method: origin | topk | topk-margin."}
     )
+    eval_denoise_method: Optional[str] = field(
+        default=None,
+        metadata={"help": "Optional override for evaluation denoising method."}
+    )
     topk_decoding: Optional[bool] = field(
         default=None,
         metadata={"help": "[Deprecated] Backwards compatibility alias for denoise_method."}
@@ -43,6 +47,9 @@ class DiffusionArguments:
         supported = {"origin", "topk", "topk-margin"}
         if self.denoise_method not in supported:
             raise ValueError(f"Unsupported denoise_method: {self.denoise_method}. Choose from {supported}.")
+
+        if self.eval_denoise_method is not None and self.eval_denoise_method not in supported:
+            raise ValueError(f"Unsupported eval_denoise_method: {self.eval_denoise_method}. Choose from {supported}.")
 
         if self.topk_decoding is not None:
             if self.topk_decoding and self.denoise_method == "origin":

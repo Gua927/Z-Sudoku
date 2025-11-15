@@ -63,6 +63,8 @@ def run(
         callbacks=callbacks,
         compute_metrics=partial(compute_acc, tokenizer=tokenizer, data_name=data_args.dataset),
         sampling_temperature=generating_args.temperature,
+        eval_temperature=getattr(generating_args, "eval_temperature", None),
+        eval_denoise_method=getattr(diffusion_args, "eval_denoise_method", None),
         **split_dataset(dataset, data_args, training_args)
     )
 
@@ -94,4 +96,5 @@ def run(
         trainer.save_predictions(predict_results)
         acc_value = predict_results.metrics.get("predict_acc") or predict_results.metrics.get("predict_accuracy")
         temperature = getattr(trainer, "temperature", getattr(generating_args, "temperature", 1.0))
-        _log_temperature_vs_acc(acc_value, temperature, data_args.dataset, diffusion_args.denoise_method)
+        method_for_log = getattr(diffusion_args, "eval_denoise_method", None) or diffusion_args.denoise_method
+        _log_temperature_vs_acc(acc_value, temperature, data_args.dataset, method_for_log)

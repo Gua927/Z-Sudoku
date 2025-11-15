@@ -15,6 +15,10 @@ class GeneratingArguments:
         default=0.95,
         metadata={"help": "The value used to modulate the next token probabilities."}
     )
+    eval_temperature: Optional[float] = field(
+        default=None,
+        metadata={"help": "Optional override for evaluation temperature."}
+    )
     top_p: Optional[float] = field(
         default=0.7,
         metadata={"help": "The smallest set of most probable tokens with probabilities that add up to top_p or higher are kept."}

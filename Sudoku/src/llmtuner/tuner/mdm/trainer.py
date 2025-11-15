@@ -3,6 +3,7 @@ import json
 import torch
 import numpy as np
 import torch.nn as nn
+from contextlib import contextmanager
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 from torch.utils.data import Dataset
 from transformers import Trainer
@@ -36,6 +37,8 @@ class CustomDiffusionTrainer(Trainer):
         optimizers: Optional[Tuple[torch.optim.Optimizer, torch.optim.lr_scheduler.LambdaLR]] = None,
         preprocess_logits_for_metrics: Optional[Callable[[torch.Tensor, torch.Tensor], torch.Tensor]] = None,
         sampling_temperature: Optional[float] = None,
+        eval_temperature: Optional[float] = None,
+        eval_denoise_method: Optional[str] = None,
     ):
         optimizers = optimizers or (None, None)
         super().__init__(
@@ -58,6 +61,8 @@ class CustomDiffusionTrainer(Trainer):
         if temperature < 0:
             raise ValueError("sampling_temperature must be non-negative.")
         self.temperature = temperature
+        self.eval_temperature = eval_temperature
+        self.eval_denoise_method = eval_denoise_method
         print(self.diff_args)
         
         # 确保tokenizer配置文件被保存到输出目录
@@ -78,6 +83,34 @@ class CustomDiffusionTrainer(Trainer):
         # num_items_in_batch参数在新版本中被添加，但我们不使用它
         final_loss = self.inner_forward(model, inputs)
         return final_loss
+
+    @contextmanager
+    def _apply_eval_overrides(self):
+        if self.eval_temperature is None and self.eval_denoise_method is None:
+            yield
+            return
+
+        original_temperature = self.temperature
+        original_method = getattr(self.diff_args, "denoise_method", None)
+        try:
+            if self.eval_temperature is not None:
+                self.temperature = float(self.eval_temperature)
+            if self.eval_denoise_method is not None:
+                self.diff_args.denoise_method = self.eval_denoise_method
+            yield
+        finally:
+            self.temperature = original_temperature
+            if original_method is not None:
+                self.diff_args.denoise_method = original_method
+
+    def evaluate(
+        self,
+        eval_dataset: Optional[Dataset] = None,
+        ignore_keys: Optional[List[str]] = None,
+        metric_key_prefix: str = "eval",
+    ):
+        with self._apply_eval_overrides():
+            return super().evaluate(eval_dataset=eval_dataset, ignore_keys=ignore_keys, metric_key_prefix=metric_key_prefix)
     
     def q_sample(self, inputs, t, maskable_mask):
         x_0 = inputs["input_ids"]

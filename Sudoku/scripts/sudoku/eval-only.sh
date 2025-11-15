@@ -2,7 +2,7 @@ export WANDB_MODE=offline
 
 python3 -c "import swanlab; swanlab.sync_wandb()" && \
 
-exp=output/sudoku/mdm-alpha0.25-gamma1-lr1e-3-ep300-T20-20251113-183444
+exp=output/sudoku/mdm-TKRW-ep300
 
 temperature=0
 
@@ -29,7 +29,7 @@ python3 -u src/train_bash.py \
     --remove_unused_columns False \
     --denoise_method origin \
     --temperature ${temperature} \
-    --run_name Sudoku-NOTKRW-origin-temp${temperature} \
+    --run_name Sudoku-TKRW-origin-temp${temperature} \
     > $exp/${dataset}-origin/eval-origin-temp${temperature}.log
 echo "Origin denoising 评测完成，日志保存到: $exp/${dataset}-origin/eval-origin-temp${temperature}.log"
 done
@@ -55,7 +55,7 @@ python3 -u src/train_bash.py \
     --denoise_method topk \
     --decoding_strategy linear \
     --temperature ${temperature} \
-    --run_name Sudoku-NOTKRW-TopK-temp${temperature} \
+    --run_name Sudoku-TKRW-TopK-temp${temperature} \
     > $exp/${dataset}-TopK/eval-TopK-temp${temperature}.log
 echo "TopK denoising 评测完成，日志保存到: $exp/${dataset}-TopK/eval-TopK-temp${temperature}.log"
 done
@@ -81,7 +81,7 @@ python3 -u src/train_bash.py \
     --denoise_method topk-margin \
     --decoding_strategy linear \
     --temperature ${temperature} \
-    --run_name Sudoku-NOTKRW-TopK-margin-temp${temperature} \
+    --run_name Sudoku-TKRW-TopK-margin-temp${temperature} \
     > $exp/${dataset}-TopK-margin/eval-TopK-margin-temp${temperature}.log
 echo "TopK-margin 评测完成，日志保存到: $exp/${dataset}-TopK-margin/eval-TopK-margin-temp${temperature}.log"
 done
