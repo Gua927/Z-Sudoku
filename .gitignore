@@ -1,3 +1,6 @@
 # Train artifacts
 checkpoints/
 outputs/
+Sudoku/swanlog/
+Sudoku/wandb/
+
