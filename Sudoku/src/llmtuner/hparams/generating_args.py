@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 from dataclasses import asdict, dataclass, field
 
 
@@ -18,6 +18,10 @@ class GeneratingArguments:
     eval_temperature: Optional[float] = field(
         default=None,
         metadata={"help": "Optional override for evaluation temperature."}
+    )
+    eval_temperatures: List[float] = field(
+        default_factory=list,
+        metadata={"help": "List of evaluation temperatures to iterate over.", "nargs": "+"}
     )
     top_p: Optional[float] = field(
         default=0.7,

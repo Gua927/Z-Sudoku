@@ -19,7 +19,35 @@ from llmtuner.extras.logging import get_logger
 from torch.nn.parallel.distributed import DistributedDataParallel as DDP
 import torch.nn.functional as F
 
+try:  # pragma: no cover - optional dependency
+    import wandb
+except ImportError:  # pragma: no cover
+    wandb = None
+
 logger = get_logger(__name__)
+
+
+def _log_prefixed_metrics(trainer, metric_prefix: str, metrics: Dict[str, float]):
+    """Log metrics again with slash-separated keys so wandb charts treat each variant as independent series."""
+    if wandb is None or wandb.run is None:
+        return
+
+    def _to_scalar(value):
+        return value.item() if hasattr(value, "item") else value
+
+    loggable: Dict[str, float] = {}
+    slash_prefix = metric_prefix.replace("_", "/")
+    for key, value in metrics.items():
+        if not key.startswith(metric_prefix):
+            continue
+        if not isinstance(value, (int, float)) and not hasattr(value, "item"):
+            continue
+        suffix = key[len(metric_prefix):].lstrip("_")
+        log_key = slash_prefix if not suffix else f"{slash_prefix}/{suffix}"
+        loggable[log_key] = _to_scalar(value)
+
+    if loggable:
+        trainer.log(loggable)
 
 class CustomDiffusionTrainer(Trainer):
     def __init__(
@@ -39,6 +67,7 @@ class CustomDiffusionTrainer(Trainer):
         sampling_temperature: Optional[float] = None,
         eval_temperature: Optional[float] = None,
         eval_denoise_method: Optional[str] = None,
+        eval_temperatures: Optional[List[float]] = None,
     ):
         optimizers = optimizers or (None, None)
         super().__init__(
@@ -63,6 +92,9 @@ class CustomDiffusionTrainer(Trainer):
         self.temperature = temperature
         self.eval_temperature = eval_temperature
         self.eval_denoise_method = eval_denoise_method
+        self.eval_temperature_list: List[Optional[float]] = list(eval_temperatures or [])
+        self._manual_eval_temperature: Optional[float] = None
+        self._manual_eval_denoise_method: Optional[str] = None
         print(self.diff_args)
         
         # 确保tokenizer配置文件被保存到输出目录
@@ -85,23 +117,124 @@ class CustomDiffusionTrainer(Trainer):
         return final_loss
 
     @contextmanager
-    def _apply_eval_overrides(self):
-        if self.eval_temperature is None and self.eval_denoise_method is None:
-            yield
-            return
-
+    def _apply_eval_overrides(self, temperature: Optional[float], method: Optional[str]):
         original_temperature = self.temperature
         original_method = getattr(self.diff_args, "denoise_method", None)
         try:
-            if self.eval_temperature is not None:
-                self.temperature = float(self.eval_temperature)
-            if self.eval_denoise_method is not None:
-                self.diff_args.denoise_method = self.eval_denoise_method
+            if temperature is not None:
+                self.temperature = float(temperature)
+            if method is not None:
+                self.diff_args.denoise_method = method
             yield
         finally:
             self.temperature = original_temperature
             if original_method is not None:
                 self.diff_args.denoise_method = original_method
+
+    def set_temporary_eval_overrides(self, temperature: Optional[float], denoise_method: Optional[str]):
+        self._manual_eval_temperature = temperature
+        self._manual_eval_denoise_method = denoise_method
+
+    def clear_temporary_eval_overrides(self):
+        self._manual_eval_temperature = None
+        self._manual_eval_denoise_method = None
+
+    @staticmethod
+    def _unique_sequence(values: List[Optional[Union[str, float]]]) -> List[Optional[Union[str, float]]]:
+        ordered: List[Optional[Union[str, float]]] = []
+        for value in values:
+            if value not in ordered:
+                ordered.append(value)
+        return ordered
+
+    def _build_eval_values(self, single_value, multi_values: Optional[List[Optional[Union[str, float]]]]):
+        collected: List[Optional[Union[str, float]]] = []
+        if multi_values:
+            collected.extend(multi_values)
+        if single_value is not None:
+            collected.append(single_value)
+        if not collected:
+            collected.append(None)
+        return self._unique_sequence(collected)
+
+    def _build_eval_combos(self, manual_override: bool) -> List[Tuple[Optional[str], Optional[float]]]:
+        if manual_override:
+            return [(self._manual_eval_denoise_method, self._manual_eval_temperature)]
+
+        method_candidates = self._build_eval_values(
+            self.eval_denoise_method,
+            getattr(self.diff_args, "eval_denoise_methods", None)
+        )
+        temperature_candidates = self._build_eval_values(
+            self.eval_temperature,
+            self.eval_temperature_list,
+        )
+        return [
+            (method, temperature)
+            for method in method_candidates
+            for temperature in temperature_candidates
+        ]
+
+    def _format_metric_prefix(
+        self,
+        base_prefix: str,
+        index: int,
+        method: Optional[str],
+        temperature: Optional[float],
+        multi_eval: bool
+    ) -> str:
+        if not multi_eval:
+            return base_prefix
+
+        parts: List[str] = [base_prefix or "eval"]
+        method_label = method or getattr(self.diff_args, "denoise_method", None)
+        if method_label:
+            parts.append(f"method-{method_label}")
+
+        temperature_label = temperature if temperature is not None else self.temperature
+        if temperature_label is not None:
+            parts.append(f"temp-{temperature_label:g}")
+
+        if len(parts) == 1:
+            parts.append(f"variant{index+1}")
+
+        return "_".join(parts)
+
+    def _is_default_combo(self, method: Optional[str], temperature: Optional[float]) -> bool:
+        default_method = getattr(self.diff_args, "denoise_method", None)
+        default_temp = self.temperature
+        method_match = (method is None) or (default_method is None) or (method == default_method)
+        temp_match = (temperature is None) or (default_temp is None) or (float(temperature) == float(default_temp))
+        return method_match and temp_match
+
+    @staticmethod
+    def _alias_metrics(
+        metrics: Dict[str, float],
+        source_prefix: str,
+        target_prefix: str
+    ) -> Dict[str, float]:
+        alias: Dict[str, float] = {}
+        for key, value in metrics.items():
+            if not key.startswith(source_prefix):
+                continue
+            alias_key = f"{target_prefix}{key[len(source_prefix):]}"
+            alias[alias_key] = value
+        return alias
+
+    def _evaluate_single(
+        self,
+        eval_dataset: Optional[Dataset],
+        ignore_keys: Optional[List[str]],
+        metric_key_prefix: str,
+        temperature: Optional[float],
+        method: Optional[str]
+    ) -> Dict[str, float]:
+        with self._apply_eval_overrides(temperature, method):
+            return super().evaluate(
+                eval_dataset=eval_dataset,
+                ignore_keys=ignore_keys,
+                metric_key_prefix=metric_key_prefix,
+            )
 
     def evaluate(
         self,
@@ -109,8 +242,45 @@ class CustomDiffusionTrainer(Trainer):
         ignore_keys: Optional[List[str]] = None,
         metric_key_prefix: str = "eval",
     ):
-        with self._apply_eval_overrides():
-            return super().evaluate(eval_dataset=eval_dataset, ignore_keys=ignore_keys, metric_key_prefix=metric_key_prefix)
+        manual_override = (self._manual_eval_temperature is not None) or (self._manual_eval_denoise_method is not None)
+        eval_combos = self._build_eval_combos(manual_override)
+        multi_eval = len(eval_combos) > 1
+        combined_metrics: Dict[str, float] = {}
+        alias_written = False
+
+        for idx, (method, temperature) in enumerate(eval_combos):
+            metric_prefix = self._format_metric_prefix(metric_key_prefix, idx, method, temperature, multi_eval)
+            logger.info(
+                "Running eval combo %d/%d: method=%s, temperature=%s, prefix=%s",
+                idx + 1,
+                len(eval_combos),
+                method if method is not None else getattr(self.diff_args, "denoise_method", None),
+                temperature if temperature is not None else self.temperature,
+                metric_prefix,
+            )
+            metrics = self._evaluate_single(eval_dataset, ignore_keys, metric_prefix, temperature, method)
+            combo_metrics = {k: v for k, v in metrics.items() if k.startswith(metric_prefix)}
+            _log_prefixed_metrics(self, metric_prefix, combo_metrics)
+            combined_metrics.update(combo_metrics)
+
+            alias_needed = (
+                multi_eval
+                and not manual_override
+                and not alias_written
+                and metric_key_prefix
+                and self._is_default_combo(method, temperature)
+            )
+            if alias_needed:
+                alias_metrics = self._alias_metrics(combo_metrics, metric_prefix, metric_key_prefix)
+                if alias_metrics:
+                    self.log(alias_metrics)
+                    combined_metrics.update(alias_metrics)
+                    alias_written = True
+
+        if manual_override:
+            self.clear_temporary_eval_overrides()
+
+        return combined_metrics
     
     def q_sample(self, inputs, t, maskable_mask):
         x_0 = inputs["input_ids"]

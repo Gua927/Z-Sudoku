@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import List, Optional
 
 @dataclass
 class DiffusionArguments:
@@ -38,6 +38,10 @@ class DiffusionArguments:
         default=None,
         metadata={"help": "Optional override for evaluation denoising method."}
     )
+    eval_denoise_methods: List[str] = field(
+        default_factory=list,
+        metadata={"help": "List of evaluation denoising methods to iterate over.", "nargs": "+"}
+    )
     topk_decoding: Optional[bool] = field(
         default=None,
         metadata={"help": "[Deprecated] Backwards compatibility alias for denoise_method."}
@@ -50,6 +54,11 @@ class DiffusionArguments:
 
         if self.eval_denoise_method is not None and self.eval_denoise_method not in supported:
             raise ValueError(f"Unsupported eval_denoise_method: {self.eval_denoise_method}. Choose from {supported}.")
+
+        if self.eval_denoise_methods:
+            invalid = [m for m in self.eval_denoise_methods if m not in supported]
+            if invalid:
+                raise ValueError(f"Unsupported eval_denoise_methods: {invalid}. Choose from {supported}.")
 
         if self.topk_decoding is not None:
             if self.topk_decoding and self.denoise_method == "origin":

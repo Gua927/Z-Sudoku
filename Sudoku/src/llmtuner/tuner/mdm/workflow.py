@@ -1,6 +1,6 @@
 # Inspired by: https://github.com/huggingface/transformers/blob/v4.29.2/examples/pytorch/summarization/run_summarization.py
 import torch
-from typing import TYPE_CHECKING, Optional, List, Union, Tuple
+from typing import TYPE_CHECKING, Optional, List
 from transformers import DataCollatorForLanguageModeling, Seq2SeqTrainingArguments
 from transformers.modeling_attn_mask_utils import AttentionMaskConverter
 from llmtuner.dsets import get_dataset, preprocess_dataset, split_dataset
@@ -15,7 +15,6 @@ try:
 except ImportError:  # pragma: no cover
     wandb = None
 
-
 def _log_temperature_vs_acc(acc_value: Optional[float], temperature: float, dataset: str, method: str):
     if wandb is None or wandb.run is None or acc_value is None:
         return
@@ -29,7 +28,6 @@ def _log_temperature_vs_acc(acc_value: Optional[float], temperature: float, data
             title=f"Eval Accuracy vs Temperature ({dataset}/{method})"
         )
     })
-
 if TYPE_CHECKING:
     from transformers import TrainerCallback
     from llmtuner.hparams import ModelArguments, DiffusionArguments, DataArguments, FinetuningArguments, GeneratingArguments
@@ -65,6 +63,7 @@ def run(
         sampling_temperature=generating_args.temperature,
         eval_temperature=getattr(generating_args, "eval_temperature", None),
         eval_denoise_method=getattr(diffusion_args, "eval_denoise_method", None),
+        eval_temperatures=getattr(generating_args, "eval_temperatures", None),
         **split_dataset(dataset, data_args, training_args)
     )
 
@@ -84,7 +83,7 @@ def run(
         
     # Evaluation
     if training_args.do_eval:
-        metrics = trainer.evaluate(metric_key_prefix="eval")
+        metrics = trainer.evaluate()
         trainer.log_metrics("eval", metrics)
         trainer.save_metrics("eval", metrics)
 
