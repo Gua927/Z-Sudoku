@@ -12,8 +12,9 @@ from transformers.data.data_collator import DataCollator
 from transformers.modeling_utils import PreTrainedModel
 from transformers.tokenization_utils_base import PreTrainedTokenizerBase
 from transformers.trainer_callback import TrainerCallback
-from transformers.trainer_utils import EvalPrediction
+from transformers.trainer_utils import EvalPrediction, PredictionOutput
 from transformers.training_args import TrainingArguments
+import math
 from llmtuner.extras.constants import IGNORE_INDEX
 from llmtuner.extras.logging import get_logger
 from torch.nn.parallel.distributed import DistributedDataParallel as DDP
@@ -40,9 +41,15 @@ def _log_prefixed_metrics(trainer, metric_prefix: str, metrics: Dict[str, float]
     for key, value in metrics.items():
         if not key.startswith(metric_prefix):
             continue
+        
+        suffix = key[len(metric_prefix):].lstrip("_")
+        # 仅记录loss和accuracy
+        if "loss" not in suffix and "acc" not in suffix:
+            continue
+
         if not isinstance(value, (int, float)) and not hasattr(value, "item"):
             continue
-        suffix = key[len(metric_prefix):].lstrip("_")
+        
         log_key = slash_prefix if not suffix else f"{slash_prefix}/{suffix}"
         loggable[log_key] = _to_scalar(value)
 
@@ -282,12 +289,144 @@ class CustomDiffusionTrainer(Trainer):
 
         return combined_metrics
     
-    def q_sample(self, inputs, t, maskable_mask):
+    def q_sample(self, model, inputs, t, maskable_mask, attention_mask):
+        use_z_mask = bool(getattr(self.diff_args, "z_mask", False)) and model.training
+        if use_z_mask:
+            return self._z_mask_q_sample(model, inputs, t, maskable_mask, attention_mask)
+        x_t, t, mask = self._standard_q_sample(inputs, t, maskable_mask)
+        return x_t, t, mask, None
+
+    def _standard_q_sample(self, inputs, t, maskable_mask):
         x_0 = inputs["input_ids"]
-        u = torch.rand_like(x_0, dtype=torch.float) # t/T prob to mask
-        t_mask = (u < ((t+1) / self.diff_args.diffusion_steps)[:, None]) & maskable_mask
-        x_t = x_0.masked_fill(t_mask, self.tokenizer.mask_token_id)
-        return x_t, t, t_mask  #  True means it's "MASK" token and should have loss
+        uniform_noise = torch.rand_like(x_0, dtype=torch.float)
+        ratios = (t + 1).float() / float(self.diff_args.diffusion_steps)
+        mask = self._mask_from_uniform(uniform_noise, ratios, maskable_mask)
+        x_t = x_0.masked_fill(mask, self.tokenizer.mask_token_id)
+        return x_t, t, mask
+
+    def _z_mask_q_sample(self, model, inputs, t, maskable_mask, attention_mask):
+        x_0 = inputs["input_ids"]
+        steps = int(self.diff_args.diffusion_steps)
+
+        uniform_noise = torch.rand_like(x_0, dtype=torch.float)
+        ratios_t = (t + 1).float() / float(steps)
+        mask_t = self._mask_from_uniform(uniform_noise, ratios_t, maskable_mask)
+
+        t_plus = torch.clamp(t + 1, max=steps - 1)
+        ratios_t_plus = (t_plus + 1).float() / float(steps)
+        mask_t_plus = self._mask_from_uniform(uniform_noise, ratios_t_plus, maskable_mask)
+
+        x_plain = x_0.masked_fill(mask_t, self.tokenizer.mask_token_id)
+        final_mask, x_t = self._z_mask_denoise(
+            model=model,
+            xt_plus=x_0.masked_fill(mask_t_plus, self.tokenizer.mask_token_id),
+            mask=mask_t_plus,
+            t_plus=t_plus,
+            attention_mask=attention_mask,
+        )
+        extras = {
+            "x_plain": x_plain,
+            "mask_plain": mask_t,
+        }
+        return x_t, t, final_mask, extras
+
+    @staticmethod
+    def _mask_from_uniform(uniform_noise: torch.Tensor, ratios: torch.Tensor, maskable_mask: torch.Tensor) -> torch.Tensor:
+        ratios = ratios.clamp_(0.0, 1.0).unsqueeze(-1).to(uniform_noise.dtype)
+        return (uniform_noise < ratios) & maskable_mask
+
+    def _z_mask_denoise(self, model, xt_plus, mask, t_plus, attention_mask):
+        method = getattr(self.diff_args, "z_mask_method", getattr(self.diff_args, "denoise_method", "origin"))
+        z_temp = getattr(self.diff_args, "z_mask_temperature", self.temperature)
+
+        raw_logits = self._run_model_for_z_mask(model, xt_plus, t_plus, attention_mask)
+        scores = torch.log_softmax(raw_logits, dim=-1)
+        probs = scores.exp()
+
+        with self._apply_eval_overrides(temperature=z_temp, method=method):
+            sampled_x0 = self._sample_tokens(probs)
+            x0 = xt_plus.masked_scatter(mask, sampled_x0[mask])
+
+            selection_scores = None
+            if method == "topk":
+                selection_scores, _ = scores.max(-1)
+            elif method == "topk-margin":
+                selection_scores = self._compute_margin_scores(scores)
+
+            decoding_schedule = self._extract_schedule(getattr(self.diff_args, "decoding_strategy", "linear"))
+            xt, final_mask = self._apply_denoise_strategy(
+                xt=xt_plus,
+                x0=x0,
+                selection_scores=selection_scores,
+                maskable_mask=mask,
+                init_maskable_mask=mask,
+                t=t_plus,
+                schedule=decoding_schedule,
+                is_batch=True,
+            )
+        return final_mask, xt
+
+    def _run_model_for_z_mask(self, model, xt_plus, t_plus, attention_mask):
+        was_training = model.training if hasattr(model, "training") else False
+        if was_training:
+            model.eval()
+        with torch.no_grad():
+            logits = model(xt_plus, t_plus, attention_mask=attention_mask)
+            logits = torch.cat([logits[:, 0:1], logits[:, :-1]], dim=1)
+        if was_training:
+            model.train()
+        return logits
+
+    def _compute_weighted_loss(self, logits, target, loss_mask, t, vocab_size):
+        if loss_mask is None:
+            loss_mask = torch.ones_like(target, dtype=torch.bool)
+        flat_logits = logits.reshape(-1, vocab_size)
+        flat_target = target.reshape(-1)
+        token_loss = F.cross_entropy(flat_logits, flat_target, reduction="none").float()
+        mask_flat = loss_mask.reshape(-1).bool()
+        valid_count = mask_flat.float().sum()
+        if valid_count.item() == 0:
+            return token_loss.new_zeros(())
+        token_loss = token_loss.masked_fill(~mask_flat, 0)
+
+        if self.diff_args.token_reweighting:
+            token_loss = self.diff_args.alpha * (1 - torch.exp(-token_loss)) ** self.diff_args.gamma * token_loss
+
+        time_weight = self._build_time_weight(t, loss_mask).reshape(-1)
+        weighted_loss = (token_loss * time_weight).sum()
+        return weighted_loss / valid_count
+
+    def _build_time_weight(self, t, template_mask):
+        num_timesteps = self.diff_args.diffusion_steps
+        if self.diff_args.time_reweighting == 'original':
+            base = 1 / (t + 1).float()
+        elif self.diff_args.time_reweighting == 'linear':
+            base = (num_timesteps - t).float()
+        else:
+            base = torch.ones_like(t).float()
+        return base[:, None].expand_as(template_mask).float()
+
+    def _z_mask_weight_schedule(self):
+        total_epochs = max(1.0, float(getattr(self.args, "num_train_epochs", 1.0)))
+        current_epoch = getattr(self.state, "epoch", None)
+        if current_epoch is None:
+            max_steps = max(1, getattr(self.state, "max_steps", 1) or 1)
+            progress = min(1.0, getattr(self.state, "global_step", 0) / max_steps)
+        else:
+            progress = float(current_epoch) / total_epochs
+            progress = min(max(progress, 0.0), 1.0)
+
+        weight = 0.5 * (1.0 - math.cos(math.pi * progress))
+        return float(min(max(weight, 0.0), 1.0))
+
+    def _log_dual_losses(self, loss_o, loss_z, loss_total, lambda_z):
+        log_payload = {
+            "loss_o": loss_o.detach().item(),
+            "loss_z": loss_z.detach().item(),
+            "loss_t": loss_total.detach().item(),
+            "lambda_z": lambda_z.detach().item() if torch.is_tensor(lambda_z) else float(lambda_z),
+        }
+        self.log(log_payload)
 
     def prediction_step(
         self,
@@ -355,29 +494,32 @@ class CustomDiffusionTrainer(Trainer):
         num_timesteps = self.diff_args.diffusion_steps
 
         t = torch.randint(0, num_timesteps, (batch_size, ), device=x.device)
-        x_t, t, loss_mask = self.q_sample(inputs, t, maskable_mask=~src_mask)
+        initial_attention_mask = torch.ones_like(x)
+        x_t, t, loss_mask, extras = self.q_sample(
+            model=model,
+            inputs=inputs,
+            t=t,
+            maskable_mask=~src_mask,
+            attention_mask=initial_attention_mask,
+        )
 
-        attention_mask = torch.ones_like(x_t) 
+        attention_mask = torch.ones_like(x_t)
 
-        logits = model(x_t, t, attention_mask=attention_mask)
-        logits = torch.cat([logits[:,0:1], logits[:,:-1]], dim=1)
+        logits_z = model(x_t, t, attention_mask=attention_mask)
+        logits_z = torch.cat([logits_z[:,0:1], logits_z[:,:-1]], dim=1)
+        loss_z = self._compute_weighted_loss(logits_z, x, loss_mask, t, vocab_size)
 
-        loss = F.cross_entropy(logits.reshape(-1, vocab_size), x.reshape(-1), reduction="none").float()   # num_masked samples
-        
-        loss = loss.masked_fill(~loss_mask.reshape(-1), 0)
-        
-        if self.diff_args.token_reweighting:
-            loss = self.diff_args.alpha * (1 - torch.exp(-loss)) ** self.diff_args.gamma * loss
+        loss = loss_z
+        if extras is not None and "x_plain" in extras and "mask_plain" in extras:
+            x_plain = extras["x_plain"]
+            mask_plain = extras["mask_plain"]
+            logits_o = model(x_plain, t, attention_mask=torch.ones_like(x_plain))
+            logits_o = torch.cat([logits_o[:,0:1], logits_o[:,:-1]], dim=1)
+            loss_o = self._compute_weighted_loss(logits_o, x, mask_plain, t, vocab_size)
+            lambda_z = self._z_mask_weight_schedule()
+            loss = (1 - lambda_z) * loss_o + lambda_z * loss_z
+            self._log_dual_losses(loss_o, loss_z, loss, lambda_z)
 
-        if self.diff_args.time_reweighting == 'original':
-            weight = 1 / (t+1)[:, None].float()
-        elif self.diff_args.time_reweighting == 'linear':
-            weight = (num_timesteps - t)[:, None].float()
-        else:
-            weight = t.new_ones((batch_size, 1)).float()
-
-        weight = weight.expand(loss_mask.size())  # b,n, only [MASK] position have loss
-        loss = (loss * weight.reshape(-1)).sum() / loss_mask.sum()   # avg token loss
         return loss
 
 
@@ -438,6 +580,7 @@ class CustomDiffusionTrainer(Trainer):
                         init_maskable_mask=init_maskable_mask,
                         t=t,
                         schedule=decoding_schedule,
+                        method=denoise_method,
                     )
                 else:
                     xt = x0
@@ -452,15 +595,19 @@ class CustomDiffusionTrainer(Trainer):
         init_maskable_mask,
         t,
         schedule,
+        method: Optional[str] = None,
+        is_batch: bool = False,
     ):
-        method = getattr(self.diff_args, "denoise_method", "origin")
-        if method == "origin":
+        denoise_method = method if method is not None else getattr(self.diff_args, "denoise_method", "origin")
+        if denoise_method == "origin":
+            if is_batch:
+                return self._origin_denoise_step_batch(xt, x0, maskable_mask, t)
             return self._origin_denoise_step(xt, x0, maskable_mask, t)
 
-        if method in {"topk", "topk-margin"}:
+        if denoise_method in {"topk", "topk-margin"}:
             if selection_scores is None:
                 raise ValueError("Selection scores are required for topk-based denoising.")
-            xt = topk_decoding(
+            new_xt = topk_decoding(
                 x0,
                 selection_scores,
                 schedule,
@@ -469,9 +616,9 @@ class CustomDiffusionTrainer(Trainer):
                 self.diff_args.diffusion_steps,
                 self.tokenizer.mask_token_id,
             )
-            return xt, maskable_mask
+            return new_xt, maskable_mask
 
-        raise ValueError(f"Unsupported denoise_method: {method}")
+        raise ValueError(f"Unsupported denoise_method: {denoise_method}")
 
     @staticmethod
     def _compute_margin_scores(log_scores: torch.Tensor) -> torch.Tensor:
@@ -480,9 +627,28 @@ class CustomDiffusionTrainer(Trainer):
 
     @staticmethod
     def _origin_denoise_step(xt, x0, maskable_mask, t):
-        unmask_prob = 1 / (t+1)
+        unmask_prob = 1 / (t + 1)
         mask_to_x0 = torch.rand(xt.shape, device=xt.device) < unmask_prob
         mask_to_x0 = torch.bitwise_and(mask_to_x0, maskable_mask)
+        xt[mask_to_x0] = x0[mask_to_x0]
+        maskable_mask = maskable_mask.clone()
+        maskable_mask.masked_fill_(mask_to_x0, False)
+        return xt, maskable_mask
+
+    @staticmethod
+    def _origin_denoise_step_batch(xt, x0, maskable_mask, t):
+        if not torch.is_tensor(t):
+            t = torch.tensor(t, device=xt.device)
+        t = t.to(device=xt.device)
+        if t.dim() == 0:
+            t = t.unsqueeze(0)
+        if t.size(0) != xt.size(0):
+            t = t.expand(xt.size(0))
+
+        unmask_prob = (1 / (t + 1).float()).unsqueeze(-1)
+        mask_to_x0 = torch.rand_like(xt, dtype=torch.float) < unmask_prob
+        mask_to_x0 = torch.bitwise_and(mask_to_x0, maskable_mask)
+        xt = xt.clone()
         xt[mask_to_x0] = x0[mask_to_x0]
         maskable_mask = maskable_mask.clone()
         maskable_mask.masked_fill_(mask_to_x0, False)
@@ -517,8 +683,18 @@ class CustomDiffusionTrainer(Trainer):
 def topk_masking(scores, cutoff_len):
     """Selects the lowest-scored positions deterministically."""
     sorted_scores = scores.sort(-1)[0]
+    # ensure cutoff_len has shape [B, 1] so that each sample has
+    # a single scalar cutoff index, matching the semantic of
+    # "select k lowest-scored positions per sample"
+    if cutoff_len.dim() == 1:
+        cutoff_len = cutoff_len.unsqueeze(-1)
+
     cutoff_len = cutoff_len.clamp(min=0, max=scores.size(-1) - 1)
+
+    # gather the per-sample cutoff score at position cutoff_len
     cutoff = sorted_scores.gather(dim=-1, index=cutoff_len)
+
+    # scores: [B, L], cutoff: [B, 1] -> broadcast to [B, L]
     return scores < cutoff
 
 
@@ -531,14 +707,34 @@ def topk_decoding(
         max_step,
         noise
     ):
+        # t can be a tensor of shape [B] (different time step per sample)
+        # or a scalar. We want a per-sample rate in both cases.
+        if isinstance(t, torch.Tensor):
+            # make sure t is float tensor on the same device
+            t_tensor = t.to(dtype=torch.float32, device=init_maskable_mask.device)
+            if t_tensor.dim() == 0:
+                # expand scalar to per-sample tensor
+                t_tensor = t_tensor.expand(init_maskable_mask.size(0))
+        else:
+            # scalar -> expand to [B]
+            t_tensor = torch.full(
+                (init_maskable_mask.size(0),),
+                float(t),
+                dtype=torch.float32,
+                device=init_maskable_mask.device,
+            )
+
         if schedule == "linear":
-            rate = t / max_step
+            # rate: [B]
+            rate = t_tensor / float(max_step)
         elif schedule == "cosine":
-            rate = np.cos((max_step - t) / max_step * np.pi * 0.5)
+            rate = torch.cos((float(max_step) - t_tensor) / float(max_step) * math.pi * 0.5)
         else:
             raise NotImplementedError
 
-        cutoff_len = (init_maskable_mask.sum(1, keepdim=True) * rate).long()
+        # init_maskable_mask.sum(1, keepdim=True): [B, 1]
+        # rate.unsqueeze(1): [B, 1]
+        cutoff_len = (init_maskable_mask.sum(1, keepdim=True).float() * rate.unsqueeze(1)).long()
         _scores_for_topk = selection_scores.masked_fill(~init_maskable_mask, 1000.0)
         lowest_k_mask = topk_masking(_scores_for_topk, cutoff_len)
 

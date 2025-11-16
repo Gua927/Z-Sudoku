@@ -34,6 +34,18 @@ class DiffusionArguments:
         default="origin",
         metadata={"help": "Denoising method: origin | topk | topk-margin."}
     )
+    z_mask: bool = field(
+        default=False,
+        metadata={"help": "Enable z-mask forward strategy that adds two mask steps then denoises once."}
+    )
+    z_mask_method: str = field(
+        default="origin",
+        metadata={"help": "Denoising method used during z-mask forward: origin | topk | topk-margin."}
+    )
+    z_mask_temperature: Optional[float] = field(
+        default=None,
+        metadata={"help": "Sampling temperature for z-mask denoising; None falls back to main temperature."}
+    )
     eval_denoise_method: Optional[str] = field(
         default=None,
         metadata={"help": "Optional override for evaluation denoising method."}
@@ -54,6 +66,8 @@ class DiffusionArguments:
 
         if self.eval_denoise_method is not None and self.eval_denoise_method not in supported:
             raise ValueError(f"Unsupported eval_denoise_method: {self.eval_denoise_method}. Choose from {supported}.")
+        if self.z_mask_method not in supported:
+            raise ValueError(f"Unsupported z_mask_method: {self.z_mask_method}. Choose from {supported}.")
 
         if self.eval_denoise_methods:
             invalid = [m for m in self.eval_denoise_methods if m not in supported]
