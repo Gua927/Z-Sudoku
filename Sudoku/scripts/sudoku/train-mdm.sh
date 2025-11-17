@@ -6,7 +6,7 @@ dataset=sudoku_train
 # Ensure absolute path to model config to avoid cwd issues
 MODEL_DIR=$(pwd)/model_config_tiny
 
-exp=output/sudoku/Vanilla
+exp=output/sudoku/Zmask-topk-margin-temp0-sigmoid0.1
 mkdir -p $exp
 
 python3 -c "import swanlab; swanlab.sync_wandb()" && \
@@ -24,9 +24,11 @@ src/train_bash.py \
     --output_dir $exp \
     --overwrite_cache \
     --per_device_train_batch_size 2048 \
-    --z_mask False \
-    --z_mask_method origin \
+    --z_mask True \
+    --z_mask_method topk-margin \
     --z_mask_temperature 0 \
+    --z_schedule sigmoid \
+    --z_sigmoid_center 0.1 \
     --gradient_accumulation_steps 1 \
     --lr_scheduler_type cosine \
     --logging_steps 1 \
@@ -39,7 +41,7 @@ src/train_bash.py \
     --save_steps 500 \
     --learning_rate 1e-3 \
     --num_train_epochs 500.0 \
-    --run_name Sudoku-Vanilla \
+    --run_name Sudoku-Zmask-topk-margin-temp0-sigmoid0.1 \
     --preprocessing_num_workers 8 \
     --fp16 \
     --save_total_limit 1 \

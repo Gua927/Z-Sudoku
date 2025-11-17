@@ -58,6 +58,14 @@ class DiffusionArguments:
         default=None,
         metadata={"help": "[Deprecated] Backwards compatibility alias for denoise_method."}
     )
+    z_schedule: str = field(
+        default="cos",
+        metadata={"help": "Weight schedule for combining loss_o and loss_z: cos | all-z | sigmoid."}
+    )
+    z_sigmoid_center: float = field(
+        default=0.5,
+        metadata={"help": "Center b in [0,1] for sigmoid z_schedule; b * total_steps is the center step."}
+    )
 
     def __post_init__(self):
         supported = {"origin", "topk", "topk-margin"}
@@ -79,3 +87,14 @@ class DiffusionArguments:
                 self.denoise_method = "topk"
             elif (not self.topk_decoding) and self.denoise_method == "topk":
                 self.denoise_method = "origin"
+
+        # normalize z_schedule
+        self.z_schedule = (self.z_schedule or "cos").lower()
+        if self.z_schedule not in {"cos", "all-z", "sigmoid"}:
+            raise ValueError(f"Unsupported z_schedule: {self.z_schedule}. Choose from {{'cos', 'all-z', 'sigmoid'}}.")
+
+        # clamp z_sigmoid_center into [0,1]
+        if self.z_sigmoid_center < 0.0:
+            self.z_sigmoid_center = 0.0
+        elif self.z_sigmoid_center > 1.0:
+            self.z_sigmoid_center = 1.0

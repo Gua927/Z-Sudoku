@@ -407,15 +407,43 @@ class CustomDiffusionTrainer(Trainer):
         return base[:, None].expand_as(template_mask).float()
 
     def _z_mask_weight_schedule(self):
-        total_epochs = max(1.0, float(getattr(self.args, "num_train_epochs", 1.0)))
-        current_epoch = getattr(self.state, "epoch", None)
-        if current_epoch is None:
-            max_steps = max(1, getattr(self.state, "max_steps", 1) or 1)
-            progress = min(1.0, getattr(self.state, "global_step", 0) / max_steps)
-        else:
-            progress = float(current_epoch) / total_epochs
-            progress = min(max(progress, 0.0), 1.0)
+        """Return lambda_z in [0,1] according to z_schedule.
 
+        progress 定义为已训练步数比例 in [0,1]，默认使用余弦调度。
+        额外支持：
+        - all-z: 始终为 1，只用 loss_z
+        - sigmoid: 使用 Sigmoid(a*(p-b))，a=5，b in [0,1]
+        """
+        # 计算当前训练进度（步数比例）
+        max_steps = max(1, getattr(self.state, "max_steps", 1) or 1)
+        progress = getattr(self.state, "global_step", 0) / max_steps
+        progress = float(min(max(progress, 0.0), 1.0))
+
+        # 读取调度方式，默认 cos
+        z_schedule = getattr(self.diff_args, "z_schedule", "cos")
+        z_schedule = str(z_schedule).lower()
+
+        # all-z: 始终 1
+        if z_schedule == "all-z":
+            return 1.0
+
+        # sigmoid: lambda(p) = sigmoid(a*(p-b)), a=5, b in [0,1]
+        if z_schedule == "sigmoid":
+            # a 固定为 5，b 可由 diff_args.z_sigmoid_center 控制，范围 [0,1]
+            a = 5.0
+            b = float(getattr(self.diff_args, "z_sigmoid_center", 0.5))
+            b = min(max(b, 0.0), 1.0)
+            x = a * (progress - b)
+            # 数值稳定的 Sigmoid
+            if x >= 0:
+                exp_neg_x = math.exp(-x)
+                weight = 1.0 / (1.0 + exp_neg_x)
+            else:
+                exp_x = math.exp(x)
+                weight = exp_x / (1.0 + exp_x)
+            return float(min(max(weight, 0.0), 1.0))
+
+        # 默认：余弦调度，从 0 平滑增加到 1
         weight = 0.5 * (1.0 - math.cos(math.pi * progress))
         return float(min(max(weight, 0.0), 1.0))
 
