@@ -324,11 +324,16 @@ class CustomDiffusionTrainer(Trainer):
             t_plus=t_plus,
             attention_mask=attention_mask,
         )
+        
+        loss_mask = final_mask
+        if getattr(self.diff_args, "reunmask", False):
+            loss_mask = mask_t_plus
+
         extras = {
             "x_plain": x_plain,
             "mask_plain": mask_t,
         }
-        return x_t, t, final_mask, extras
+        return x_t, t, loss_mask, extras
 
     @staticmethod
     def _mask_from_uniform(uniform_noise: torch.Tensor, ratios: torch.Tensor, maskable_mask: torch.Tensor) -> torch.Tensor:

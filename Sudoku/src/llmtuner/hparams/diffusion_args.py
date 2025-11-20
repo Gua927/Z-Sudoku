@@ -71,6 +71,10 @@ class DiffusionArguments:
         default=0.8,
         metadata={"help": "Ratio of hard mask (topk) in downk decoding. Remaining part is soft mask (origin)."}
     )
+    reunmask: bool = field(
+        default=False,
+        metadata={"help": "If True, predict logits for unmasked positions in z-mask step and include them in loss."}
+    )
 
     def __post_init__(self):
         supported = {"origin", "topk", "topk-margin", "downk"}
