@@ -574,6 +574,10 @@ class CustomDiffusionTrainer(Trainer):
         denoise_method = getattr(self.diff_args, "denoise_method", "origin")
         decoding_schedule = self._extract_schedule(getattr(self.diff_args, "decoding_strategy", "linear"))
         
+        # Track tokens that can be modified (re-unmasked)
+        modifiable_mask = torch.zeros_like(maskable_mask)
+        do_reunmask = getattr(self.diff_args, "reunmask", False)
+
         for t in range(self.diff_args.diffusion_steps-1, -1, -1): # t from T-1 to 0
             with torch.no_grad():
                 if t == self.diff_args.diffusion_steps-1:
@@ -605,6 +609,7 @@ class CustomDiffusionTrainer(Trainer):
                     elif denoise_method == "topk-margin":
                         selection_scores = self._compute_margin_scores(scores)
 
+                    current_mask = maskable_mask.clone()
                     xt, maskable_mask = self._apply_denoise_strategy(
                         xt=xt,
                         x0=x0,
@@ -615,8 +620,20 @@ class CustomDiffusionTrainer(Trainer):
                         schedule=decoding_schedule,
                         method=denoise_method,
                     )
+                    
+                    if do_reunmask:
+                        # Correct modifiable tokens using argmax
+                        correction_tokens = logits.argmax(dim=-1)
+                        xt = xt.masked_scatter(modifiable_mask, correction_tokens[modifiable_mask])
+                        # Update modifiable mask: tokens unmasked in this step
+                        modifiable_mask = current_mask & (~maskable_mask)
+
                 else:
                     xt = x0
+                    if do_reunmask:
+                        correction_tokens = logits.argmax(dim=-1)
+                        xt = xt.masked_scatter(modifiable_mask, correction_tokens[modifiable_mask])
+                        
         return xt
 
     def _apply_denoise_strategy(
