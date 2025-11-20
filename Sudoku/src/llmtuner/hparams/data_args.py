@@ -32,6 +32,10 @@ class DataArguments:
         default=None,
         metadata={"help": "The name of provided dataset(s) to use. Use commas to separate multiple datasets."}
     )
+    eval_dataset: Optional[str] = field(
+        default=None,
+        metadata={"help": "The name of provided dataset(s) to use for evaluation. Use commas to separate multiple datasets."}
+    )
     dataset_dir: Optional[str] = field(
         default="data",
         metadata={"help": "The name of the folder containing datasets."}
@@ -118,13 +122,14 @@ class DataArguments:
     def init_for_training(self, seed: int): # support mixing multiple datasets
         self.seed = seed
         dataset_names = [ds.strip() for ds in self.dataset.split(",")] if self.dataset is not None else []
+        eval_dataset_names = [ds.strip() for ds in self.eval_dataset.split(",")] if self.eval_dataset is not None else []
+        
+        dataset_info = {}
         try:
             with open(os.path.join(self.dataset_dir, "dataset_info.json"), "r") as f:
                 dataset_info = json.load(f)
         except Exception:
-            if self.dataset is not None:
-                raise ValueError("Cannot find dataset_info.json in `dataset_dir`.")
-            dataset_info = None
+            pass
 
         prompt_list = self.system_prompt.split("|") if self.system_prompt else [None]
         prompt_list = prompt_list * (len(dataset_names) // len(prompt_list))
@@ -133,29 +138,39 @@ class DataArguments:
         if self.interleave_probs is not None:
             self.interleave_probs = [float(prob.strip()) for prob in self.interleave_probs.split(",")]
 
+        def get_dataset_attr(name, system_prompt=None):
+            if name in dataset_info:
+                if "hf_hub_url" in dataset_info[name]:
+                    dataset_attr = DatasetAttr("hf_hub", dataset_name=dataset_info[name]["hf_hub_url"])
+                elif "script_url" in dataset_info[name]:
+                    dataset_attr = DatasetAttr("script", dataset_name=dataset_info[name]["script_url"])
+                else:
+                    dataset_attr = DatasetAttr(
+                        "file",
+                        dataset_name=dataset_info[name]["file_name"],
+                        dataset_sha1=dataset_info[name].get("file_sha1", None)
+                    )
+
+                if "columns" in dataset_info[name]:
+                    dataset_attr.prompt = dataset_info[name]["columns"].get("prompt", None)
+                    dataset_attr.query = dataset_info[name]["columns"].get("query", None)
+                    dataset_attr.response = dataset_info[name]["columns"].get("response", None)
+                    dataset_attr.history = dataset_info[name]["columns"].get("history", None)
+
+                dataset_attr.ranking = dataset_info[name].get("ranking", False)
+                dataset_attr.formatting = dataset_info[name].get("formatting", "alpaca")
+            elif os.path.isfile(name) or os.path.isfile(os.path.join(self.dataset_dir, name)):
+                dataset_attr = DatasetAttr("file", dataset_name=name)
+            else:
+                raise ValueError("Undefined dataset {} in dataset_info.json and not a valid file path.".format(name))
+            
+            dataset_attr.system_prompt = system_prompt
+            return dataset_attr
+
         self.dataset_list: List[DatasetAttr] = []
         for i, name in enumerate(dataset_names):
-            if name not in dataset_info:
-                raise ValueError("Undefined dataset {} in dataset_info.json.".format(name))
+            self.dataset_list.append(get_dataset_attr(name, prompt_list[i]))
 
-            if "hf_hub_url" in dataset_info[name]:
-                dataset_attr = DatasetAttr("hf_hub", dataset_name=dataset_info[name]["hf_hub_url"])
-            elif "script_url" in dataset_info[name]:
-                dataset_attr = DatasetAttr("script", dataset_name=dataset_info[name]["script_url"])
-            else:
-                dataset_attr = DatasetAttr(
-                    "file",
-                    dataset_name=dataset_info[name]["file_name"],
-                    dataset_sha1=dataset_info[name].get("file_sha1", None)
-                )
-
-            if "columns" in dataset_info[name]:
-                dataset_attr.prompt = dataset_info[name]["columns"].get("prompt", None)
-                dataset_attr.query = dataset_info[name]["columns"].get("query", None)
-                dataset_attr.response = dataset_info[name]["columns"].get("response", None)
-                dataset_attr.history = dataset_info[name]["columns"].get("history", None)
-
-            dataset_attr.ranking = dataset_info[name].get("ranking", False)
-            dataset_attr.formatting = dataset_info[name].get("formatting", "alpaca")
-            dataset_attr.system_prompt = prompt_list[i]
-            self.dataset_list.append(dataset_attr)
+        self.eval_dataset_list: List[DatasetAttr] = []
+        for i, name in enumerate(eval_dataset_names):
+            self.eval_dataset_list.append(get_dataset_attr(name, None))

@@ -7,8 +7,11 @@ from llmtuner.dsets import get_dataset, preprocess_dataset, split_dataset
 from llmtuner.extras.ploting import plot_loss
 from llmtuner.tuner.core import load_model_and_tokenizer
 from llmtuner.tuner.core.metric import compute_acc
+from llmtuner.extras.logging import get_logger
 import torch.distributed as dist
 from functools import partial
+
+logger = get_logger(__name__)
 
 try:
     import wandb
@@ -51,6 +54,25 @@ def run(
     
     data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
 
+    if data_args.eval_dataset is not None and data_args.val_size > 1e-6:
+        logger.warning("`val_size` has been ignored because `eval_dataset` is provided.")
+        data_args.val_size = 0.0
+
+    split_data = split_dataset(dataset, data_args, training_args)
+
+    if data_args.eval_dataset is not None:
+        # Temporarily swap dataset_list to load eval dataset
+        original_dataset_list = data_args.dataset_list
+        data_args.dataset_list = data_args.eval_dataset_list
+        
+        eval_dataset = get_dataset(model_args, data_args)
+        eval_dataset = preprocess_dataset(eval_dataset, tokenizer, data_args, training_args, stage=finetuning_args.stage)
+        
+        data_args.dataset_list = original_dataset_list # Restore
+        
+        # Override eval_dataset in split_data
+        split_data["eval_dataset"] = eval_dataset
+
     # Initialize our Trainer
     trainer = trainer_cls(
         diff_args=diffusion_args,
@@ -64,7 +86,7 @@ def run(
         eval_temperature=getattr(generating_args, "eval_temperature", None),
         eval_denoise_method=getattr(diffusion_args, "eval_denoise_method", None),
         eval_temperatures=getattr(generating_args, "eval_temperatures", None),
-        **split_dataset(dataset, data_args, training_args)
+        **split_data
     )
 
     # Training
