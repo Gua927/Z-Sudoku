@@ -67,8 +67,13 @@ class DiffusionArguments:
         metadata={"help": "Center b in [0,1] for sigmoid z_schedule; b * total_steps is the center step."}
     )
 
+    downk_ratio: float = field(
+        default=0.8,
+        metadata={"help": "Ratio of hard mask (topk) in downk decoding. Remaining part is soft mask (origin)."}
+    )
+
     def __post_init__(self):
-        supported = {"origin", "topk", "topk-margin"}
+        supported = {"origin", "topk", "topk-margin", "downk"}
         if self.denoise_method not in supported:
             raise ValueError(f"Unsupported denoise_method: {self.denoise_method}. Choose from {supported}.")
 

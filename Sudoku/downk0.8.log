@@ -1,0 +1,1098 @@
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+The following values were not passed to `accelerate launch` and had defaults used instead:
+	`--dynamo_backend` was set to a value of `'no'`
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+[INFO|configuration_utils.py:763] 2025-11-20 11:22:59,509 >> loading configuration file /root/code/EasyMDM/Sudoku/model_config_tiny/config.json
+[INFO|configuration_utils.py:839] 2025-11-20 11:22:59,515 >> Model config GPT2Config {
+  "activation_function": "gelu_new",
+  "architectures": [
+    "GPT2LMHeadModel"
+  ],
+  "attn_pdrop": 0.1,
+  "bos_token_id": 3,
+  "embd_pdrop": 0.1,
+  "eos_token_id": 3,
+  "initializer_range": 0.02,
+  "layer_norm_epsilon": 1e-05,
+  "model_type": "gpt2",
+  "n_ctx": 512,
+  "n_embd": 384,
+  "n_head": 12,
+  "n_inner": null,
+  "n_layer": 3,
+  "n_positions": 512,
+  "reorder_and_upcast_attn": false,
+  "resid_pdrop": 0.1,
+  "scale_attn_by_inverse_layer_idx": false,
+  "scale_attn_weights": true,
+  "summary_activation": null,
+  "summary_first_dropout": 0.1,
+  "summary_proj_to_labels": true,
+  "summary_type": "cls_index",
+  "summary_use_proj": true,
+  "task_specific_params": {
+    "text-generation": {
+      "do_sample": true,
+      "max_length": 50
+    }
+  },
+  "transformers_version": "4.57.1",
+  "use_cache": true,
+  "vocab_size": 31
+}
+
+[WARNING|logging.py:328] 2025-11-20 11:22:59,515 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING|logging.py:328] 2025-11-20 11:22:59,518 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING|logging.py:328] 2025-11-20 11:22:59,540 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[INFO|modeling_utils.py:2341] 2025-11-20 11:22:59,541 >> Instantiating GPT2LMHeadModel model under default dtype torch.float16.
+[INFO|configuration_utils.py:986] 2025-11-20 11:22:59,543 >> Generate config GenerationConfig {
+  "bos_token_id": 3,
+  "eos_token_id": 3
+}
+
+[WARNING|logging.py:328] 2025-11-20 11:22:59,544 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[INFO|training_args.py:1715] 2025-11-20 11:22:59,991 >> Found safetensors installation, but --save_safetensors=False. Safetensors should be a preferred weights saving format due to security and performance reasons. If your model cannot be saved by safetensors please feel free to open an issue at https://github.com/huggingface/safetensors!
+[INFO|training_args.py:2222] 2025-11-20 11:22:59,992 >> PyTorch: setting up devices
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/training_args.py:2111: FutureWarning: `--push_to_hub_token` is deprecated and will be removed in version 5 of 🤗 Transformers. Use `--hub_token` instead.
+  warnings.warn(
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/datasets/load.py:2516: FutureWarning: 'use_auth_token' was deprecated in favor of 'token' in version 2.14.0 and will be removed in 3.0.0.
+You can remove this warning by passing 'token=<use_auth_token>' instead.
+  warnings.warn(
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/training_args.py:2111: FutureWarning: `--push_to_hub_token` is deprecated and will be removed in version 5 of 🤗 Transformers. Use `--hub_token` instead.
+  warnings.warn(
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/datasets/load.py:2516: FutureWarning: 'use_auth_token' was deprecated in favor of 'token' in version 2.14.0 and will be removed in 3.0.0.
+You can remove this warning by passing 'token=<use_auth_token>' instead.
+  warnings.warn(
+Using custom data configuration default-9ce9c063e0e7477c
+Loading Dataset Infos from /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/datasets/packaged_modules/csv
+Overwrite dataset info from restored data version if exists.
+Loading Dataset info from /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
+  warnings.warn(  # warn only once
+[rank1]:[W1120 11:23:01.015080876 ProcessGroupNCCL.cpp:5023] [PG ID 0 PG GUID 0 Rank 1]  using GPU 1 as device used by this process is currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. You can specify device_id in init_process_group() to force use of a particular device.
+Found cached dataset csv (/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6)
+Loading Dataset info from /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6
+Process #0 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-fcf14494b65aa529_00000_of_00008.arrow
+Process #1 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-fcf14494b65aa529_00001_of_00008.arrow
+Process #2 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-fcf14494b65aa529_00002_of_00008.arrow
+Process #3 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-fcf14494b65aa529_00003_of_00008.arrow
+Process #4 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-fcf14494b65aa529_00004_of_00008.arrow
+Process #5 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-fcf14494b65aa529_00005_of_00008.arrow
+Process #6 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-fcf14494b65aa529_00006_of_00008.arrow
+Process #7 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-fcf14494b65aa529_00007_of_00008.arrow
+Spawning 8 processes
+Running tokenizer on dataset (num_proc=8):   0%|          | 0/100000 [00:00<?, ? examples/s]Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-fcf14494b65aa529_00001_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-fcf14494b65aa529_00002_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-fcf14494b65aa529_00003_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-fcf14494b65aa529_00005_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-fcf14494b65aa529_00006_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-fcf14494b65aa529_00007_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-fcf14494b65aa529_00000_of_00008.arrow
+Running tokenizer on dataset (num_proc=8):   1%|          | 1000/100000 [00:00<00:40, 2447.00 examples/s]Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-fcf14494b65aa529_00004_of_00008.arrow
+Running tokenizer on dataset (num_proc=8):   9%|▉         | 9000/100000 [00:00<00:06, 13513.01 examples/s]Running tokenizer on dataset (num_proc=8):  17%|█▋        | 17000/100000 [00:01<00:04, 17467.25 examples/s]Running tokenizer on dataset (num_proc=8):  25%|██▌       | 25000/100000 [00:01<00:03, 19321.96 examples/s]Running tokenizer on dataset (num_proc=8):  33%|███▎      | 33000/100000 [00:01<00:03, 20462.38 examples/s]Running tokenizer on dataset (num_proc=8):  41%|████      | 41000/100000 [00:02<00:02, 21138.68 examples/s]Running tokenizer on dataset (num_proc=8):  49%|████▉     | 49000/100000 [00:02<00:02, 21594.14 examples/s]Running tokenizer on dataset (num_proc=8):  57%|█████▋    | 57000/100000 [00:02<00:01, 21847.59 examples/s]Running tokenizer on dataset (num_proc=8):  65%|██████▌   | 65000/100000 [00:03<00:01, 22030.04 examples/s]Running tokenizer on dataset (num_proc=8):  73%|███████▎  | 73000/100000 [00:03<00:01, 22147.68 examples/s]Running tokenizer on dataset (num_proc=8):  81%|████████  | 81000/100000 [00:03<00:00, 22218.81 examples/s]Running tokenizer on dataset (num_proc=8):  89%|████████▉ | 89000/100000 [00:04<00:00, 22308.42 examples/s]Running tokenizer on dataset (num_proc=8):  96%|█████████▋| 96500/100000 [00:04<00:00, 25850.93 examples/s]Running tokenizer on dataset (num_proc=8): 100%|██████████| 100000/100000 [00:04<00:00, 21513.46 examples/s]
+Concatenating 8 shards
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
+  warnings.warn(  # warn only once
+[rank0]:[W1120 11:23:05.874500334 ProcessGroupNCCL.cpp:5023] [PG ID 0 PG GUID 0 Rank 0]  using GPU 0 as device used by this process is currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. You can specify device_id in init_process_group() to force use of a particular device.
+Loading cached split indices for dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-e565033d33fc0243.arrow and /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-f754d2c095937cee.arrow
+/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/trainer.py:80: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `CustomDiffusionTrainer.__init__`. Use `processing_class` instead.
+  super().__init__(
+Detected kernel version 5.4.250, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+Running tokenizer on dataset (num_proc=8):   0%|          | 0/100000 [00:00<?, ? examples/s][INFO|trainer.py:749] 2025-11-20 11:23:06,846 >> Using auto half precision backend
+[WARNING|trainer.py:820] 2025-11-20 11:23:06,847 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:06,848 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:982] 2025-11-20 11:23:06,848 >> The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'bos_token_id': None, 'pad_token_id': 0}.
+Running tokenizer on dataset (num_proc=8):   1%|          | 1000/100000 [00:00<00:40, 2444.21 examples/s]Running tokenizer on dataset (num_proc=8):   9%|▉         | 9000/100000 [00:00<00:06, 13565.65 examples/s]Running tokenizer on dataset (num_proc=8):  17%|█▋        | 17000/100000 [00:01<00:04, 17556.16 examples/s]Running tokenizer on dataset (num_proc=8):  25%|██▌       | 25000/100000 [00:01<00:03, 19457.87 examples/s]Running tokenizer on dataset (num_proc=8):  33%|███▎      | 33000/100000 [00:01<00:03, 20596.60 examples/s]Running tokenizer on dataset (num_proc=8):  41%|████      | 41000/100000 [00:02<00:02, 21239.42 examples/s]Running tokenizer on dataset (num_proc=8):  49%|████▉     | 49000/100000 [00:02<00:02, 21707.29 examples/s]Running tokenizer on dataset (num_proc=8):  57%|█████▋    | 57000/100000 [00:02<00:01, 21997.80 examples/s]Running tokenizer on dataset (num_proc=8):  65%|██████▌   | 65000/100000 [00:03<00:01, 22162.46 examples/s]Running tokenizer on dataset (num_proc=8):  73%|███████▎  | 73000/100000 [00:03<00:01, 22339.97 examples/s]Running tokenizer on dataset (num_proc=8):  81%|████████  | 81000/100000 [00:03<00:00, 22389.96 examples/s]Running tokenizer on dataset (num_proc=8):  89%|████████▉ | 89000/100000 [00:04<00:00, 22438.74 examples/s]Running tokenizer on dataset (num_proc=8):  96%|█████████▋| 96500/100000 [00:04<00:00, 26016.26 examples/s]Running tokenizer on dataset (num_proc=8): 100%|██████████| 100000/100000 [00:04<00:00, 21583.69 examples/s]
+/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/trainer.py:80: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `CustomDiffusionTrainer.__init__`. Use `processing_class` instead.
+  super().__init__(
+[WARNING|trainer.py:820] 2025-11-20 11:23:11,718 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:11,718 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:982] 2025-11-20 11:23:11,719 >> The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'bos_token_id': None, 'pad_token_id': 0}.
+[INFO|trainer.py:2519] 2025-11-20 11:23:11,966 >> ***** Running training *****
+[INFO|trainer.py:2520] 2025-11-20 11:23:11,966 >>   Num examples = 98,976
+[INFO|trainer.py:2521] 2025-11-20 11:23:11,966 >>   Num Epochs = 300
+[INFO|trainer.py:2522] 2025-11-20 11:23:11,967 >>   Instantaneous batch size per device = 2,048
+[INFO|trainer.py:2525] 2025-11-20 11:23:11,967 >>   Total train batch size (w. parallel, distributed & accumulation) = 4,096
+[INFO|trainer.py:2526] 2025-11-20 11:23:11,967 >>   Gradient Accumulation steps = 1
+[INFO|trainer.py:2527] 2025-11-20 11:23:11,967 >>   Total optimization steps = 7,500
+[INFO|trainer.py:2528] 2025-11-20 11:23:11,967 >>   Number of trainable parameters = 5,532,672
+[INFO|integration_utils.py:867] 2025-11-20 11:23:11,967 >> Automatic Weights & Biases logging enabled, to disable set os.environ["WANDB_DISABLED"] = "true"
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+[WARNING|trainer.py:820] 2025-11-20 11:23:13,783 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:13,935 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+wandb: Tracking run with wandb version 0.15.3
+wandb: W&B syncing is set to `offline` in this directory.  
+wandb: Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+[INFO|integration_utils.py:915] 2025-11-20 11:23:17,469 >> Could not log the number of model parameters in Weights & Biases due to an AttributeError.
+[INFO|integration_utils.py:2388] 2025-11-20 11:23:17,469 >> Automatic SwanLab logging enabled, to disable set os.environ["SWANLAB_MODE"] = "disabled"
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/boto3/compat.py:84: PythonDeprecationWarning: Boto3 will no longer support Python 3.9 starting April 29, 2026. To continue receiving service updates, bug fixes, and security updates please upgrade to Python 3.10 or later. More information can be found here: https://aws.amazon.com/blogs/developer/python-support-policy-updates-for-aws-sdks-and-tools/
+  warnings.warn(warning, PythonDeprecationWarning)
+[INFO|integration_utils.py:2425] 2025-11-20 11:23:20,284 >> Could not log the number of model parameters in SwanLab due to an AttributeError.
+  0%|          | 0/7500 [00:00<?, ?it/s][WARNING|trainer.py:820] 2025-11-20 11:23:22,247 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:22,394 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:22,792 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:22,801 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[rank1]:[W1120 11:23:22.930357212 reducer.cpp:1457] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+[rank0]:[W1120 11:23:22.939393254 reducer.cpp:1457] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+                                          0%|          | 0/7500 [00:02<?, ?it/s]  0%|          | 1/7500 [00:03<6:53:43,  3.31s/it]                                                    0%|          | 1/7500 [00:03<6:53:43,  3.31s/it][WARNING|trainer.py:820] 2025-11-20 11:23:24,486 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:24,486 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:24,495 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:24,495 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:24,616 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:24,617 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                    0%|          | 1/7500 [00:04<6:53:43,  3.31s/it]  0%|          | 2/7500 [00:04<4:50:59,  2.33s/it]                                                    0%|          | 2/7500 [00:04<4:50:59,  2.33s/it][WARNING|trainer.py:820] 2025-11-20 11:23:26,115 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:26,115 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:26,120 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:26,120 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:26,241 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:26,242 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                    0%|          | 2/7500 [00:06<4:50:59,  2.33s/it]  0%|          | 3/7500 [00:06<4:10:49,  2.01s/it]                                                    0%|          | 3/7500 [00:06<4:10:49,  2.01s/it][WARNING|trainer.py:820] 2025-11-20 11:23:27,733 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:27,733 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:27,755 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:27,755 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:27,876 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:27,877 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                    0%|          | 3/7500 [00:07<4:10:49,  2.01s/it]  0%|          | 4/7500 [00:08<3:52:21,  1.86s/it]                                                    0%|          | 4/7500 [00:08<3:52:21,  1.86s/it][WARNING|trainer.py:820] 2025-11-20 11:23:29,364 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:29,365 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:29,376 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:29,377 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:29,498 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:29,498 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                    0%|          | 4/7500 [00:09<3:52:21,  1.86s/it]  0%|          | 5/7500 [00:09<3:41:35,  1.77s/it]                                                    0%|          | 5/7500 [00:09<3:41:35,  1.77s/it][WARNING|trainer.py:820] 2025-11-20 11:23:30,977 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:30,977 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:31,007 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:31,008 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:31,129 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:31,129 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                    0%|          | 5/7500 [00:11<3:41:35,  1.77s/it]  0%|          | 6/7500 [00:11<3:35:28,  1.73s/it]                                                    0%|          | 6/7500 [00:11<3:35:28,  1.73s/it][WARNING|trainer.py:820] 2025-11-20 11:23:32,623 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:32,623 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:32,627 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:32,627 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:32,748 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:32,748 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                    0%|          | 6/7500 [00:12<3:35:28,  1.73s/it]  0%|          | 7/7500 [00:13<3:31:07,  1.69s/it]                                                    0%|          | 7/7500 [00:13<3:31:07,  1.69s/it][WARNING|trainer.py:820] 2025-11-20 11:23:34,244 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:34,245 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:34,247 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:34,247 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:34,366 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:34,368 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                    0%|          | 7/7500 [00:14<3:31:07,  1.69s/it]  0%|          | 8/7500 [00:14<3:28:13,  1.67s/it]                                                    0%|          | 8/7500 [00:14<3:28:13,  1.67s/it][WARNING|trainer.py:820] 2025-11-20 11:23:35,852 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:35,853 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:35,877 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:35,877 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:35,998 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:35,998 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                    0%|          | 8/7500 [00:15<3:28:13,  1.67s/it]  0%|          | 9/7500 [00:16<3:26:48,  1.66s/it]                                                    0%|          | 9/7500 [00:16<3:26:48,  1.66s/it][WARNING|trainer.py:820] 2025-11-20 11:23:37,483 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:37,483 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:37,495 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:37,495 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:37,616 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:37,616 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                    0%|          | 9/7500 [00:17<3:26:48,  1.66s/it]  0%|          | 10/7500 [00:17<3:25:17,  1.64s/it]                                                     0%|          | 10/7500 [00:17<3:25:17,  1.64s/it][WARNING|trainer.py:820] 2025-11-20 11:23:39,089 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:39,089 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:39,104 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:39,105 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:39,226 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:39,226 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 10/7500 [00:19<3:25:17,  1.64s/it]  0%|          | 11/7500 [00:19<3:23:55,  1.63s/it]                                                     0%|          | 11/7500 [00:19<3:23:55,  1.63s/it][WARNING|trainer.py:820] 2025-11-20 11:23:40,691 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:40,691 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:40,709 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:40,709 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:40,830 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:40,830 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 11/7500 [00:20<3:23:55,  1.63s/it]  0%|          | 12/7500 [00:21<3:22:47,  1.62s/it]                                                     0%|          | 12/7500 [00:21<3:22:47,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:23:42,315 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:42,315 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:42,325 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:42,326 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:42,447 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:42,447 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 12/7500 [00:22<3:22:47,  1.62s/it]  0%|          | 13/7500 [00:22<3:22:25,  1.62s/it]                                                     0%|          | 13/7500 [00:22<3:22:25,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:23:43,921 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:43,921 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:43,935 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:43,935 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:44,056 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:44,056 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 13/7500 [00:23<3:22:25,  1.62s/it]  0%|          | 14/7500 [00:24<3:21:54,  1.62s/it]                                                     0%|          | 14/7500 [00:24<3:21:54,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:23:45,531 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:45,532 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:45,533 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:45,533 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:45,654 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:45,655 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 14/7500 [00:25<3:21:54,  1.62s/it]  0%|          | 15/7500 [00:25<3:21:07,  1.61s/it]                                                     0%|          | 15/7500 [00:25<3:21:07,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:23:47,137 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:47,137 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:47,141 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:47,142 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:47,263 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:47,263 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 15/7500 [00:27<3:21:07,  1.61s/it]  0%|          | 16/7500 [00:27<3:20:58,  1.61s/it]                                                     0%|          | 16/7500 [00:27<3:20:58,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:23:48,747 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:48,747 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:48,756 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:48,757 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:48,878 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:48,878 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 16/7500 [00:28<3:20:58,  1.61s/it]  0%|          | 17/7500 [00:29<3:21:04,  1.61s/it]                                                     0%|          | 17/7500 [00:29<3:21:04,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:23:50,364 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:50,364 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:50,387 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:50,388 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:50,509 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:50,509 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 17/7500 [00:30<3:21:04,  1.61s/it]  0%|          | 18/7500 [00:30<3:21:44,  1.62s/it]                                                     0%|          | 18/7500 [00:30<3:21:44,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:23:51,984 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:51,984 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:51,992 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:51,993 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:52,114 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:52,114 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 18/7500 [00:32<3:21:44,  1.62s/it]  0%|          | 19/7500 [00:32<3:21:14,  1.61s/it]                                                     0%|          | 19/7500 [00:32<3:21:14,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:23:53,593 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:53,593 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:53,599 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:53,600 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:53,721 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:53,721 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 19/7500 [00:33<3:21:14,  1.61s/it]  0%|          | 20/7500 [00:34<3:20:57,  1.61s/it]                                                     0%|          | 20/7500 [00:34<3:20:57,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:23:55,200 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:55,200 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:55,206 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:55,206 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:55,327 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:55,327 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 20/7500 [00:35<3:20:57,  1.61s/it]  0%|          | 21/7500 [00:35<3:20:42,  1.61s/it]                                                     0%|          | 21/7500 [00:35<3:20:42,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:23:56,803 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:56,803 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:56,814 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:56,815 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:56,936 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:56,936 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 21/7500 [00:36<3:20:42,  1.61s/it]  0%|          | 22/7500 [00:37<3:20:39,  1.61s/it]                                                     0%|          | 22/7500 [00:37<3:20:39,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:23:58,413 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:58,413 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:58,438 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:58,439 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:58,560 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:23:58,560 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 22/7500 [00:38<3:20:39,  1.61s/it]  0%|          | 23/7500 [00:38<3:21:07,  1.61s/it]                                                     0%|          | 23/7500 [00:38<3:21:07,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:24:00,038 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:00,039 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:00,047 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:00,047 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:00,168 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:00,169 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 23/7500 [00:40<3:21:07,  1.61s/it]  0%|          | 24/7500 [00:40<3:20:53,  1.61s/it]                                                   [WARNING|trainer.py:820] 2025-11-20 11:24:00,825 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:00,825 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+  0%|          | 24/7500 [00:40<3:20:53,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:24:00,827 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:00,828 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:00,948 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:00,949 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 24/7500 [00:40<3:20:53,  1.61s/it]  0%|          | 25/7500 [00:41<2:49:47,  1.36s/it]                                                     0%|          | 25/7500 [00:41<2:49:47,  1.36s/it][WARNING|trainer.py:820] 2025-11-20 11:24:03,239 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:03,239 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:03,491 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:03,491 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:03,612 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:03,622 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 25/7500 [00:43<2:49:47,  1.36s/it]  0%|          | 26/7500 [00:43<3:39:02,  1.76s/it]                                                     0%|          | 26/7500 [00:43<3:39:02,  1.76s/it][WARNING|trainer.py:820] 2025-11-20 11:24:05,103 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:05,103 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:05,107 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:05,108 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:05,228 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:05,229 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 26/7500 [00:45<3:39:02,  1.76s/it]  0%|          | 27/7500 [00:45<3:33:01,  1.71s/it]                                                     0%|          | 27/7500 [00:45<3:33:01,  1.71s/it][WARNING|trainer.py:820] 2025-11-20 11:24:06,709 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:06,709 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:06,720 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:06,720 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:06,841 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:06,841 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 27/7500 [00:46<3:33:01,  1.71s/it]  0%|          | 28/7500 [00:47<3:29:20,  1.68s/it]                                                     0%|          | 28/7500 [00:47<3:29:20,  1.68s/it][WARNING|trainer.py:820] 2025-11-20 11:24:08,308 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:08,308 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:08,327 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:08,328 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:08,449 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:08,449 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 28/7500 [00:48<3:29:20,  1.68s/it]  0%|          | 29/7500 [00:48<3:26:32,  1.66s/it]                                                     0%|          | 29/7500 [00:48<3:26:32,  1.66s/it][WARNING|trainer.py:820] 2025-11-20 11:24:09,915 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:09,915 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:09,925 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:09,925 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:10,046 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:10,046 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 29/7500 [00:49<3:26:32,  1.66s/it]  0%|          | 30/7500 [00:50<3:24:14,  1.64s/it]                                                     0%|          | 30/7500 [00:50<3:24:14,  1.64s/it][WARNING|trainer.py:820] 2025-11-20 11:24:11,514 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:11,514 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:11,533 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:11,534 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:11,655 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:11,655 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 30/7500 [00:51<3:24:14,  1.64s/it]  0%|          | 31/7500 [00:51<3:23:01,  1.63s/it]                                                     0%|          | 31/7500 [00:51<3:23:01,  1.63s/it][WARNING|trainer.py:820] 2025-11-20 11:24:13,133 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:13,133 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:13,140 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:13,140 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:13,261 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:13,262 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 31/7500 [00:53<3:23:01,  1.63s/it]  0%|          | 32/7500 [00:53<3:22:05,  1.62s/it]                                                     0%|          | 32/7500 [00:53<3:22:05,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:24:14,737 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:14,737 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:14,750 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:14,751 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:14,872 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:14,872 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 32/7500 [00:54<3:22:05,  1.62s/it]  0%|          | 33/7500 [00:55<3:21:34,  1.62s/it]                                                     0%|          | 33/7500 [00:55<3:21:34,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:24:16,339 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:16,339 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:16,353 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:16,354 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:16,475 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:16,475 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 33/7500 [00:56<3:21:34,  1.62s/it]  0%|          | 34/7500 [00:56<3:20:56,  1.61s/it]                                                     0%|          | 34/7500 [00:56<3:20:56,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:24:17,949 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:17,949 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:17,974 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:17,975 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:18,095 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:18,096 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 34/7500 [00:58<3:20:56,  1.61s/it]  0%|          | 35/7500 [00:58<3:21:06,  1.62s/it]                                                     0%|          | 35/7500 [00:58<3:21:06,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:24:19,577 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:19,577 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:19,579 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:19,579 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:19,700 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:19,700 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 35/7500 [00:59<3:21:06,  1.62s/it]  0%|          | 36/7500 [01:00<3:20:40,  1.61s/it]                                                     0%|          | 36/7500 [01:00<3:20:40,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:24:21,174 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:21,174 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:21,185 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:21,186 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:21,307 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:21,307 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 36/7500 [01:01<3:20:40,  1.61s/it]  0%|          | 37/7500 [01:01<3:20:25,  1.61s/it]                                                     0%|          | 37/7500 [01:01<3:20:25,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:24:22,786 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:22,786 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:22,793 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:22,794 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:22,915 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:22,915 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     0%|          | 37/7500 [01:02<3:20:25,  1.61s/it]  1%|          | 38/7500 [01:03<3:20:13,  1.61s/it]                                                     1%|          | 38/7500 [01:03<3:20:13,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:24:24,389 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:24,389 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:24,391 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:24,392 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:24,513 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:24,513 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 38/7500 [01:04<3:20:13,  1.61s/it]  1%|          | 39/7500 [01:04<3:19:47,  1.61s/it]                                                     1%|          | 39/7500 [01:04<3:19:47,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:24:25,991 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:25,991 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:25,996 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:25,996 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:26,117 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:26,118 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 39/7500 [01:06<3:19:47,  1.61s/it]  1%|          | 40/7500 [01:06<3:19:39,  1.61s/it]                                                     1%|          | 40/7500 [01:06<3:19:39,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:24:27,589 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:27,589 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:27,599 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:27,599 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:27,720 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:27,720 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 40/7500 [01:07<3:19:39,  1.61s/it]  1%|          | 41/7500 [01:08<3:19:31,  1.61s/it]                                                     1%|          | 41/7500 [01:08<3:19:31,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:24:29,197 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:29,197 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:29,204 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:29,204 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:29,325 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:29,325 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 41/7500 [01:09<3:19:31,  1.61s/it]  1%|          | 42/7500 [01:09<3:19:30,  1.61s/it]                                                     1%|          | 42/7500 [01:09<3:19:30,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:24:30,812 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:30,813 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:30,934 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:31,007 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:31,008 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:31,129 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 42/7500 [01:10<3:19:30,  1.61s/it]  1%|          | 43/7500 [01:11<3:26:45,  1.66s/it]                                                     1%|          | 43/7500 [01:11<3:26:45,  1.66s/it][WARNING|trainer.py:820] 2025-11-20 11:24:32,600 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:32,600 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:32,604 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:32,605 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:32,726 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:32,726 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 43/7500 [01:12<3:26:45,  1.66s/it]  1%|          | 44/7500 [01:13<3:24:24,  1.64s/it]                                                     1%|          | 44/7500 [01:13<3:24:24,  1.64s/it][WARNING|trainer.py:820] 2025-11-20 11:24:34,209 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:34,209 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:34,216 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:34,216 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:34,331 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:34,337 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 44/7500 [01:14<3:24:24,  1.64s/it]  1%|          | 45/7500 [01:14<3:22:57,  1.63s/it]                                                     1%|          | 45/7500 [01:14<3:22:57,  1.63s/it][WARNING|trainer.py:820] 2025-11-20 11:24:35,804 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:35,804 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:35,829 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:35,830 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:35,950 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:35,951 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 45/7500 [01:15<3:22:57,  1.63s/it]  1%|          | 46/7500 [01:16<3:22:23,  1.63s/it]                                                     1%|          | 46/7500 [01:16<3:22:23,  1.63s/it][WARNING|trainer.py:820] 2025-11-20 11:24:37,438 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:37,438 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:37,439 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:37,440 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:37,561 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:37,561 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 46/7500 [01:17<3:22:23,  1.63s/it]  1%|          | 47/7500 [01:17<3:21:36,  1.62s/it]                                                     1%|          | 47/7500 [01:17<3:21:36,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:24:39,032 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:39,032 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:39,040 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:39,040 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:39,161 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:39,161 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 47/7500 [01:19<3:21:36,  1.62s/it]  1%|          | 48/7500 [01:19<3:20:42,  1.62s/it]                                                     1%|          | 48/7500 [01:19<3:20:42,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:24:40,633 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:40,634 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:40,653 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:40,654 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:40,775 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:40,775 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 48/7500 [01:20<3:20:42,  1.62s/it]  1%|          | 49/7500 [01:21<3:20:38,  1.62s/it]                                                   [WARNING|trainer.py:820] 2025-11-20 11:24:41,433 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:41,433 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+  1%|          | 49/7500 [01:21<3:20:38,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:24:41,435 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:41,435 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:41,556 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:41,556 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 49/7500 [01:21<3:20:38,  1.62s/it]  1%|          | 50/7500 [01:21<2:49:30,  1.37s/it]                                                     1%|          | 50/7500 [01:21<2:49:30,  1.37s/it][WARNING|trainer.py:820] 2025-11-20 11:24:43,843 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:43,843 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:43,889 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:43,889 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:44,010 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:44,011 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 50/7500 [01:23<2:49:30,  1.37s/it]  1%|          | 51/7500 [01:24<3:30:03,  1.69s/it]                                                     1%|          | 51/7500 [01:24<3:30:03,  1.69s/it][WARNING|trainer.py:820] 2025-11-20 11:24:45,478 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:45,478 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:45,498 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:45,499 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:45,620 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:45,620 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 51/7500 [01:25<3:30:03,  1.69s/it]  1%|          | 52/7500 [01:25<3:26:55,  1.67s/it]                                                     1%|          | 52/7500 [01:25<3:26:55,  1.67s/it][WARNING|trainer.py:820] 2025-11-20 11:24:47,090 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:47,090 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:47,106 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:47,106 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:47,227 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:47,227 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 52/7500 [01:27<3:26:55,  1.67s/it]  1%|          | 53/7500 [01:27<3:24:40,  1.65s/it]                                                     1%|          | 53/7500 [01:27<3:24:40,  1.65s/it][WARNING|trainer.py:820] 2025-11-20 11:24:48,705 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:48,705 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:48,706 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:48,706 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:48,827 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:48,827 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 53/7500 [01:28<3:24:40,  1.65s/it]  1%|          | 54/7500 [01:29<3:22:47,  1.63s/it]                                                     1%|          | 54/7500 [01:29<3:22:47,  1.63s/it][WARNING|trainer.py:820] 2025-11-20 11:24:50,300 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:50,301 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:50,309 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:50,310 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:50,430 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:50,431 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 54/7500 [01:30<3:22:47,  1.63s/it]  1%|          | 55/7500 [01:30<3:21:40,  1.63s/it]                                                     1%|          | 55/7500 [01:30<3:21:40,  1.63s/it][WARNING|trainer.py:820] 2025-11-20 11:24:51,901 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:51,901 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:51,929 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:51,929 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:52,050 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:52,050 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 55/7500 [01:31<3:21:40,  1.63s/it]  1%|          | 56/7500 [01:32<3:21:24,  1.62s/it]                                                     1%|          | 56/7500 [01:32<3:21:24,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:24:53,531 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:53,531 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:53,536 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:53,536 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:53,657 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:53,657 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 56/7500 [01:33<3:21:24,  1.62s/it]  1%|          | 57/7500 [01:33<3:20:46,  1.62s/it]                                                     1%|          | 57/7500 [01:33<3:20:46,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:24:55,127 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:55,127 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:55,138 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:55,138 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:55,259 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:55,260 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 57/7500 [01:35<3:20:46,  1.62s/it]  1%|          | 58/7500 [01:35<3:20:09,  1.61s/it]                                                     1%|          | 58/7500 [01:35<3:20:09,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:24:56,734 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:56,734 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:56,748 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:56,748 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:56,869 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:56,869 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 58/7500 [01:36<3:20:09,  1.61s/it]  1%|          | 59/7500 [01:37<3:19:59,  1.61s/it]                                                     1%|          | 59/7500 [01:37<3:19:59,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:24:58,348 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:58,349 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:58,352 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:58,352 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:58,470 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:58,473 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 59/7500 [01:38<3:19:59,  1.61s/it]  1%|          | 60/7500 [01:38<3:19:30,  1.61s/it]                                                     1%|          | 60/7500 [01:38<3:19:30,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:24:59,926 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:59,926 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:59,958 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:24:59,958 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:00,079 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:00,079 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 60/7500 [01:40<3:19:30,  1.61s/it]  1%|          | 61/7500 [01:40<3:19:31,  1.61s/it]                                                     1%|          | 61/7500 [01:40<3:19:31,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:25:01,557 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:01,557 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:01,565 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:01,565 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:01,678 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:01,686 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 61/7500 [01:41<3:19:31,  1.61s/it]  1%|          | 62/7500 [01:42<3:19:14,  1.61s/it]                                                     1%|          | 62/7500 [01:42<3:19:14,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:25:03,147 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:03,148 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:03,170 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:03,171 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:03,291 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:03,292 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 62/7500 [01:43<3:19:14,  1.61s/it]  1%|          | 63/7500 [01:43<3:19:22,  1.61s/it]                                                     1%|          | 63/7500 [01:43<3:19:22,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:25:04,758 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:04,759 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:04,783 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:04,784 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:04,905 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:04,905 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 63/7500 [01:44<3:19:22,  1.61s/it]  1%|          | 64/7500 [01:45<3:19:26,  1.61s/it]                                                     1%|          | 64/7500 [01:45<3:19:26,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:25:06,374 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:06,375 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:06,384 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:06,384 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:06,505 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:06,505 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 64/7500 [01:46<3:19:26,  1.61s/it]  1%|          | 65/7500 [01:46<3:19:05,  1.61s/it]                                                     1%|          | 65/7500 [01:46<3:19:05,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:25:07,983 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:07,983 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:07,984 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:07,984 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:08,105 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:08,105 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 65/7500 [01:48<3:19:05,  1.61s/it]  1%|          | 66/7500 [01:48<3:18:47,  1.60s/it]                                                     1%|          | 66/7500 [01:48<3:18:47,  1.60s/it][WARNING|trainer.py:820] 2025-11-20 11:25:09,570 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:09,570 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:09,586 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:09,587 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:09,708 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:09,708 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 66/7500 [01:49<3:18:47,  1.60s/it]  1%|          | 67/7500 [01:50<3:18:45,  1.60s/it]                                                     1%|          | 67/7500 [01:50<3:18:45,  1.60s/it][WARNING|trainer.py:820] 2025-11-20 11:25:11,171 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:11,171 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:11,177 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:11,177 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:11,292 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:11,298 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 67/7500 [01:51<3:18:45,  1.60s/it]  1%|          | 68/7500 [01:51<3:18:02,  1.60s/it]                                                     1%|          | 68/7500 [01:51<3:18:02,  1.60s/it][WARNING|trainer.py:820] 2025-11-20 11:25:12,762 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:12,762 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:12,793 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:12,793 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:12,914 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:12,915 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 68/7500 [01:52<3:18:02,  1.60s/it]  1%|          | 69/7500 [01:53<3:18:48,  1.61s/it]                                                     1%|          | 69/7500 [01:53<3:18:48,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:25:14,391 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:14,391 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:14,405 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:14,405 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:14,526 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:14,527 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 69/7500 [01:54<3:18:48,  1.61s/it]  1%|          | 70/7500 [01:54<3:19:01,  1.61s/it]                                                     1%|          | 70/7500 [01:54<3:19:01,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:25:15,995 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:15,995 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:16,206 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:16,206 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:16,327 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:16,328 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 70/7500 [01:56<3:19:01,  1.61s/it]  1%|          | 71/7500 [01:56<3:26:11,  1.67s/it]                                                     1%|          | 71/7500 [01:56<3:26:11,  1.67s/it][WARNING|trainer.py:820] 2025-11-20 11:25:17,797 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:17,797 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:17,806 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:17,806 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:17,927 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:17,927 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 71/7500 [01:57<3:26:11,  1.67s/it]  1%|          | 72/7500 [01:58<3:23:43,  1.65s/it]                                                     1%|          | 72/7500 [01:58<3:23:43,  1.65s/it][WARNING|trainer.py:820] 2025-11-20 11:25:19,397 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:19,397 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:19,399 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:19,399 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:19,519 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:19,520 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 72/7500 [01:59<3:23:43,  1.65s/it]  1%|          | 73/7500 [01:59<3:21:41,  1.63s/it]                                                     1%|          | 73/7500 [01:59<3:21:41,  1.63s/it][WARNING|trainer.py:820] 2025-11-20 11:25:20,987 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:20,988 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:20,988 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:20,989 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:21,109 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:21,110 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 73/7500 [02:01<3:21:41,  1.63s/it]  1%|          | 74/7500 [02:01<3:20:15,  1.62s/it]                                                   [WARNING|trainer.py:820] 2025-11-20 11:25:21,768 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:21,768 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+  1%|          | 74/7500 [02:01<3:20:15,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:25:21,770 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:21,770 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:21,891 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:21,891 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 74/7500 [02:01<3:20:15,  1.62s/it]  1%|          | 75/7500 [02:02<2:49:11,  1.37s/it]                                                     1%|          | 75/7500 [02:02<2:49:11,  1.37s/it][WARNING|trainer.py:820] 2025-11-20 11:25:24,201 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:24,201 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:24,221 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:24,222 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:24,343 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:24,343 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 75/7500 [02:04<2:49:11,  1.37s/it]  1%|          | 76/7500 [02:04<3:29:22,  1.69s/it]                                                     1%|          | 76/7500 [02:04<3:29:22,  1.69s/it][WARNING|trainer.py:820] 2025-11-20 11:25:25,815 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:25,815 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:25,821 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:25,821 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:25,942 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:25,943 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 76/7500 [02:05<3:29:22,  1.69s/it]  1%|          | 77/7500 [02:06<3:25:55,  1.66s/it]                                                     1%|          | 77/7500 [02:06<3:25:55,  1.66s/it][WARNING|trainer.py:820] 2025-11-20 11:25:27,419 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:27,419 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:27,422 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:27,422 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:27,541 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:27,543 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 77/7500 [02:07<3:25:55,  1.66s/it]  1%|          | 78/7500 [02:07<3:23:26,  1.64s/it]                                                     1%|          | 78/7500 [02:07<3:23:26,  1.64s/it][WARNING|trainer.py:820] 2025-11-20 11:25:29,024 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:29,024 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:29,024 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:29,025 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:29,146 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:29,146 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 78/7500 [02:09<3:23:26,  1.64s/it]  1%|          | 79/7500 [02:09<3:21:56,  1.63s/it]                                                     1%|          | 79/7500 [02:09<3:21:56,  1.63s/it][WARNING|trainer.py:820] 2025-11-20 11:25:30,605 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:30,605 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:30,631 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:30,632 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:30,753 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:30,753 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 79/7500 [02:10<3:21:56,  1.63s/it]  1%|          | 80/7500 [02:11<3:20:58,  1.63s/it]                                                     1%|          | 80/7500 [02:11<3:20:58,  1.63s/it][WARNING|trainer.py:820] 2025-11-20 11:25:32,221 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:32,221 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:32,245 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:32,246 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:32,367 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:32,367 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 80/7500 [02:12<3:20:58,  1.63s/it]  1%|          | 81/7500 [02:12<3:20:32,  1.62s/it]                                                     1%|          | 81/7500 [02:12<3:20:32,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:25:33,834 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:33,834 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:33,867 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:33,867 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:33,988 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:33,989 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 81/7500 [02:13<3:20:32,  1.62s/it]  1%|          | 82/7500 [02:14<3:20:29,  1.62s/it]                                                     1%|          | 82/7500 [02:14<3:20:29,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:25:35,457 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:35,457 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:35,488 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:35,488 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:35,609 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:35,610 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 82/7500 [02:15<3:20:29,  1.62s/it]  1%|          | 83/7500 [02:15<3:20:26,  1.62s/it]                                                     1%|          | 83/7500 [02:15<3:20:26,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:25:37,092 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:37,092 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:37,104 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:37,105 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:37,225 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:37,226 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 83/7500 [02:17<3:20:26,  1.62s/it]  1%|          | 84/7500 [02:17<3:20:13,  1.62s/it]                                                     1%|          | 84/7500 [02:17<3:20:13,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:25:38,687 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:38,688 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:38,710 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:38,711 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:38,832 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:38,832 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 84/7500 [02:18<3:20:13,  1.62s/it]  1%|          | 85/7500 [02:19<3:19:41,  1.62s/it]                                                     1%|          | 85/7500 [02:19<3:19:41,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:25:40,311 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:40,311 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:40,338 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:40,339 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:40,460 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:40,460 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 85/7500 [02:20<3:19:41,  1.62s/it]  1%|          | 86/7500 [02:20<3:20:06,  1.62s/it]                                                     1%|          | 86/7500 [02:20<3:20:06,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:25:41,933 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:41,934 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:41,945 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:41,946 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:42,067 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:42,067 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 86/7500 [02:22<3:20:06,  1.62s/it]  1%|          | 87/7500 [02:22<3:19:37,  1.62s/it]                                                     1%|          | 87/7500 [02:22<3:19:37,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:25:43,533 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:43,534 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:43,548 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:43,549 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:43,670 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:43,670 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 87/7500 [02:23<3:19:37,  1.62s/it]  1%|          | 88/7500 [02:24<3:19:08,  1.61s/it]                                                     1%|          | 88/7500 [02:24<3:19:08,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:25:45,145 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:45,145 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:45,267 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:45,344 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:45,344 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:45,465 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 88/7500 [02:25<3:19:08,  1.61s/it]  1%|          | 89/7500 [02:25<3:25:47,  1.67s/it]                                                     1%|          | 89/7500 [02:25<3:25:47,  1.67s/it][WARNING|trainer.py:820] 2025-11-20 11:25:46,937 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:46,938 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:46,944 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:46,945 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:47,066 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:47,066 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 89/7500 [02:27<3:25:47,  1.67s/it]  1%|          | 90/7500 [02:27<3:23:26,  1.65s/it]                                                     1%|          | 90/7500 [02:27<3:23:26,  1.65s/it][WARNING|trainer.py:820] 2025-11-20 11:25:48,544 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:48,544 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:48,554 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:48,554 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:48,675 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:48,675 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 90/7500 [02:28<3:23:26,  1.65s/it]  1%|          | 91/7500 [02:29<3:22:00,  1.64s/it]                                                     1%|          | 91/7500 [02:29<3:22:00,  1.64s/it][WARNING|trainer.py:820] 2025-11-20 11:25:50,138 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:50,138 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:50,159 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:50,160 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:50,281 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:50,281 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 91/7500 [02:30<3:22:00,  1.64s/it]  1%|          | 92/7500 [02:30<3:20:49,  1.63s/it]                                                     1%|          | 92/7500 [02:30<3:20:49,  1.63s/it][WARNING|trainer.py:820] 2025-11-20 11:25:51,749 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:51,750 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:51,764 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:51,765 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:51,886 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:51,886 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 92/7500 [02:31<3:20:49,  1.63s/it]  1%|          | 93/7500 [02:32<3:20:02,  1.62s/it]                                                     1%|          | 93/7500 [02:32<3:20:02,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:25:53,365 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:53,365 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:53,367 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:53,368 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:53,489 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:53,489 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|          | 93/7500 [02:33<3:20:02,  1.62s/it]  1%|▏         | 94/7500 [02:33<3:19:21,  1.62s/it]                                                     1%|▏         | 94/7500 [02:33<3:19:21,  1.62s/it][WARNING|trainer.py:820] 2025-11-20 11:25:54,967 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:54,967 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:54,977 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:54,978 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:55,099 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:55,099 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|▏         | 94/7500 [02:35<3:19:21,  1.62s/it]  1%|▏         | 95/7500 [02:35<3:19:08,  1.61s/it]                                                     1%|▏         | 95/7500 [02:35<3:19:08,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:25:56,565 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:56,565 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:56,580 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:56,581 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:56,701 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:56,702 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|▏         | 95/7500 [02:36<3:19:08,  1.61s/it]  1%|▏         | 96/7500 [02:37<3:18:44,  1.61s/it]                                                     1%|▏         | 96/7500 [02:37<3:18:44,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:25:58,183 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:58,184 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:58,184 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:58,184 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:58,305 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:58,305 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|▏         | 96/7500 [02:38<3:18:44,  1.61s/it]  1%|▏         | 97/7500 [02:38<3:18:25,  1.61s/it]                                                     1%|▏         | 97/7500 [02:38<3:18:25,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:25:59,775 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:59,775 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:59,779 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:59,779 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:59,900 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:25:59,901 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|▏         | 97/7500 [02:39<3:18:25,  1.61s/it]  1%|▏         | 98/7500 [02:40<3:17:54,  1.60s/it]                                                     1%|▏         | 98/7500 [02:40<3:17:54,  1.60s/it][WARNING|trainer.py:820] 2025-11-20 11:26:01,382 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:01,382 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:01,401 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:01,402 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:01,523 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:01,523 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|▏         | 98/7500 [02:41<3:17:54,  1.60s/it]  1%|▏         | 99/7500 [02:41<3:18:33,  1.61s/it]                                                     1%|▏         | 99/7500 [02:41<3:18:33,  1.61s/it][WARNING|trainer.py:820] 2025-11-20 11:26:02,180 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:02,181 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:02,182 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:02,182 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:02,303 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:02,304 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+                                                     1%|▏         | 99/7500 [02:42<3:18:33,  1.61s/it]  1%|▏         | 100/7500 [02:42<2:47:52,  1.36s/it]                                                      1%|▏         | 100/7500 [02:42<2:47:52,  1.36s/it][INFO|trainer.py:4643] 2025-11-20 11:26:02,965 >> 
+***** Running Evaluation *****
+[INFO|trainer.py:4645] 2025-11-20 11:26:02,966 >>   Num examples = 1024
+[INFO|trainer.py:4648] 2025-11-20 11:26:02,966 >>   Batch size = 512
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,172 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,173 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,181 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,182 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,205 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,208 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,214 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,217 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,239 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,249 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,271 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,280 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,301 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,311 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,332 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,342 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,363 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,373 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,394 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,404 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,425 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,435 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,456 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,466 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,487 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,498 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,519 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,529 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,549 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,560 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,581 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,591 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,611 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,622 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,642 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,653 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,674 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,684 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,705 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,716 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,735 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,747 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,767 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,778 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,798 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,809 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,826 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:03,837 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+
+  0%|          | 0/1 [00:00<?, ?it/s][A                                                    
+                                     [A  1%|▏         | 100/7500 [02:48<2:47:52,  1.36s/it]
+100%|██████████| 1/1 [00:04<00:00,  4.76s/it][A
+                                             [A                                                      1%|▏         | 100/7500 [02:48<2:47:52,  1.36s/it][INFO|trainer.py:4643] 2025-11-20 11:26:08,607 >> 
+***** Running Evaluation *****
+[INFO|trainer.py:4645] 2025-11-20 11:26:08,607 >>   Num examples = 1024
+[INFO|trainer.py:4648] 2025-11-20 11:26:08,607 >>   Batch size = 512
+[WARNING|trainer.py:820] 2025-11-20 11:26:08,676 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:08,677 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:08,712 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:08,715 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:08,758 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:08,792 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:08,815 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:08,815 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:08,826 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:08,850 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:08,853 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:08,860 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:08,897 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:08,898 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:08,927 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:08,932 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:08,959 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:08,966 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:08,990 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,000 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,021 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,031 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,052 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,062 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,084 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,094 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,115 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,125 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,146 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,156 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,178 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,188 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,209 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,219 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,240 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,250 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,271 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,282 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,303 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,313 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,334 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,344 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,362 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,376 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,407 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,438 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,470 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:09,498 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+
+  0%|          | 0/1 [00:00<?, ?it/s][A                                                    
+                                     [A  1%|▏         | 100/7500 [02:53<2:47:52,  1.36s/it]
+100%|██████████| 1/1 [00:04<00:00,  4.71s/it][A
+                                             [A                                                      1%|▏         | 100/7500 [02:53<2:47:52,  1.36s/it][INFO|trainer.py:4643] 2025-11-20 11:26:14,216 >> 
+***** Running Evaluation *****
+[INFO|trainer.py:4645] 2025-11-20 11:26:14,216 >>   Num examples = 1024
+[INFO|trainer.py:4648] 2025-11-20 11:26:14,216 >>   Batch size = 512
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,370 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,370 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,405 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,408 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,424 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,425 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,442 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,461 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,464 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,476 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,498 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,511 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,532 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,544 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,566 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,575 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,600 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,607 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,634 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,638 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,666 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,669 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,697 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,700 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,728 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,732 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,759 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,763 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,791 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,794 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,822 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,825 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,853 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,857 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,885 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,888 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,916 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,919 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,947 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,951 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,979 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:14,982 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:15,010 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:15,013 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:15,041 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:15,042 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:15,073 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:15,101 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+
+  0%|          | 0/1 [00:00<?, ?it/s][A                                                    
+                                     [A  1%|▏         | 100/7500 [02:59<2:47:52,  1.36s/it]
+100%|██████████| 1/1 [00:04<00:00,  4.73s/it][A
+                                             [A                                                      1%|▏         | 100/7500 [02:59<2:47:52,  1.36s/it][INFO|trainer.py:4643] 2025-11-20 11:26:19,836 >> 
+***** Running Evaluation *****
+[INFO|trainer.py:4645] 2025-11-20 11:26:19,836 >>   Num examples = 1024
+[INFO|trainer.py:4648] 2025-11-20 11:26:19,836 >>   Batch size = 512
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,001 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,001 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,037 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,039 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,042 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,043 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,070 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,078 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,081 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,084 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,112 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,115 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,118 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,126 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,149 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,152 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,157 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,160 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,182 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,185 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,192 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,195 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,213 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,216 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,226 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,229 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,244 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,247 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,260 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,263 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,275 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,278 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,292 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,295 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,306 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,309 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,324 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,327 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,338 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,340 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,355 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,358 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,369 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,372 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,386 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,389 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,400 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,403 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,418 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,421 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,431 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,434 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,449 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,452 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,462 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,465 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,480 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,484 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,493 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,496 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,512 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,515 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,525 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,528 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,543 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,546 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,556 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,559 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,575 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,578 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,587 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,590 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,606 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,609 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,618 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,621 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,637 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,640 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,649 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,652 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,669 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,672 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,680 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,700 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,703 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:20,732 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+
+  0%|          | 0/1 [00:00<?, ?it/s][A                                                    
+                                     [A  1%|▏         | 100/7500 [03:05<2:47:52,  1.36s/it]
+100%|██████████| 1/1 [00:04<00:00,  4.73s/it][A
+                                             [A                                                      1%|▏         | 100/7500 [03:05<2:47:52,  1.36s/it][INFO|trainer.py:4643] 2025-11-20 11:26:25,464 >> 
+***** Running Evaluation *****
+[INFO|trainer.py:4645] 2025-11-20 11:26:25,464 >>   Num examples = 1024
+[INFO|trainer.py:4648] 2025-11-20 11:26:25,465 >>   Batch size = 512
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,590 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,591 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,626 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,629 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,660 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,663 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,674 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,675 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,695 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,698 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,710 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,713 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,729 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,732 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,744 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,747 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,763 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,766 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,779 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,782 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,797 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,800 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,813 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,816 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,829 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,832 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,848 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,851 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,860 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,863 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,882 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,885 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,892 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,894 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,915 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,919 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,923 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,926 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,947 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,950 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,954 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,957 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,979 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,982 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,986 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:25,989 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,010 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,014 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,017 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,020 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,042 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,045 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,049 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,051 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,074 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,077 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,080 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,083 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,105 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,109 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,111 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,114 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,137 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,140 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,143 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,146 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,169 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,172 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,174 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,177 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,200 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,204 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,206 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,209 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,232 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,235 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,237 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,240 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,264 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,267 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,269 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,295 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,299 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,327 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,330 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-20 11:26:26,359 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+
+  0%|          | 0/1 [00:00<?, ?it/s][A

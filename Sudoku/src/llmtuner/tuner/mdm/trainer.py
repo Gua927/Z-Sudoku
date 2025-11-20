@@ -348,7 +348,7 @@ class CustomDiffusionTrainer(Trainer):
             x0 = xt_plus.masked_scatter(mask, sampled_x0[mask])
 
             selection_scores = None
-            if method == "topk":
+            if method in ["topk", "downk"]:
                 selection_scores, _ = scores.max(-1)
             elif method == "topk-margin":
                 selection_scores = self._compute_margin_scores(scores)
@@ -595,7 +595,7 @@ class CustomDiffusionTrainer(Trainer):
                 
                 if t > 0:
                     selection_scores = None
-                    if denoise_method == "topk":
+                    if denoise_method in ["topk", "downk"]:
                         selection_scores = x0_scores
                     elif denoise_method == "topk-margin":
                         selection_scores = self._compute_margin_scores(scores)
@@ -632,9 +632,23 @@ class CustomDiffusionTrainer(Trainer):
                 return self._origin_denoise_step_batch(xt, x0, maskable_mask, t)
             return self._origin_denoise_step(xt, x0, maskable_mask, t)
 
-        if denoise_method in {"topk", "topk-margin"}:
+        if denoise_method in {"topk", "topk-margin", "downk"}:
             if selection_scores is None:
-                raise ValueError("Selection scores are required for topk-based denoising.")
+                raise ValueError(f"Selection scores are required for {denoise_method} denoising.")
+            
+            if denoise_method == "downk":
+                return downk_decoding(
+                    x0,
+                    selection_scores,
+                    schedule,
+                    init_maskable_mask,
+                    maskable_mask,
+                    t,
+                    self.diff_args.diffusion_steps,
+                    self.tokenizer.mask_token_id,
+                    getattr(self.diff_args, "downk_ratio", 0.8)
+                )
+
             new_xt = topk_decoding(
                 x0,
                 selection_scores,
@@ -774,3 +788,73 @@ def topk_decoding(
             raise NotImplementedError("noise should be either a tensor or a scalar")
 
         return xt
+
+def select_k_lowest_with_mask(scores, k, mask):
+    """Selects k positions with lowest scores from masked positions."""
+    scores_filled = scores.masked_fill(~mask, float('inf'))
+    ranks = scores_filled.argsort(dim=-1).argsort(dim=-1)
+    if k.dim() == 1:
+        k = k.unsqueeze(-1)
+    return (ranks < k) & mask
+
+def downk_decoding(
+        x0,
+        selection_scores,
+        schedule,
+        init_maskable_mask,
+        maskable_mask,
+        t,
+        max_step,
+        noise,
+        downk_ratio
+    ):
+        # t can be a tensor of shape [B] (different time step per sample)
+        # or a scalar. We want a per-sample rate in both cases.
+        if isinstance(t, torch.Tensor):
+            t_tensor = t.to(dtype=torch.float32, device=init_maskable_mask.device)
+            if t_tensor.dim() == 0:
+                t_tensor = t_tensor.expand(init_maskable_mask.size(0))
+        else:
+            t_tensor = torch.full(
+                (init_maskable_mask.size(0),),
+                float(t),
+                dtype=torch.float32,
+                device=init_maskable_mask.device,
+            )
+
+        if schedule == "linear":
+            rate = t_tensor / float(max_step)
+        elif schedule == "cosine":
+            rate = torch.cos((float(max_step) - t_tensor) / float(max_step) * math.pi * 0.5)
+        else:
+            raise NotImplementedError
+
+        # Calculate target mask count
+        cutoff_len = (init_maskable_mask.sum(1, keepdim=True).float() * rate.unsqueeze(1)).long()
+        
+        # Ensure No Re-masking
+        current_mask_count = maskable_mask.sum(1, keepdim=True)
+        target_mask_count = torch.min(cutoff_len, current_mask_count)
+
+        # Determine K_hard and K_soft
+        k_hard = (target_mask_count.float() * downk_ratio).long()
+        k_soft = target_mask_count - k_hard
+
+        # Select Hard Mask
+        hard_mask = select_k_lowest_with_mask(selection_scores, k_hard, maskable_mask)
+
+        # Select Soft Mask
+        soft_candidates = maskable_mask & (~hard_mask)
+        rand_scores = torch.rand_like(selection_scores)
+        soft_mask = select_k_lowest_with_mask(rand_scores, k_soft, soft_candidates)
+
+        final_mask = hard_mask | soft_mask
+
+        if isinstance(noise, torch.Tensor):
+            xt = x0.masked_scatter(final_mask, noise[final_mask])
+        elif isinstance(noise, (int, float)):
+            xt = x0.masked_fill(final_mask, noise)
+        else:
+            raise NotImplementedError("noise should be either a tensor or a scalar")
+
+        return xt, final_mask
