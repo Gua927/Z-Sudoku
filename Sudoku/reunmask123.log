@@ -1,0 +1,363 @@
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+The following values were not passed to `accelerate launch` and had defaults used instead:
+	`--dynamo_backend` was set to a value of `'no'`
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/accelerate/utils/launch.py:238: UserWarning: Port `20099` is already in use. Accelerate will attempt to launch in a standalone-like mode by finding an open port automatically for this session. If this current attempt fails, or for more control in future runs, please specify a different port (e.g., `--main_process_port <your_chosen_port>`) or use `--main_process_port 0` for automatic selection in your launch command or Accelerate config file.
+  warnings.warn(
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+[INFO|configuration_utils.py:763] 2025-11-21 08:52:41,664 >> loading configuration file /root/code/EasyMDM/Sudoku/model_config_tiny/config.json
+[INFO|configuration_utils.py:839] 2025-11-21 08:52:41,669 >> Model config GPT2Config {
+  "activation_function": "gelu_new",
+  "architectures": [
+    "GPT2LMHeadModel"
+  ],
+  "attn_pdrop": 0.1,
+  "bos_token_id": 3,
+  "embd_pdrop": 0.1,
+  "eos_token_id": 3,
+  "initializer_range": 0.02,
+  "layer_norm_epsilon": 1e-05,
+  "model_type": "gpt2",
+  "n_ctx": 512,
+  "n_embd": 384,
+  "n_head": 12,
+  "n_inner": null,
+  "n_layer": 3,
+  "n_positions": 512,
+  "reorder_and_upcast_attn": false,
+  "resid_pdrop": 0.1,
+  "scale_attn_by_inverse_layer_idx": false,
+  "scale_attn_weights": true,
+  "summary_activation": null,
+  "summary_first_dropout": 0.1,
+  "summary_proj_to_labels": true,
+  "summary_type": "cls_index",
+  "summary_use_proj": true,
+  "task_specific_params": {
+    "text-generation": {
+      "do_sample": true,
+      "max_length": 50
+    }
+  },
+  "transformers_version": "4.57.1",
+  "use_cache": true,
+  "vocab_size": 31
+}
+
+[WARNING|logging.py:328] 2025-11-21 08:52:41,669 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING|logging.py:328] 2025-11-21 08:52:41,682 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING|logging.py:328] 2025-11-21 08:52:41,695 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[INFO|modeling_utils.py:2341] 2025-11-21 08:52:41,696 >> Instantiating GPT2LMHeadModel model under default dtype torch.float16.
+[INFO|configuration_utils.py:986] 2025-11-21 08:52:41,698 >> Generate config GenerationConfig {
+  "bos_token_id": 3,
+  "eos_token_id": 3
+}
+
+[WARNING|logging.py:328] 2025-11-21 08:52:41,708 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[INFO|training_args.py:1715] 2025-11-21 08:52:42,145 >> Found safetensors installation, but --save_safetensors=False. Safetensors should be a preferred weights saving format due to security and performance reasons. If your model cannot be saved by safetensors please feel free to open an issue at https://github.com/huggingface/safetensors!
+[INFO|training_args.py:2222] 2025-11-21 08:52:42,145 >> PyTorch: setting up devices
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/training_args.py:2111: FutureWarning: `--push_to_hub_token` is deprecated and will be removed in version 5 of 🤗 Transformers. Use `--hub_token` instead.
+  warnings.warn(
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/datasets/load.py:2516: FutureWarning: 'use_auth_token' was deprecated in favor of 'token' in version 2.14.0 and will be removed in 3.0.0.
+You can remove this warning by passing 'token=<use_auth_token>' instead.
+  warnings.warn(
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/training_args.py:2111: FutureWarning: `--push_to_hub_token` is deprecated and will be removed in version 5 of 🤗 Transformers. Use `--hub_token` instead.
+  warnings.warn(
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/datasets/load.py:2516: FutureWarning: 'use_auth_token' was deprecated in favor of 'token' in version 2.14.0 and will be removed in 3.0.0.
+You can remove this warning by passing 'token=<use_auth_token>' instead.
+  warnings.warn(
+Using custom data configuration default-9ce9c063e0e7477c
+Loading Dataset Infos from /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/datasets/packaged_modules/csv
+Overwrite dataset info from restored data version if exists.
+Loading Dataset info from /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6
+Found cached dataset csv (/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6)
+Loading Dataset info from /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
+  warnings.warn(  # warn only once
+[rank1]:[W1121 08:52:43.259601244 ProcessGroupNCCL.cpp:5023] [PG ID 0 PG GUID 0 Rank 1]  using GPU 1 as device used by this process is currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. You can specify device_id in init_process_group() to force use of a particular device.
+Process #0 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-f7872d698abd2644_00000_of_00008.arrow
+Process #1 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-f7872d698abd2644_00001_of_00008.arrow
+Process #2 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-f7872d698abd2644_00002_of_00008.arrow
+Process #3 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-f7872d698abd2644_00003_of_00008.arrow
+Process #4 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-f7872d698abd2644_00004_of_00008.arrow
+Process #5 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-f7872d698abd2644_00005_of_00008.arrow
+Process #6 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-f7872d698abd2644_00006_of_00008.arrow
+Process #7 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-f7872d698abd2644_00007_of_00008.arrow
+Spawning 8 processes
+Running tokenizer on dataset (num_proc=8):   0%|          | 0/100000 [00:00<?, ? examples/s]Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-f7872d698abd2644_00000_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-f7872d698abd2644_00001_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-f7872d698abd2644_00002_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-f7872d698abd2644_00004_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-f7872d698abd2644_00003_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-f7872d698abd2644_00006_of_00008.arrow
+Running tokenizer on dataset (num_proc=8):   1%|          | 1000/100000 [00:00<00:40, 2434.26 examples/s]Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-f7872d698abd2644_00005_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-f7872d698abd2644_00007_of_00008.arrow
+Running tokenizer on dataset (num_proc=8):   9%|▉         | 9000/100000 [00:00<00:06, 13377.13 examples/s]Running tokenizer on dataset (num_proc=8):  17%|█▋        | 17000/100000 [00:01<00:04, 17384.45 examples/s]Running tokenizer on dataset (num_proc=8):  24%|██▍       | 24000/100000 [00:01<00:03, 24356.03 examples/s]Running tokenizer on dataset (num_proc=8):  28%|██▊       | 28000/100000 [00:01<00:03, 21527.75 examples/s]Running tokenizer on dataset (num_proc=8):  32%|███▏      | 32000/100000 [00:01<00:02, 24041.45 examples/s]Running tokenizer on dataset (num_proc=8):  35%|███▌      | 35000/100000 [00:01<00:03, 19842.05 examples/s]Running tokenizer on dataset (num_proc=8):  40%|████      | 40000/100000 [00:01<00:02, 24256.28 examples/s]Running tokenizer on dataset (num_proc=8):  43%|████▎     | 43000/100000 [00:02<00:02, 19968.12 examples/s]Running tokenizer on dataset (num_proc=8):  48%|████▊     | 48000/100000 [00:02<00:02, 24394.82 examples/s]Running tokenizer on dataset (num_proc=8):  51%|█████     | 51000/100000 [00:02<00:02, 20049.07 examples/s]Running tokenizer on dataset (num_proc=8):  56%|█████▌    | 56000/100000 [00:02<00:01, 24358.10 examples/s]Running tokenizer on dataset (num_proc=8):  59%|█████▉    | 59000/100000 [00:02<00:02, 20131.01 examples/s]Running tokenizer on dataset (num_proc=8):  64%|██████▍   | 64000/100000 [00:03<00:01, 24476.71 examples/s]Running tokenizer on dataset (num_proc=8):  67%|██████▋   | 67000/100000 [00:03<00:01, 20140.67 examples/s]Running tokenizer on dataset (num_proc=8):  72%|███████▏  | 72000/100000 [00:03<00:01, 24444.18 examples/s]Running tokenizer on dataset (num_proc=8):  75%|███████▌  | 75000/100000 [00:03<00:01, 20167.85 examples/s]Running tokenizer on dataset (num_proc=8):  80%|████████  | 80000/100000 [00:03<00:00, 24379.01 examples/s]Running tokenizer on dataset (num_proc=8):  83%|████████▎ | 83000/100000 [00:04<00:00, 20239.13 examples/s]Running tokenizer on dataset (num_proc=8):  88%|████████▊ | 88000/100000 [00:04<00:00, 24338.39 examples/s]Running tokenizer on dataset (num_proc=8):  91%|█████████ | 91000/100000 [00:04<00:00, 20310.60 examples/s]Running tokenizer on dataset (num_proc=8):  95%|█████████▌| 95000/100000 [00:04<00:00, 23905.53 examples/s]Running tokenizer on dataset (num_proc=8):  98%|█████████▊| 98500/100000 [00:04<00:00, 24950.82 examples/s]Running tokenizer on dataset (num_proc=8): 100%|██████████| 100000/100000 [00:04<00:00, 20919.35 examples/s]
+Concatenating 8 shards
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
+  warnings.warn(  # warn only once
+[rank0]:[W1121 08:52:48.252796703 ProcessGroupNCCL.cpp:5023] [PG ID 0 PG GUID 0 Rank 0]  using GPU 0 as device used by this process is currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. You can specify device_id in init_process_group() to force use of a particular device.
+Running tokenizer on dataset (num_proc=8):   0%|          | 0/100000 [00:00<?, ? examples/s]Running tokenizer on dataset (num_proc=8):   1%|          | 1000/100000 [00:00<00:40, 2438.48 examples/s]Using custom data configuration default-44d4deacdb6c982e
+Loading Dataset Infos from /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/datasets/packaged_modules/csv
+Overwrite dataset info from restored data version if exists.
+Loading Dataset info from /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6
+Found cached dataset csv (/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6)
+Loading Dataset info from /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6
+Process #0 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-571cc4ed8deb82c4_00000_of_00008.arrow
+Process #1 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-571cc4ed8deb82c4_00001_of_00008.arrow
+Process #2 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-571cc4ed8deb82c4_00002_of_00008.arrow
+Process #3 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-571cc4ed8deb82c4_00003_of_00008.arrow
+Process #4 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-571cc4ed8deb82c4_00004_of_00008.arrow
+Process #5 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-571cc4ed8deb82c4_00005_of_00008.arrow
+Process #6 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-571cc4ed8deb82c4_00006_of_00008.arrow
+Process #7 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-571cc4ed8deb82c4_00007_of_00008.arrow
+Running tokenizer on dataset (num_proc=8):   9%|▉         | 9000/100000 [00:00<00:06, 13424.76 examples/s]Spawning 8 processes
+Running tokenizer on dataset (num_proc=8):   0%|          | 0/1000 [00:00<?, ? examples/s]Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-571cc4ed8deb82c4_00002_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-571cc4ed8deb82c4_00003_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-571cc4ed8deb82c4_00000_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-571cc4ed8deb82c4_00004_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-571cc4ed8deb82c4_00005_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-571cc4ed8deb82c4_00001_of_00008.arrow
+Running tokenizer on dataset (num_proc=8):  25%|██▌       | 250/1000 [00:00<00:00, 2449.77 examples/s]Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-571cc4ed8deb82c4_00006_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-571cc4ed8deb82c4_00007_of_00008.arrow
+Running tokenizer on dataset (num_proc=8):  17%|█▋        | 17000/100000 [00:01<00:04, 17323.31 examples/s]Running tokenizer on dataset (num_proc=8): 100%|██████████| 1000/1000 [00:00<00:00, 4601.80 examples/s]
+Concatenating 8 shards
+Running tokenizer on dataset (num_proc=8):  25%|██▌       | 25000/100000 [00:01<00:03, 19196.28 examples/s]Running tokenizer on dataset (num_proc=8):  33%|███▎      | 33000/100000 [00:01<00:03, 20292.86 examples/s]Running tokenizer on dataset (num_proc=8):  41%|████      | 41000/100000 [00:02<00:02, 20961.04 examples/s]Running tokenizer on dataset (num_proc=8):  49%|████▉     | 49000/100000 [00:02<00:02, 21394.19 examples/s]Running tokenizer on dataset (num_proc=8):  57%|█████▋    | 57000/100000 [00:02<00:01, 21678.42 examples/s]Running tokenizer on dataset (num_proc=8):  65%|██████▌   | 65000/100000 [00:03<00:01, 21869.46 examples/s]Running tokenizer on dataset (num_proc=8):  73%|███████▎  | 73000/100000 [00:03<00:01, 22008.37 examples/s]Running tokenizer on dataset (num_proc=8):  81%|████████  | 81000/100000 [00:04<00:00, 22070.61 examples/s]Running tokenizer on dataset (num_proc=8):  89%|████████▉ | 89000/100000 [00:04<00:00, 22150.37 examples/s]Running tokenizer on dataset (num_proc=8):  96%|█████████▋| 96500/100000 [00:04<00:00, 25618.66 examples/s]Running tokenizer on dataset (num_proc=8): 100%|██████████| 100000/100000 [00:04<00:00, 21394.63 examples/s]
+/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/trainer.py:80: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `CustomDiffusionTrainer.__init__`. Use `processing_class` instead.
+  super().__init__(
+Detected kernel version 5.4.250, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+Running tokenizer on dataset (num_proc=8):   0%|          | 0/1000 [00:00<?, ? examples/s]Running tokenizer on dataset (num_proc=8):  50%|█████     | 500/1000 [00:00<00:00, 4926.70 examples/s][INFO|trainer.py:749] 2025-11-21 08:52:55,102 >> Using auto half precision backend
+[WARNING|trainer.py:820] 2025-11-21 08:52:55,103 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-21 08:52:55,103 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:982] 2025-11-21 08:52:55,104 >> The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'bos_token_id': None, 'pad_token_id': 0}.
+Running tokenizer on dataset (num_proc=8): 100%|██████████| 1000/1000 [00:00<00:00, 5028.24 examples/s]
+/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/trainer.py:80: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `CustomDiffusionTrainer.__init__`. Use `processing_class` instead.
+  super().__init__(
+[WARNING|trainer.py:820] 2025-11-21 08:52:55,440 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-21 08:52:55,440 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:982] 2025-11-21 08:52:55,440 >> The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'bos_token_id': None, 'pad_token_id': 0}.
+[INFO|trainer.py:2519] 2025-11-21 08:52:55,683 >> ***** Running training *****
+[INFO|trainer.py:2520] 2025-11-21 08:52:55,683 >>   Num examples = 100,000
+[INFO|trainer.py:2521] 2025-11-21 08:52:55,683 >>   Num Epochs = 300
+[INFO|trainer.py:2522] 2025-11-21 08:52:55,683 >>   Instantaneous batch size per device = 2,048
+[INFO|trainer.py:2525] 2025-11-21 08:52:55,683 >>   Total train batch size (w. parallel, distributed & accumulation) = 4,096
+[INFO|trainer.py:2526] 2025-11-21 08:52:55,683 >>   Gradient Accumulation steps = 1
+[INFO|trainer.py:2527] 2025-11-21 08:52:55,683 >>   Total optimization steps = 7,500
+[INFO|trainer.py:2528] 2025-11-21 08:52:55,684 >>   Number of trainable parameters = 5,532,672
+[INFO|integration_utils.py:867] 2025-11-21 08:52:55,684 >> Automatic Weights & Biases logging enabled, to disable set os.environ["WANDB_DISABLED"] = "true"
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+[WARNING|trainer.py:820] 2025-11-21 08:52:57,535 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-21 08:52:57,676 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+wandb: Tracking run with wandb version 0.15.3
+wandb: W&B syncing is set to `offline` in this directory.  
+wandb: Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+[INFO|integration_utils.py:915] 2025-11-21 08:53:01,345 >> Could not log the number of model parameters in Weights & Biases due to an AttributeError.
+[INFO|integration_utils.py:2388] 2025-11-21 08:53:01,345 >> Automatic SwanLab logging enabled, to disable set os.environ["SWANLAB_MODE"] = "disabled"
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/boto3/compat.py:84: PythonDeprecationWarning: Boto3 will no longer support Python 3.9 starting April 29, 2026. To continue receiving service updates, bug fixes, and security updates please upgrade to Python 3.10 or later. More information can be found here: https://aws.amazon.com/blogs/developer/python-support-policy-updates-for-aws-sdks-and-tools/
+  warnings.warn(warning, PythonDeprecationWarning)
+[INFO|integration_utils.py:2425] 2025-11-21 08:53:03,835 >> Could not log the number of model parameters in SwanLab due to an AttributeError.
+  0%|          | 0/7500 [00:00<?, ?it/s][WARNING|trainer.py:820] 2025-11-21 08:53:05,794 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[WARNING|trainer.py:820] 2025-11-21 08:53:05,937 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "/root/code/EasyMDM/Sudoku/src/train_bash.py", line 13, in <module>
+[rank1]:     main()
+[rank1]:   File "/root/code/EasyMDM/Sudoku/src/train_bash.py", line 4, in main
+[rank1]:     run_exp()
+[rank1]:   File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/tune.py", line 24, in run_exp
+[rank1]:     eval(f'lib.run')(eval(f'trainer_cls.CustomDiffusionTrainer'), model_args, diffusion_args, data_args, training_args, finetuning_args, generating_args, callbacks)
+[rank1]:   File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/workflow.py", line 97, in run
+[rank1]:     train_result = trainer.train(resume_from_checkpoint=training_args.resume_from_checkpoint)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/trainer.py", line 2325, in train
+[rank1]:     return inner_training_loop(
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/trainer.py", line 2674, in _inner_training_loop
+[rank1]:     tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/trainer.py", line 4020, in training_step
+[rank1]:     loss = self.compute_loss(model, inputs, num_items_in_batch=num_items_in_batch)
+[rank1]:   File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/trainer.py", line 123, in compute_loss
+[rank1]:     final_loss = self.inner_forward(model, inputs)
+[rank1]:   File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/trainer.py", line 541, in inner_forward
+[rank1]:     x_t, t, loss_mask, extras = self.q_sample(
+[rank1]:   File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/trainer.py", line 295, in q_sample
+[rank1]:     return self._z_mask_q_sample(model, inputs, t, maskable_mask, attention_mask)
+[rank1]:   File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/trainer.py", line 320, in _z_mask_q_sample
+[rank1]:     final_mask, x_t = self._z_mask_denoise(
+[rank1]:   File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/trainer.py", line 349, in _z_mask_denoise
+[rank1]:     raw_logits = self._run_model_for_z_mask(model, xt_plus, t_plus, attention_mask)
+[rank1]:   File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/trainer.py", line 381, in _run_model_for_z_mask
+[rank1]:     logits = model(xt_plus, t_plus, attention_mask=attention_mask)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 1648, in forward
+[rank1]:     else self._run_ddp_forward(*inputs, **kwargs)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 1474, in _run_ddp_forward
+[rank1]:     return self.module(*inputs, **kwargs)  # type: ignore[index]
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/accelerate/utils/operations.py", line 818, in forward
+[rank1]:     return model_forward(*args, **kwargs)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/accelerate/utils/operations.py", line 806, in __call__
+[rank1]:     return convert_to_fp32(self.model_forward(*args, **kwargs))
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/amp/autocast_mode.py", line 44, in decorate_autocast
+[rank1]:     return func(*args, **kwargs)
+[rank1]:   File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/model.py", line 47, in forward
+[rank1]:     x = self.denoise_model(inputs_embeds = x_embed, attention_mask=attention_mask, return_dict = False)[0]
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/models/gpt2/modeling_gpt2.py", line 925, in forward
+[rank1]:     outputs = block(
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/modeling_layers.py", line 94, in __call__
+[rank1]:     return super().__call__(*args, **kwargs)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/utils/deprecation.py", line 172, in wrapped_func
+[rank1]:     return func(*args, **kwargs)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/models/gpt2/modeling_gpt2.py", line 449, in forward
+[rank1]:     feed_forward_hidden_states = self.mlp(hidden_states)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/models/gpt2/modeling_gpt2.py", line 374, in forward
+[rank1]:     hidden_states = self.c_fc(hidden_states)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:   File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/pytorch_utils.py", line 122, in forward
+[rank1]:     x = torch.addmm(self.bias, x.view(-1, x.size(-1)), self.weight)
+[rank1]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 984.00 MiB. GPU 1 has a total capacity of 79.15 GiB of which 345.75 MiB is free. Process 527082 has 74.49 GiB memory in use. Process 623471 has 4.30 GiB memory in use. Of the allocated memory 2.96 GiB is allocated by PyTorch, and 259.88 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+  File "/root/code/EasyMDM/Sudoku/src/train_bash.py", line 13, in <module>
+    main()
+  File "/root/code/EasyMDM/Sudoku/src/train_bash.py", line 4, in main
+    run_exp()
+  File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/tune.py", line 24, in run_exp
+    eval(f'lib.run')(eval(f'trainer_cls.CustomDiffusionTrainer'), model_args, diffusion_args, data_args, training_args, finetuning_args, generating_args, callbacks)
+  File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/workflow.py", line 97, in run
+    train_result = trainer.train(resume_from_checkpoint=training_args.resume_from_checkpoint)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/trainer.py", line 2325, in train
+    return inner_training_loop(
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/trainer.py", line 2674, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/trainer.py", line 4020, in training_step
+    loss = self.compute_loss(model, inputs, num_items_in_batch=num_items_in_batch)
+  File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/trainer.py", line 123, in compute_loss
+    final_loss = self.inner_forward(model, inputs)
+  File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/trainer.py", line 541, in inner_forward
+    x_t, t, loss_mask, extras = self.q_sample(
+  File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/trainer.py", line 295, in q_sample
+    return self._z_mask_q_sample(model, inputs, t, maskable_mask, attention_mask)
+  File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/trainer.py", line 320, in _z_mask_q_sample
+    final_mask, x_t = self._z_mask_denoise(
+  File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/trainer.py", line 349, in _z_mask_denoise
+    raw_logits = self._run_model_for_z_mask(model, xt_plus, t_plus, attention_mask)
+  File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/trainer.py", line 381, in _run_model_for_z_mask
+    logits = model(xt_plus, t_plus, attention_mask=attention_mask)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 1648, in forward
+    else self._run_ddp_forward(*inputs, **kwargs)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 1474, in _run_ddp_forward
+    return self.module(*inputs, **kwargs)  # type: ignore[index]
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/accelerate/utils/operations.py", line 818, in forward
+    return model_forward(*args, **kwargs)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/accelerate/utils/operations.py", line 806, in __call__
+    return convert_to_fp32(self.model_forward(*args, **kwargs))
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/amp/autocast_mode.py", line 44, in decorate_autocast
+    return func(*args, **kwargs)
+  File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/model.py", line 47, in forward
+    x = self.denoise_model(inputs_embeds = x_embed, attention_mask=attention_mask, return_dict = False)[0]
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/models/gpt2/modeling_gpt2.py", line 925, in forward
+    outputs = block(
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/modeling_layers.py", line 94, in __call__
+    return super().__call__(*args, **kwargs)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/utils/deprecation.py", line 172, in wrapped_func
+    return func(*args, **kwargs)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/models/gpt2/modeling_gpt2.py", line 413, in forward
+    attn_output, self_attn_weights = self.attn(
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/utils/deprecation.py", line 172, in wrapped_func
+    return func(*args, **kwargs)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/models/gpt2/modeling_gpt2.py", line 326, in forward
+    key_states, value_states = curr_past_key_value.update(
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/cache_utils.py", line 776, in update
+    keys, values = self.layers[layer_idx].update(key_states, value_states, cache_kwargs)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/cache_utils.py", line 120, in update
+    self.values = torch.cat([self.values, value_states], dim=-2)
+CUDA out of memory. Tried to allocate 246.00 MiB. GPU 0 has a total capacity of 79.15 GiB of which 92.62 MiB is free. Process 3025128 has 490.00 MiB memory in use. Process 3827386 has 490.00 MiB memory in use. Process 527079 has 74.49 GiB memory in use. Process 623458 has 3.58 GiB memory in use. Of the allocated memory 2.47 GiB is allocated by PyTorch, and 16.23 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+wandb: Waiting for W&B process to finish... (success).
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /root/code/EasyMDM/Sudoku/wandb/offline-run-20251121_085256-8iulclkz
+wandb: Find logs at: ./wandb/offline-run-20251121_085256-8iulclkz/logs
+  0%|          | 0/7500 [00:06<?, ?it/s]
+[rank0]:[W1121 08:53:10.404045743 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+W1121 08:53:11.458280 707467 site-packages/torch/distributed/elastic/multiprocessing/api.py:900] Sending process 708061 closing signal SIGTERM
+E1121 08:53:11.774330 707467 site-packages/torch/distributed/elastic/multiprocessing/api.py:874] failed (exitcode: 1) local_rank: 1 (pid: 708062) of binary: /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/bin/python
+Traceback (most recent call last):
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/bin/accelerate", line 7, in <module>
+    sys.exit(main())
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/accelerate/commands/accelerate_cli.py", line 50, in main
+    args.func(args)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/accelerate/commands/launch.py", line 1226, in launch_command
+    multi_gpu_launcher(args)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/accelerate/commands/launch.py", line 853, in multi_gpu_launcher
+    distrib_run.run(args)
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/distributed/run.py", line 892, in run
+    elastic_launch(
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 143, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 277, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+src/train_bash.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2025-11-21_08:53:11
+  host      : localhost
+  rank      : 1 (local_rank: 1)
+  exitcode  : 1 (pid: 708062)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================

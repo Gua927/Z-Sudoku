@@ -6,11 +6,11 @@ dataset=sudoku_train
 # Ensure absolute path to model config to avoid cwd issues
 MODEL_DIR=$(pwd)/model_config_tiny
 
-exp=output/sudoku/Z-mask-RE/topk-margin-temp0-sigmoid0.3-weight2
+exp=output/sudoku/Z-mask-RE/topk-margin-temp0-sigmoid0.3-weight1.5
 mkdir -p $exp
 
 python3 -c "import swanlab; swanlab.sync_wandb()" && \
-CUDA_VISIBLE_DEVICES=0,1 \
+CUDA_VISIBLE_DEVICES=2,3 \
 accelerate launch --multi_gpu --num_machines 1 --mixed_precision fp16 --num_processes 2 --main_process_port 20099 \
 src/train_bash.py \
     --stage mdm --overwrite_output_dir \
@@ -27,7 +27,7 @@ src/train_bash.py \
     --per_device_train_batch_size 2048 \
     --z_mask True \
     --reunmask True \
-    --reunmask_correction_weight 2.0 \
+    --reunmask_correction_weight 1.5 \
     --z_mask_method topk-margin \
     --z_mask_temperature 0 \
     --z_schedule sigmoid \
@@ -43,8 +43,8 @@ src/train_bash.py \
     --eval_temperatures 0.0 \
     --save_steps 500 \
     --learning_rate 1e-3 \
-    --num_train_epochs 300.0 \
-    --run_name topk-margin-temp0-sigmoid0.3-weight2 \
+    --num_train_epochs 500.0 \
+    --run_name topk-margin-temp0-sigmoid0.3-weight1.5 \
     --preprocessing_num_workers 8 \
     --fp16 \
     --save_total_limit 1 \
