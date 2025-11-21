@@ -75,6 +75,10 @@ class DiffusionArguments:
         default=False,
         metadata={"help": "If True, predict logits for unmasked positions in z-mask step and include them in loss."}
     )
+    reunmask_correction_weight: float = field(
+        default=1.0,
+        metadata={"help": "Weight multiplier for incorrect tokens in reunmask loss."}
+    )
 
     def __post_init__(self):
         supported = {"origin", "topk", "topk-margin", "downk"}

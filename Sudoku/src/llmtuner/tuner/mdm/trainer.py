@@ -332,6 +332,8 @@ class CustomDiffusionTrainer(Trainer):
         extras = {
             "x_plain": x_plain,
             "mask_plain": mask_t,
+            "mask_t_plus": mask_t_plus,
+            "final_mask": final_mask,
         }
         return x_t, t, loss_mask, extras
 
@@ -382,7 +384,7 @@ class CustomDiffusionTrainer(Trainer):
             model.train()
         return logits
 
-    def _compute_weighted_loss(self, logits, target, loss_mask, t, vocab_size):
+    def _compute_weighted_loss(self, logits, target, loss_mask, t, vocab_size, sample_weights=None):
         if loss_mask is None:
             loss_mask = torch.ones_like(target, dtype=torch.bool)
         flat_logits = logits.reshape(-1, vocab_size)
@@ -393,6 +395,10 @@ class CustomDiffusionTrainer(Trainer):
         if valid_count.item() == 0:
             return token_loss.new_zeros(())
         token_loss = token_loss.masked_fill(~mask_flat, 0)
+
+        if sample_weights is not None:
+            flat_weights = sample_weights.reshape(-1)
+            token_loss = token_loss * flat_weights
 
         if self.diff_args.token_reweighting:
             token_loss = self.diff_args.alpha * (1 - torch.exp(-token_loss)) ** self.diff_args.gamma * token_loss
@@ -452,13 +458,17 @@ class CustomDiffusionTrainer(Trainer):
         weight = 0.5 * (1.0 - math.cos(math.pi * progress))
         return float(min(max(weight, 0.0), 1.0))
 
-    def _log_dual_losses(self, loss_o, loss_z, loss_total, lambda_z):
+    def _log_dual_losses(self, loss_o, loss_z, loss_total, lambda_z, loss_re=None, loss_mask=None):
         log_payload = {
             "loss_o": loss_o.detach().item(),
             "loss_z": loss_z.detach().item(),
             "loss_t": loss_total.detach().item(),
             "lambda_z": lambda_z.detach().item() if torch.is_tensor(lambda_z) else float(lambda_z),
         }
+        if loss_re is not None:
+            log_payload["loss_re"] = loss_re.detach().item()
+        if loss_mask is not None:
+            log_payload["loss_mask"] = loss_mask.detach().item()
         self.log(log_payload)
 
     def prediction_step(
@@ -540,7 +550,29 @@ class CustomDiffusionTrainer(Trainer):
 
         logits_z = model(x_t, t, attention_mask=attention_mask)
         logits_z = torch.cat([logits_z[:,0:1], logits_z[:,:-1]], dim=1)
-        loss_z = self._compute_weighted_loss(logits_z, x, loss_mask, t, vocab_size)
+
+        sample_weights = None
+        if getattr(self.diff_args, "z_mask", False) and getattr(self.diff_args, "reunmask", False) and extras is not None and "mask_t_plus" in extras and "final_mask" in extras:
+             mask_t_plus = extras["mask_t_plus"]
+             final_mask = extras["final_mask"]
+             mask_re = mask_t_plus & (~final_mask)
+             
+             correction_weight = getattr(self.diff_args, "reunmask_correction_weight", 1.0)
+             if correction_weight != 1.0:
+                 incorrect_mask = (x_t != x) & mask_re
+                 sample_weights = torch.ones_like(x, dtype=torch.float)
+                 sample_weights = sample_weights.masked_fill(incorrect_mask, correction_weight)
+
+        loss_z = self._compute_weighted_loss(logits_z, x, loss_mask, t, vocab_size, sample_weights=sample_weights)
+
+        loss_re = None
+        loss_mask_val = None
+        if getattr(self.diff_args, "reunmask", False) and extras is not None and "mask_t_plus" in extras and "final_mask" in extras:
+             mask_t_plus = extras["mask_t_plus"]
+             final_mask = extras["final_mask"]
+             mask_re = mask_t_plus & (~final_mask)
+             loss_re = self._compute_weighted_loss(logits_z, x, mask_re, t, vocab_size, sample_weights=sample_weights)
+             loss_mask_val = self._compute_weighted_loss(logits_z, x, final_mask, t, vocab_size)
 
         loss = loss_z
         if extras is not None and "x_plain" in extras and "mask_plain" in extras:
@@ -551,7 +583,7 @@ class CustomDiffusionTrainer(Trainer):
             loss_o = self._compute_weighted_loss(logits_o, x, mask_plain, t, vocab_size)
             lambda_z = self._z_mask_weight_schedule()
             loss = (1 - lambda_z) * loss_o + lambda_z * loss_z
-            self._log_dual_losses(loss_o, loss_z, loss, lambda_z)
+            self._log_dual_losses(loss_o, loss_z, loss, lambda_z, loss_re, loss_mask_val)
 
         return loss
 
@@ -671,7 +703,7 @@ class CustomDiffusionTrainer(Trainer):
                     getattr(self.diff_args, "downk_ratio", 0.8)
                 )
 
-            new_xt = topk_decoding(
+            new_xt, final_mask = topk_decoding(
                 x0,
                 selection_scores,
                 schedule,
@@ -680,7 +712,7 @@ class CustomDiffusionTrainer(Trainer):
                 self.diff_args.diffusion_steps,
                 self.tokenizer.mask_token_id,
             )
-            return new_xt, maskable_mask
+            return new_xt, final_mask
 
         raise ValueError(f"Unsupported denoise_method: {denoise_method}")
 
@@ -809,7 +841,7 @@ def topk_decoding(
         else:
             raise NotImplementedError("noise should be either a tensor or a scalar")
 
-        return xt
+        return xt, lowest_k_mask
 
 def select_k_lowest_with_mask(scores, k, mask):
     """Selects k positions with lowest scores from masked positions."""
