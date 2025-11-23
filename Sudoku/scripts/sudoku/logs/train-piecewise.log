@@ -1,0 +1,52 @@
+nohup: ignoring input
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+The following values were not passed to `accelerate launch` and had defaults used instead:
+	`--dynamo_backend` was set to a value of `'no'`
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+Traceback (most recent call last):
+  File "/root/code/EasyMDM/Sudoku/src/train_bash.py", line 13, in <module>
+    main()
+  File "/root/code/EasyMDM/Sudoku/src/train_bash.py", line 4, in main
+    run_exp()
+  File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/tune.py", line 16, in run_exp
+    model_args, diffusion_args, data_args, training_args, finetuning_args, generating_args = get_train_args(args)
+  File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/core/parser.py", line 82, in get_train_args
+    model_args, diffusion_args, data_args, training_args, finetuning_args, generating_args = parse_train_args(args)
+  File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/core/parser.py", line 52, in parse_train_args
+    return _parse_args(parser, args)
+  File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/core/parser.py", line 31, in _parse_args
+    return parser.parse_args_into_dataclasses()
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/hf_argparser.py", line 345, in parse_args_into_dataclasses
+Traceback (most recent call last):
+  File "/root/code/EasyMDM/Sudoku/src/train_bash.py", line 13, in <module>
+    main()
+  File "/root/code/EasyMDM/Sudoku/src/train_bash.py", line 4, in main
+    run_exp()
+  File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/tune.py", line 16, in run_exp
+    model_args, diffusion_args, data_args, training_args, finetuning_args, generating_args = get_train_args(args)
+  File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/core/parser.py", line 82, in get_train_args
+    model_args, diffusion_args, data_args, training_args, finetuning_args, generating_args = parse_train_args(args)
+  File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/core/parser.py", line 52, in parse_train_args
+    return _parse_args(parser, args)
+  File "/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/core/parser.py", line 31, in _parse_args
+    return parser.parse_args_into_dataclasses()
+  File "/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/hf_argparser.py", line 345, in parse_args_into_dataclasses
+        obj = dtype(**inputs)obj = dtype(**inputs)
+
+  File "<string>", line 21, in __init__
+  File "<string>", line 21, in __init__
+  File "/root/code/EasyMDM/Sudoku/src/llmtuner/hparams/diffusion_args.py", line 107, in __post_init__
+  File "/root/code/EasyMDM/Sudoku/src/llmtuner/hparams/diffusion_args.py", line 107, in __post_init__
+    raise ValueError(f"Unsupported z_schedule: {self.z_schedule}. Choose from {{'cos', 'all-z', 'sigmoid'}}.")
+ValueError: Unsupported z_schedule: piecewise. Choose from {'cos', 'all-z', 'sigmoid'}.
+    raise ValueError(f"Unsupported z_schedule: {self.z_schedule}. Choose from {{'cos', 'all-z', 'sigmoid'}}.")
+ValueError: Unsupported z_schedule: piecewise. Choose from {'cos', 'all-z', 'sigmoid'}.

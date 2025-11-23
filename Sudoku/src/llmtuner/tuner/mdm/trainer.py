@@ -424,10 +424,13 @@ class CustomDiffusionTrainer(Trainer):
         额外支持：
         - all-z: 始终为 1，只用 loss_z
         - sigmoid: 使用 Sigmoid(a*(p-b))，a=5，b in [0,1]
+        - piecewise: 前50%为0，后50%余弦增加到1
+        - oscillate: 3步loss_o，1步loss_z
         """
         # 计算当前训练进度（步数比例）
         max_steps = max(1, getattr(self.state, "max_steps", 1) or 1)
-        progress = getattr(self.state, "global_step", 0) / max_steps
+        global_step = getattr(self.state, "global_step", 0)
+        progress = global_step / max_steps
         progress = float(min(max(progress, 0.0), 1.0))
 
         # 读取调度方式，默认 cos
@@ -453,6 +456,23 @@ class CustomDiffusionTrainer(Trainer):
                 exp_x = math.exp(x)
                 weight = exp_x / (1.0 + exp_x)
             return float(min(max(weight, 0.0), 1.0))
+
+        # piecewise: 前50%为0，后50%线性增加到1
+        if z_schedule == "piecewise":
+            if progress < 0.5:
+                return 0.0
+            else:
+                # 映射 [0.5, 1.0] -> [0, 1]
+                weight = (progress - 0.5) * 2
+                return float(min(max(weight, 0.0), 1.0))
+
+        # oscillate: 3步loss_o，1步loss_z
+        if z_schedule == "oscillate":
+            # 每4步为一个周期，前3步为0 (loss_o)，第4步为1 (loss_z)
+            if global_step % 4 == 3:
+                return 1.0
+            else:
+                return 0.0
 
         # 默认：余弦调度，从 0 平滑增加到 1
         weight = 0.5 * (1.0 - math.cos(math.pi * progress))
