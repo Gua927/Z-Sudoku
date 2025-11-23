@@ -60,7 +60,7 @@ class DiffusionArguments:
     )
     z_schedule: str = field(
         default="cos",
-        metadata={"help": "Weight schedule for combining loss_o and loss_z: cos | all-z | sigmoid."}
+        metadata={"help": "Weight schedule for combining loss_o and loss_z: cos | all-z | sigmoid | piecewise | oscillate."}
     )
     z_sigmoid_center: float = field(
         default=0.5,
@@ -103,8 +103,8 @@ class DiffusionArguments:
 
         # normalize z_schedule
         self.z_schedule = (self.z_schedule or "cos").lower()
-        if self.z_schedule not in {"cos", "all-z", "sigmoid"}:
-            raise ValueError(f"Unsupported z_schedule: {self.z_schedule}. Choose from {{'cos', 'all-z', 'sigmoid'}}.")
+        if self.z_schedule not in {"cos", "all-z", "sigmoid", "piecewise", "oscillate"}:
+            raise ValueError(f"Unsupported z_schedule: {self.z_schedule}. Choose from {{'cos', 'all-z', 'sigmoid', 'piecewise', 'oscillate'}}.")
 
         # clamp z_sigmoid_center into [0,1]
         if self.z_sigmoid_center < 0.0:
