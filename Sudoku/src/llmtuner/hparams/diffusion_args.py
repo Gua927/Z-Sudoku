@@ -81,7 +81,7 @@ class DiffusionArguments:
     )
 
     def __post_init__(self):
-        supported = {"origin", "topk", "topk-margin", "downk"}
+        supported = {"origin", "topk", "topk-margin", "downk", "downk-margin"}
         if self.denoise_method not in supported:
             raise ValueError(f"Unsupported denoise_method: {self.denoise_method}. Choose from {supported}.")
 

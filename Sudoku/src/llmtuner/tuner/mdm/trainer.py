@@ -357,7 +357,7 @@ class CustomDiffusionTrainer(Trainer):
             selection_scores = None
             if method in ["topk", "downk"]:
                 selection_scores, _ = scores.max(-1)
-            elif method == "topk-margin":
+            elif method in ["topk-margin", "downk-margin"]:
                 selection_scores = self._compute_margin_scores(scores)
 
             decoding_schedule = self._extract_schedule(getattr(self.diff_args, "decoding_strategy", "linear"))
@@ -638,7 +638,7 @@ class CustomDiffusionTrainer(Trainer):
                     selection_scores = None
                     if denoise_method in ["topk", "downk"]:
                         selection_scores = x0_scores
-                    elif denoise_method == "topk-margin":
+                    elif denoise_method in ["topk-margin", "downk-margin"]:
                         selection_scores = self._compute_margin_scores(scores)
 
                     current_mask = maskable_mask.clone()
@@ -686,11 +686,11 @@ class CustomDiffusionTrainer(Trainer):
                 return self._origin_denoise_step_batch(xt, x0, maskable_mask, t)
             return self._origin_denoise_step(xt, x0, maskable_mask, t)
 
-        if denoise_method in {"topk", "topk-margin", "downk"}:
+        if denoise_method in {"topk", "topk-margin", "downk", "downk-margin"}:
             if selection_scores is None:
                 raise ValueError(f"Selection scores are required for {denoise_method} denoising.")
             
-            if denoise_method == "downk":
+            if denoise_method in ["downk", "downk-margin"]:
                 return downk_decoding(
                     x0,
                     selection_scores,
