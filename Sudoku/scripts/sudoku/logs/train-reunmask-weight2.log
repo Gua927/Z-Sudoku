@@ -1,0 +1,192 @@
+nohup: ignoring input
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+The following values were not passed to `accelerate launch` and had defaults used instead:
+	`--dynamo_backend` was set to a value of `'no'`
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/accelerate/utils/launch.py:238: UserWarning: Port `20099` is already in use. Accelerate will attempt to launch in a standalone-like mode by finding an open port automatically for this session. If this current attempt fails, or for more control in future runs, please specify a different port (e.g., `--main_process_port <your_chosen_port>`) or use `--main_process_port 0` for automatic selection in your launch command or Accelerate config file.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+[INFO|configuration_utils.py:763] 2025-11-27 17:55:29,722 >> loading configuration file /root/code/EasyMDM/Sudoku/model_config_tiny/config.json
+[INFO|configuration_utils.py:839] 2025-11-27 17:55:29,728 >> Model config GPT2Config {
+  "activation_function": "gelu_new",
+  "architectures": [
+    "GPT2LMHeadModel"
+  ],
+  "attn_pdrop": 0.1,
+  "bos_token_id": 3,
+  "embd_pdrop": 0.1,
+  "eos_token_id": 3,
+  "initializer_range": 0.02,
+  "layer_norm_epsilon": 1e-05,
+  "model_type": "gpt2",
+  "n_ctx": 512,
+  "n_embd": 384,
+  "n_head": 12,
+  "n_inner": null,
+  "n_layer": 3,
+  "n_positions": 512,
+  "reorder_and_upcast_attn": false,
+  "resid_pdrop": 0.1,
+  "scale_attn_by_inverse_layer_idx": false,
+  "scale_attn_weights": true,
+  "summary_activation": null,
+  "summary_first_dropout": 0.1,
+  "summary_proj_to_labels": true,
+  "summary_type": "cls_index",
+  "summary_use_proj": true,
+  "task_specific_params": {
+    "text-generation": {
+      "do_sample": true,
+      "max_length": 50
+    }
+  },
+  "transformers_version": "4.57.1",
+  "use_cache": true,
+  "vocab_size": 31
+}
+
+[WARNING|logging.py:328] 2025-11-27 17:55:29,728 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING|logging.py:328] 2025-11-27 17:55:29,754 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[INFO|modeling_utils.py:2341] 2025-11-27 17:55:29,754 >> Instantiating GPT2LMHeadModel model under default dtype torch.float16.
+[INFO|configuration_utils.py:986] 2025-11-27 17:55:29,756 >> Generate config GenerationConfig {
+  "bos_token_id": 3,
+  "eos_token_id": 3
+}
+
+[WARNING|logging.py:328] 2025-11-27 17:55:30,000 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING|logging.py:328] 2025-11-27 17:55:30,002 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING|logging.py:328] 2025-11-27 17:55:30,015 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING|logging.py:328] 2025-11-27 17:55:30,027 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING|logging.py:328] 2025-11-27 17:55:30,028 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING|logging.py:328] 2025-11-27 17:55:30,041 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING|logging.py:328] 2025-11-27 17:55:30,057 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING|logging.py:328] 2025-11-27 17:55:30,066 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING|logging.py:328] 2025-11-27 17:55:30,071 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING|logging.py:328] 2025-11-27 17:55:30,080 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING|logging.py:328] 2025-11-27 17:55:30,084 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING|logging.py:328] 2025-11-27 17:55:30,092 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING|logging.py:328] 2025-11-27 17:55:30,097 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING|logging.py:328] 2025-11-27 17:55:30,107 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[INFO|training_args.py:1715] 2025-11-27 17:55:30,211 >> Found safetensors installation, but --save_safetensors=False. Safetensors should be a preferred weights saving format due to security and performance reasons. If your model cannot be saved by safetensors please feel free to open an issue at https://github.com/huggingface/safetensors!
+[INFO|training_args.py:2222] 2025-11-27 17:55:30,212 >> PyTorch: setting up devices
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/transformers/training_args.py:2111: FutureWarning: `--push_to_hub_token` is deprecated and will be removed in version 5 of 🤗 Transformers. Use `--hub_token` instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/datasets/load.py:2516: FutureWarning: 'use_auth_token' was deprecated in favor of 'token' in version 2.14.0 and will be removed in 3.0.0.
+You can remove this warning by passing 'token=<use_auth_token>' instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/transformers/training_args.py:2111: FutureWarning: `--push_to_hub_token` is deprecated and will be removed in version 5 of 🤗 Transformers. Use `--hub_token` instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/datasets/load.py:2516: FutureWarning: 'use_auth_token' was deprecated in favor of 'token' in version 2.14.0 and will be removed in 3.0.0.
+You can remove this warning by passing 'token=<use_auth_token>' instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/transformers/training_args.py:2111: FutureWarning: `--push_to_hub_token` is deprecated and will be removed in version 5 of 🤗 Transformers. Use `--hub_token` instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/datasets/load.py:2516: FutureWarning: 'use_auth_token' was deprecated in favor of 'token' in version 2.14.0 and will be removed in 3.0.0.
+You can remove this warning by passing 'token=<use_auth_token>' instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/transformers/training_args.py:2111: FutureWarning: `--push_to_hub_token` is deprecated and will be removed in version 5 of 🤗 Transformers. Use `--hub_token` instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/datasets/load.py:2516: FutureWarning: 'use_auth_token' was deprecated in favor of 'token' in version 2.14.0 and will be removed in 3.0.0.
+You can remove this warning by passing 'token=<use_auth_token>' instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/transformers/training_args.py:2111: FutureWarning: `--push_to_hub_token` is deprecated and will be removed in version 5 of 🤗 Transformers. Use `--hub_token` instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/datasets/load.py:2516: FutureWarning: 'use_auth_token' was deprecated in favor of 'token' in version 2.14.0 and will be removed in 3.0.0.
+You can remove this warning by passing 'token=<use_auth_token>' instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/transformers/training_args.py:2111: FutureWarning: `--push_to_hub_token` is deprecated and will be removed in version 5 of 🤗 Transformers. Use `--hub_token` instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/datasets/load.py:2516: FutureWarning: 'use_auth_token' was deprecated in favor of 'token' in version 2.14.0 and will be removed in 3.0.0.
+You can remove this warning by passing 'token=<use_auth_token>' instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/transformers/training_args.py:2111: FutureWarning: `--push_to_hub_token` is deprecated and will be removed in version 5 of 🤗 Transformers. Use `--hub_token` instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/datasets/load.py:2516: FutureWarning: 'use_auth_token' was deprecated in favor of 'token' in version 2.14.0 and will be removed in 3.0.0.
+You can remove this warning by passing 'token=<use_auth_token>' instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/transformers/training_args.py:2111: FutureWarning: `--push_to_hub_token` is deprecated and will be removed in version 5 of 🤗 Transformers. Use `--hub_token` instead.
+  warnings.warn(
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/datasets/load.py:2516: FutureWarning: 'use_auth_token' was deprecated in favor of 'token' in version 2.14.0 and will be removed in 3.0.0.
+You can remove this warning by passing 'token=<use_auth_token>' instead.
+  warnings.warn(
+Using custom data configuration default-9ce9c063e0e7477c
+Loading Dataset Infos from /GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/datasets/packaged_modules/csv
+Overwrite dataset info from restored data version if exists.
+Loading Dataset info from /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6
+Found cached dataset csv (/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6)
+Loading Dataset info from /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6
+Process #0 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-019e9b8926267442_00000_of_00008.arrow
+Process #1 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-019e9b8926267442_00001_of_00008.arrow
+Process #2 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-019e9b8926267442_00002_of_00008.arrow
+Process #3 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-019e9b8926267442_00003_of_00008.arrow
+Process #4 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-019e9b8926267442_00004_of_00008.arrow
+Process #5 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-019e9b8926267442_00005_of_00008.arrow
+Process #6 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-019e9b8926267442_00006_of_00008.arrow
+Process #7 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-019e9b8926267442_00007_of_00008.arrow
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
+  warnings.warn(  # warn only once
+[rank5]:[W1127 17:55:31.616257518 ProcessGroupNCCL.cpp:5023] [PG ID 0 PG GUID 0 Rank 5]  using GPU 5 as device used by this process is currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. You can specify device_id in init_process_group() to force use of a particular device.
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
+  warnings.warn(  # warn only once
+[rank3]:[W1127 17:55:31.670328952 ProcessGroupNCCL.cpp:5023] [PG ID 0 PG GUID 0 Rank 3]  using GPU 3 as device used by this process is currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. You can specify device_id in init_process_group() to force use of a particular device.
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
+  warnings.warn(  # warn only once
+[rank2]:[W1127 17:55:31.717848765 ProcessGroupNCCL.cpp:5023] [PG ID 0 PG GUID 0 Rank 2]  using GPU 2 as device used by this process is currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. You can specify device_id in init_process_group() to force use of a particular device.
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
+  warnings.warn(  # warn only once
+[rank6]:[W1127 17:55:31.727645667 ProcessGroupNCCL.cpp:5023] [PG ID 0 PG GUID 0 Rank 6]  using GPU 6 as device used by this process is currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. You can specify device_id in init_process_group() to force use of a particular device.
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
+  warnings.warn(  # warn only once
+[rank4]:[W1127 17:55:31.748336724 ProcessGroupNCCL.cpp:5023] [PG ID 0 PG GUID 0 Rank 4]  using GPU 4 as device used by this process is currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. You can specify device_id in init_process_group() to force use of a particular device.
+/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
+  warnings.warn(  # warn only once
+[rank7]:[W1127 17:55:31.766515535 ProcessGroupNCCL.cpp:5023] [PG ID 0 PG GUID 0 Rank 7]  using GPU 7 as device used by this process is currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. You can specify device_id in init_process_group() to force use of a particular device.
+Spawning 8 processes
+Running tokenizer on dataset (num_proc=8):   0%|          | 0/100000 [00:00<?, ? examples/s]/GenSIvePFS/users/trz/DLM-A100-2/env/mdm-prime/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
+  warnings.warn(  # warn only once
+[rank1]:[W1127 17:55:32.804560165 ProcessGroupNCCL.cpp:5023] [PG ID 0 PG GUID 0 Rank 1]  using GPU 1 as device used by this process is currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. You can specify device_id in init_process_group() to force use of a particular device.
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-019e9b8926267442_00006_of_00008.arrow
+Running tokenizer on dataset (num_proc=8):   1%|          | 1000/100000 [00:00<00:44, 2201.03 examples/s]Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-019e9b8926267442_00005_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-019e9b8926267442_00000_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-019e9b8926267442_00004_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-019e9b8926267442_00001_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-019e9b8926267442_00002_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-019e9b8926267442_00003_of_00008.arrow
+Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-019e9b8926267442_00007_of_00008.arrow
+Running tokenizer on dataset (num_proc=8):   2%|▏         | 2000/100000 [00:00<00:27, 3555.38 examples/s]Running tokenizer on dataset (num_proc=8):   9%|▉         | 9000/100000 [00:00<00:06, 15102.48 examples/s]Running tokenizer on dataset (num_proc=8):  11%|█         | 11000/100000 [00:01<00:08, 11056.72 examples/s]Running tokenizer on dataset (num_proc=8):  15%|█▌        | 15000/100000 [00:01<00:05, 15856.54 examples/s]Running tokenizer on dataset (num_proc=8):  18%|█▊        | 18000/100000 [00:01<00:06, 13253.59 examples/s]Running tokenizer on dataset (num_proc=8):  22%|██▏       | 22000/100000 [00:01<00:04, 16672.98 examples/s]Running tokenizer on dataset (num_proc=8):  25%|██▌       | 25000/100000 [00:01<00:04, 17899.37 examples/s]Running tokenizer on dataset (num_proc=8):  28%|██▊       | 28000/100000 [00:02<00:05, 12997.51 examples/s]Running tokenizer on dataset (num_proc=8):  33%|███▎      | 33000/100000 [00:02<00:03, 17054.16 examples/s]Running tokenizer on dataset (num_proc=8):  36%|███▌      | 36000/100000 [00:02<00:04, 15097.90 examples/s]Running tokenizer on dataset (num_proc=8):  38%|███▊      | 38000/100000 [00:02<00:04, 14346.27 examples/s]Running tokenizer on dataset (num_proc=8):  41%|████      | 41000/100000 [00:02<00:03, 15629.71 examples/s]Running tokenizer on dataset (num_proc=8):  45%|████▌     | 45000/100000 [00:03<00:03, 15334.31 examples/s]Running tokenizer on dataset (num_proc=8):  47%|████▋     | 47000/100000 [00:03<00:03, 14336.75 examples/s]Running tokenizer on dataset (num_proc=8):  51%|█████     | 51000/100000 [00:03<00:02, 18119.20 examples/s]Running tokenizer on dataset (num_proc=8):  54%|█████▍    | 54000/100000 [00:03<00:03, 14978.01 examples/s]Running tokenizer on dataset (num_proc=8):  56%|█████▌    | 56000/100000 [00:03<00:03, 13906.18 examples/s]Running tokenizer on dataset (num_proc=8):  60%|██████    | 60000/100000 [00:04<00:02, 16261.00 examples/s]

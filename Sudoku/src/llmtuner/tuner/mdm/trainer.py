@@ -124,19 +124,23 @@ class CustomDiffusionTrainer(Trainer):
         return final_loss
 
     @contextmanager
-    def _apply_eval_overrides(self, temperature: Optional[float], method: Optional[str]):
+    def _apply_eval_overrides(self, temperature: Optional[float], method: Optional[str], reunmask: Optional[bool] = None):
         original_temperature = self.temperature
         original_method = getattr(self.diff_args, "denoise_method", None)
+        original_reunmask = getattr(self.diff_args, "reunmask", False)
         try:
             if temperature is not None:
                 self.temperature = float(temperature)
             if method is not None:
                 self.diff_args.denoise_method = method
+            if reunmask is not None:
+                self.diff_args.reunmask = reunmask
             yield
         finally:
             self.temperature = original_temperature
             if original_method is not None:
                 self.diff_args.denoise_method = original_method
+            self.diff_args.reunmask = original_reunmask
 
     def set_temporary_eval_overrides(self, temperature: Optional[float], denoise_method: Optional[str]):
         self._manual_eval_temperature = temperature
@@ -164,9 +168,9 @@ class CustomDiffusionTrainer(Trainer):
             collected.append(None)
         return self._unique_sequence(collected)
 
-    def _build_eval_combos(self, manual_override: bool) -> List[Tuple[Optional[str], Optional[float]]]:
+    def _build_eval_combos(self, manual_override: bool) -> List[Tuple[Optional[str], Optional[float], Optional[bool]]]:
         if manual_override:
-            return [(self._manual_eval_denoise_method, self._manual_eval_temperature)]
+            return [(self._manual_eval_denoise_method, self._manual_eval_temperature, getattr(self.diff_args, "reunmask", False))]
 
         method_candidates = self._build_eval_values(
             self.eval_denoise_method,
@@ -176,10 +180,16 @@ class CustomDiffusionTrainer(Trainer):
             self.eval_temperature,
             self.eval_temperature_list,
         )
+        
+        reunmask_candidates = [False]
+        if getattr(self.diff_args, "reunmask", False):
+            reunmask_candidates = [True, False]
+
         return [
-            (method, temperature)
+            (method, temperature, reunmask)
             for method in method_candidates
             for temperature in temperature_candidates
+            for reunmask in reunmask_candidates
         ]
 
     def _format_metric_prefix(
@@ -188,6 +198,7 @@ class CustomDiffusionTrainer(Trainer):
         index: int,
         method: Optional[str],
         temperature: Optional[float],
+        reunmask: Optional[bool],
         multi_eval: bool
     ) -> str:
         if not multi_eval:
@@ -201,18 +212,25 @@ class CustomDiffusionTrainer(Trainer):
         temperature_label = temperature if temperature is not None else self.temperature
         if temperature_label is not None:
             parts.append(f"temp-{temperature_label:g}")
+            
+        if reunmask is not None:
+             parts.append(f"reunmask-{str(reunmask).lower()}")
 
         if len(parts) == 1:
             parts.append(f"variant{index+1}")
 
         return "_".join(parts)
 
-    def _is_default_combo(self, method: Optional[str], temperature: Optional[float]) -> bool:
+    def _is_default_combo(self, method: Optional[str], temperature: Optional[float], reunmask: Optional[bool]) -> bool:
         default_method = getattr(self.diff_args, "denoise_method", None)
         default_temp = self.temperature
+        default_reunmask = getattr(self.diff_args, "reunmask", False)
+        
         method_match = (method is None) or (default_method is None) or (method == default_method)
         temp_match = (temperature is None) or (default_temp is None) or (float(temperature) == float(default_temp))
-        return method_match and temp_match
+        reunmask_match = (reunmask is None) or (reunmask == default_reunmask)
+        
+        return method_match and temp_match and reunmask_match
 
     @staticmethod
     def _alias_metrics(
@@ -234,9 +252,10 @@ class CustomDiffusionTrainer(Trainer):
         ignore_keys: Optional[List[str]],
         metric_key_prefix: str,
         temperature: Optional[float],
-        method: Optional[str]
+        method: Optional[str],
+        reunmask: Optional[bool]
     ) -> Dict[str, float]:
-        with self._apply_eval_overrides(temperature, method):
+        with self._apply_eval_overrides(temperature, method, reunmask):
             return super().evaluate(
                 eval_dataset=eval_dataset,
                 ignore_keys=ignore_keys,
@@ -255,17 +274,18 @@ class CustomDiffusionTrainer(Trainer):
         combined_metrics: Dict[str, float] = {}
         alias_written = False
 
-        for idx, (method, temperature) in enumerate(eval_combos):
-            metric_prefix = self._format_metric_prefix(metric_key_prefix, idx, method, temperature, multi_eval)
+        for idx, (method, temperature, reunmask) in enumerate(eval_combos):
+            metric_prefix = self._format_metric_prefix(metric_key_prefix, idx, method, temperature, reunmask, multi_eval)
             logger.info(
-                "Running eval combo %d/%d: method=%s, temperature=%s, prefix=%s",
+                "Running eval combo %d/%d: method=%s, temperature=%s, reunmask=%s, prefix=%s",
                 idx + 1,
                 len(eval_combos),
                 method if method is not None else getattr(self.diff_args, "denoise_method", None),
                 temperature if temperature is not None else self.temperature,
+                reunmask if reunmask is not None else getattr(self.diff_args, "reunmask", False),
                 metric_prefix,
             )
-            metrics = self._evaluate_single(eval_dataset, ignore_keys, metric_prefix, temperature, method)
+            metrics = self._evaluate_single(eval_dataset, ignore_keys, metric_prefix, temperature, method, reunmask)
             combo_metrics = {k: v for k, v in metrics.items() if k.startswith(metric_prefix)}
             _log_prefixed_metrics(self, metric_prefix, combo_metrics)
             combined_metrics.update(combo_metrics)
@@ -275,7 +295,7 @@ class CustomDiffusionTrainer(Trainer):
                 and not manual_override
                 and not alias_written
                 and metric_key_prefix
-                and self._is_default_combo(method, temperature)
+                and self._is_default_combo(method, temperature, reunmask)
             )
             if alias_needed:
                 alias_metrics = self._alias_metrics(combo_metrics, metric_prefix, metric_key_prefix)

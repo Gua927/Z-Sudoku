@@ -1,254 +1,0 @@
-nohup: ignoring input
-/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
-  from pkg_resources import parse_version
-/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
-  from pkg_resources import parse_version
-The following values were not passed to `accelerate launch` and had defaults used instead:
-	`--dynamo_backend` was set to a value of `'no'`
-To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
-/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
-  from pkg_resources import parse_version
-/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
-  from pkg_resources import parse_version
-[INFO|configuration_utils.py:763] 2025-11-25 10:20:27,863 >> loading configuration file /root/code/EasyMDM/Sudoku/model_config_tiny/config.json
-[INFO|configuration_utils.py:839] 2025-11-25 10:20:27,872 >> Model config GPT2Config {
-  "activation_function": "gelu_new",
-  "architectures": [
-    "GPT2LMHeadModel"
-  ],
-  "attn_pdrop": 0.1,
-  "bos_token_id": 3,
-  "embd_pdrop": 0.1,
-  "eos_token_id": 3,
-  "initializer_range": 0.02,
-  "layer_norm_epsilon": 1e-05,
-  "model_type": "gpt2",
-  "n_ctx": 512,
-  "n_embd": 384,
-  "n_head": 12,
-  "n_inner": null,
-  "n_layer": 3,
-  "n_positions": 512,
-  "reorder_and_upcast_attn": false,
-  "resid_pdrop": 0.1,
-  "scale_attn_by_inverse_layer_idx": false,
-  "scale_attn_weights": true,
-  "summary_activation": null,
-  "summary_first_dropout": 0.1,
-  "summary_proj_to_labels": true,
-  "summary_type": "cls_index",
-  "summary_use_proj": true,
-  "task_specific_params": {
-    "text-generation": {
-      "do_sample": true,
-      "max_length": 50
-    }
-  },
-  "transformers_version": "4.57.1",
-  "use_cache": true,
-  "vocab_size": 31
-}
-
-[WARNING|logging.py:328] 2025-11-25 10:20:27,872 >> `torch_dtype` is deprecated! Use `dtype` instead!
-[WARNING|logging.py:328] 2025-11-25 10:20:27,872 >> `torch_dtype` is deprecated! Use `dtype` instead!
-[WARNING|logging.py:328] 2025-11-25 10:20:27,901 >> `torch_dtype` is deprecated! Use `dtype` instead!
-[WARNING|logging.py:328] 2025-11-25 10:20:27,901 >> `torch_dtype` is deprecated! Use `dtype` instead!
-[INFO|modeling_utils.py:2341] 2025-11-25 10:20:27,901 >> Instantiating GPT2LMHeadModel model under default dtype torch.float16.
-[INFO|configuration_utils.py:986] 2025-11-25 10:20:27,903 >> Generate config GenerationConfig {
-  "bos_token_id": 3,
-  "eos_token_id": 3
-}
-
-[INFO|training_args.py:1715] 2025-11-25 10:20:28,353 >> Found safetensors installation, but --save_safetensors=False. Safetensors should be a preferred weights saving format due to security and performance reasons. If your model cannot be saved by safetensors please feel free to open an issue at https://github.com/huggingface/safetensors!
-[INFO|training_args.py:2222] 2025-11-25 10:20:28,353 >> PyTorch: setting up devices
-/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/training_args.py:2111: FutureWarning: `--push_to_hub_token` is deprecated and will be removed in version 5 of 🤗 Transformers. Use `--hub_token` instead.
-  warnings.warn(
-/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/transformers/training_args.py:2111: FutureWarning: `--push_to_hub_token` is deprecated and will be removed in version 5 of 🤗 Transformers. Use `--hub_token` instead.
-  warnings.warn(
-/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/datasets/load.py:2516: FutureWarning: 'use_auth_token' was deprecated in favor of 'token' in version 2.14.0 and will be removed in 3.0.0.
-You can remove this warning by passing 'token=<use_auth_token>' instead.
-  warnings.warn(
-/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/datasets/load.py:2516: FutureWarning: 'use_auth_token' was deprecated in favor of 'token' in version 2.14.0 and will be removed in 3.0.0.
-You can remove this warning by passing 'token=<use_auth_token>' instead.
-  warnings.warn(
-Using custom data configuration default-9ce9c063e0e7477c
-Loading Dataset Infos from /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/datasets/packaged_modules/csv
-Overwrite dataset info from restored data version if exists.
-Loading Dataset info from /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6
-/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
-  warnings.warn(  # warn only once
-[rank1]:[W1125 10:20:29.411349174 ProcessGroupNCCL.cpp:5023] [PG ID 0 PG GUID 0 Rank 1]  using GPU 1 as device used by this process is currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. You can specify device_id in init_process_group() to force use of a particular device.
-Found cached dataset csv (/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6)
-Loading Dataset info from /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6
-Process #0 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-5fbf019f900581ab_00000_of_00008.arrow
-Process #1 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-5fbf019f900581ab_00001_of_00008.arrow
-Process #2 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-5fbf019f900581ab_00002_of_00008.arrow
-Process #3 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-5fbf019f900581ab_00003_of_00008.arrow
-Process #4 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-5fbf019f900581ab_00004_of_00008.arrow
-Process #5 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-5fbf019f900581ab_00005_of_00008.arrow
-Process #6 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-5fbf019f900581ab_00006_of_00008.arrow
-Process #7 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-5fbf019f900581ab_00007_of_00008.arrow
-Spawning 8 processes
-Running tokenizer on dataset (num_proc=8):   0%|          | 0/100000 [00:00<?, ? examples/s]Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-5fbf019f900581ab_00000_of_00008.arrow
-Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-5fbf019f900581ab_00001_of_00008.arrow
-Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-5fbf019f900581ab_00002_of_00008.arrow
-Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-5fbf019f900581ab_00003_of_00008.arrow
-Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-5fbf019f900581ab_00004_of_00008.arrow
-Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-5fbf019f900581ab_00005_of_00008.arrow
-Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-5fbf019f900581ab_00006_of_00008.arrow
-Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-9ce9c063e0e7477c/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-5fbf019f900581ab_00007_of_00008.arrow
-Running tokenizer on dataset (num_proc=8):   1%|          | 1000/100000 [00:00<00:41, 2386.94 examples/s]Running tokenizer on dataset (num_proc=8):   9%|▉         | 9000/100000 [00:00<00:06, 13290.93 examples/s]Running tokenizer on dataset (num_proc=8):  17%|█▋        | 17000/100000 [00:01<00:04, 17195.28 examples/s]Running tokenizer on dataset (num_proc=8):  25%|██▌       | 25000/100000 [00:01<00:03, 19067.92 examples/s]Running tokenizer on dataset (num_proc=8):  33%|███▎      | 33000/100000 [00:01<00:03, 20189.82 examples/s]Running tokenizer on dataset (num_proc=8):  41%|████      | 41000/100000 [00:02<00:02, 20813.45 examples/s]Running tokenizer on dataset (num_proc=8):  49%|████▉     | 49000/100000 [00:02<00:02, 21292.35 examples/s]Running tokenizer on dataset (num_proc=8):  57%|█████▋    | 57000/100000 [00:02<00:01, 21595.79 examples/s]Running tokenizer on dataset (num_proc=8):  65%|██████▌   | 65000/100000 [00:03<00:01, 21719.56 examples/s]Running tokenizer on dataset (num_proc=8):  73%|███████▎  | 73000/100000 [00:03<00:01, 21854.33 examples/s]Running tokenizer on dataset (num_proc=8):  81%|████████  | 81000/100000 [00:04<00:00, 21934.55 examples/s]Running tokenizer on dataset (num_proc=8):  89%|████████▉ | 89000/100000 [00:04<00:00, 22018.86 examples/s]Running tokenizer on dataset (num_proc=8):  96%|█████████▋| 96500/100000 [00:04<00:00, 25515.86 examples/s]Running tokenizer on dataset (num_proc=8): 100%|██████████| 100000/100000 [00:04<00:00, 21265.51 examples/s]
-Concatenating 8 shards
-/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
-  warnings.warn(  # warn only once
-[rank0]:[W1125 10:20:34.319090090 ProcessGroupNCCL.cpp:5023] [PG ID 0 PG GUID 0 Rank 0]  using GPU 0 as device used by this process is currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. You can specify device_id in init_process_group() to force use of a particular device.
-Running tokenizer on dataset (num_proc=8):   0%|          | 0/100000 [00:00<?, ? examples/s]Running tokenizer on dataset (num_proc=8):   1%|          | 1000/100000 [00:00<00:40, 2443.47 examples/s]Running tokenizer on dataset (num_proc=8):   9%|▉         | 9000/100000 [00:00<00:06, 13533.21 examples/s]Running tokenizer on dataset (num_proc=8):  16%|█▌        | 16000/100000 [00:00<00:03, 22821.98 examples/s]Running tokenizer on dataset (num_proc=8):  20%|██        | 20000/100000 [00:01<00:04, 19206.36 examples/s]Running tokenizer on dataset (num_proc=8):  25%|██▌       | 25000/100000 [00:01<00:04, 17635.05 examples/s]Running tokenizer on dataset (num_proc=8):  32%|███▏      | 32000/100000 [00:01<00:02, 25478.05 examples/s]Running tokenizer on dataset (num_proc=8):  36%|███▌      | 36000/100000 [00:01<00:03, 21021.96 examples/s]Using custom data configuration default-44d4deacdb6c982e
-Loading Dataset Infos from /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/datasets/packaged_modules/csv
-Overwrite dataset info from restored data version if exists.
-Loading Dataset info from /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6
-Found cached dataset csv (/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6)
-Loading Dataset info from /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6
-Process #0 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-ddbce559e04a635b_00000_of_00008.arrow
-Process #1 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-ddbce559e04a635b_00001_of_00008.arrow
-Process #2 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-ddbce559e04a635b_00002_of_00008.arrow
-Process #3 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-ddbce559e04a635b_00003_of_00008.arrow
-Process #4 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-ddbce559e04a635b_00004_of_00008.arrow
-Process #5 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-ddbce559e04a635b_00005_of_00008.arrow
-Process #6 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-ddbce559e04a635b_00006_of_00008.arrow
-Process #7 will write at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-ddbce559e04a635b_00007_of_00008.arrow
-Spawning 8 processes
-Running tokenizer on dataset (num_proc=8):   0%|          | 0/1000 [00:00<?, ? examples/s]Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-ddbce559e04a635b_00002_of_00008.arrow
-Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-ddbce559e04a635b_00003_of_00008.arrow
-Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-ddbce559e04a635b_00004_of_00008.arrow
-Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-ddbce559e04a635b_00000_of_00008.arrow
-Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-ddbce559e04a635b_00005_of_00008.arrow
-Running tokenizer on dataset (num_proc=8):  12%|█▎        | 125/1000 [00:00<00:00, 1223.22 examples/s]Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-ddbce559e04a635b_00001_of_00008.arrow
-Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-ddbce559e04a635b_00006_of_00008.arrow
-Caching processed dataset at /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache/csv/default-44d4deacdb6c982e/0.0.0/2c2bba169a7e870eb2bcc07f2c69b72b171db4933b1c2e2833d2b48aeaf2f6c6/cache-ddbce559e04a635b_00007_of_00008.arrow
-Running tokenizer on dataset (num_proc=8):  41%|████      | 41000/100000 [00:02<00:03, 18865.61 examples/s]Running tokenizer on dataset (num_proc=8): 100%|██████████| 1000/1000 [00:00<00:00, 4168.05 examples/s]
-Running tokenizer on dataset (num_proc=8):  48%|████▊     | 48000/100000 [00:02<00:02, 24389.22 examples/s]Concatenating 8 shards
-Running tokenizer on dataset (num_proc=8):  52%|█████▏    | 52000/100000 [00:02<00:02, 22132.53 examples/s]Running tokenizer on dataset (num_proc=8):  56%|█████▌    | 56000/100000 [00:02<00:01, 23656.60 examples/s]Running tokenizer on dataset (num_proc=8):  59%|█████▉    | 59000/100000 [00:02<00:02, 20441.32 examples/s]Running tokenizer on dataset (num_proc=8):  64%|██████▍   | 64000/100000 [00:03<00:01, 22076.07 examples/s]Running tokenizer on dataset (num_proc=8):  67%|██████▋   | 67000/100000 [00:03<00:01, 21059.03 examples/s]Running tokenizer on dataset (num_proc=8):  72%|███████▏  | 72000/100000 [00:03<00:01, 22111.54 examples/s]Running tokenizer on dataset (num_proc=8):  75%|███████▌  | 75000/100000 [00:03<00:01, 21631.70 examples/s]Running tokenizer on dataset (num_proc=8):  80%|████████  | 80000/100000 [00:03<00:00, 21878.60 examples/s]Running tokenizer on dataset (num_proc=8):  83%|████████▎ | 83000/100000 [00:04<00:00, 21973.33 examples/s]Running tokenizer on dataset (num_proc=8):  88%|████████▊ | 88000/100000 [00:04<00:00, 21679.59 examples/s]Running tokenizer on dataset (num_proc=8):  91%|█████████ | 91000/100000 [00:04<00:00, 22443.13 examples/s]Running tokenizer on dataset (num_proc=8):  95%|█████████▌| 95000/100000 [00:04<00:00, 25871.96 examples/s]Running tokenizer on dataset (num_proc=8):  98%|█████████▊| 98000/100000 [00:04<00:00, 22921.25 examples/s]Running tokenizer on dataset (num_proc=8): 100%|██████████| 100000/100000 [00:04<00:00, 20268.85 examples/s]
-/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/trainer.py:80: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `CustomDiffusionTrainer.__init__`. Use `processing_class` instead.
-  super().__init__(
-Detected kernel version 5.4.250, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
-[INFO|trainer.py:749] 2025-11-25 10:20:41,419 >> Using auto half precision backend
-[WARNING|trainer.py:820] 2025-11-25 10:20:41,420 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:41,420 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:982] 2025-11-25 10:20:41,421 >> The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'bos_token_id': None, 'pad_token_id': 0}.
-Running tokenizer on dataset (num_proc=8):   0%|          | 0/1000 [00:00<?, ? examples/s]Running tokenizer on dataset (num_proc=8):  12%|█▎        | 125/1000 [00:00<00:00, 1217.80 examples/s]Running tokenizer on dataset (num_proc=8): 100%|██████████| 1000/1000 [00:00<00:00, 4324.03 examples/s]
-/root/code/EasyMDM/Sudoku/src/llmtuner/tuner/mdm/trainer.py:80: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `CustomDiffusionTrainer.__init__`. Use `processing_class` instead.
-  super().__init__(
-[WARNING|trainer.py:820] 2025-11-25 10:20:41,943 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:41,944 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:982] 2025-11-25 10:20:41,944 >> The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'bos_token_id': None, 'pad_token_id': 0}.
-[INFO|trainer.py:2519] 2025-11-25 10:20:42,257 >> ***** Running training *****
-[INFO|trainer.py:2520] 2025-11-25 10:20:42,257 >>   Num examples = 100,000
-[INFO|trainer.py:2521] 2025-11-25 10:20:42,257 >>   Num Epochs = 300
-[INFO|trainer.py:2522] 2025-11-25 10:20:42,257 >>   Instantaneous batch size per device = 2,048
-[INFO|trainer.py:2525] 2025-11-25 10:20:42,257 >>   Total train batch size (w. parallel, distributed & accumulation) = 4,096
-[INFO|trainer.py:2526] 2025-11-25 10:20:42,257 >>   Gradient Accumulation steps = 1
-[INFO|trainer.py:2527] 2025-11-25 10:20:42,257 >>   Total optimization steps = 7,500
-[INFO|trainer.py:2528] 2025-11-25 10:20:42,257 >>   Number of trainable parameters = 5,532,672
-[INFO|integration_utils.py:867] 2025-11-25 10:20:42,258 >> Automatic Weights & Biases logging enabled, to disable set os.environ["WANDB_DISABLED"] = "true"
-/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/wandb/apis/public.py:3106: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
-  from pkg_resources import parse_version
-[WARNING|trainer.py:820] 2025-11-25 10:20:44,081 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:44,250 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-wandb: Tracking run with wandb version 0.15.3
-wandb: W&B syncing is set to `offline` in this directory.  
-wandb: Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
-[INFO|integration_utils.py:915] 2025-11-25 10:20:48,367 >> Could not log the number of model parameters in Weights & Biases due to an AttributeError.
-[INFO|integration_utils.py:2388] 2025-11-25 10:20:48,367 >> Automatic SwanLab logging enabled, to disable set os.environ["SWANLAB_MODE"] = "disabled"
-/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/env/mdm-A100-4/lib/python3.9/site-packages/boto3/compat.py:84: PythonDeprecationWarning: Boto3 will no longer support Python 3.9 starting April 29, 2026. To continue receiving service updates, bug fixes, and security updates please upgrade to Python 3.10 or later. More information can be found here: https://aws.amazon.com/blogs/developer/python-support-policy-updates-for-aws-sdks-and-tools/
-  warnings.warn(warning, PythonDeprecationWarning)
-[INFO|integration_utils.py:2425] 2025-11-25 10:20:50,406 >> Could not log the number of model parameters in SwanLab due to an AttributeError.
-  0%|          | 0/7500 [00:00<?, ?it/s][WARNING|trainer.py:820] 2025-11-25 10:20:52,317 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:52,473 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:52,924 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:52,935 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[rank1]:[W1125 10:20:52.997380750 reducer.cpp:1457] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
-[rank0]:[W1125 10:20:53.036010933 reducer.cpp:1457] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
-                                          0%|          | 0/7500 [00:02<?, ?it/s]  0%|          | 1/7500 [00:03<6:50:55,  3.29s/it]                                                    0%|          | 1/7500 [00:03<6:50:55,  3.29s/it][WARNING|trainer.py:820] 2025-11-25 10:20:54,573 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:54,573 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:54,592 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:54,592 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:54,697 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:54,715 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-                                                    0%|          | 1/7500 [00:04<6:50:55,  3.29s/it]  0%|          | 2/7500 [00:04<4:49:54,  2.32s/it]                                                    0%|          | 2/7500 [00:04<4:49:54,  2.32s/it][WARNING|trainer.py:820] 2025-11-25 10:20:56,200 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:56,200 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:56,213 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:56,214 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:56,335 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:56,336 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-                                                    0%|          | 2/7500 [00:06<4:49:54,  2.32s/it]  0%|          | 3/7500 [00:06<4:10:12,  2.00s/it]                                                    0%|          | 3/7500 [00:06<4:10:12,  2.00s/it][WARNING|trainer.py:820] 2025-11-25 10:20:57,831 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:57,832 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:57,835 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:57,835 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:57,954 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:57,957 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-                                                    0%|          | 3/7500 [00:07<4:10:12,  2.00s/it]  0%|          | 4/7500 [00:08<3:51:10,  1.85s/it]                                                    0%|          | 4/7500 [00:08<3:51:10,  1.85s/it][WARNING|trainer.py:820] 2025-11-25 10:20:59,454 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:59,454 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:59,456 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:59,456 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:59,578 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:20:59,578 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-                                                    0%|          | 4/7500 [00:09<3:51:10,  1.85s/it]  0%|          | 5/7500 [00:09<3:41:02,  1.77s/it]                                                    0%|          | 5/7500 [00:09<3:41:02,  1.77s/it][WARNING|trainer.py:820] 2025-11-25 10:21:01,066 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:01,067 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:01,069 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:01,070 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:01,189 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:01,191 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-                                                    0%|          | 5/7500 [00:11<3:41:02,  1.77s/it]  0%|          | 6/7500 [00:11<3:34:09,  1.71s/it]                                                    0%|          | 6/7500 [00:11<3:34:09,  1.71s/it][WARNING|trainer.py:820] 2025-11-25 10:21:02,678 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:02,678 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:02,679 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:02,679 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:02,800 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:02,801 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-                                                    0%|          | 6/7500 [00:12<3:34:09,  1.71s/it]  0%|          | 7/7500 [00:13<3:29:55,  1.68s/it]                                                    0%|          | 7/7500 [00:13<3:29:55,  1.68s/it][WARNING|trainer.py:820] 2025-11-25 10:21:04,289 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:04,290 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:04,291 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:04,292 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:04,413 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:04,413 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-                                                    0%|          | 7/7500 [00:14<3:29:55,  1.68s/it]  0%|          | 8/7500 [00:14<3:27:10,  1.66s/it]                                                    0%|          | 8/7500 [00:14<3:27:10,  1.66s/it][WARNING|trainer.py:820] 2025-11-25 10:21:05,896 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:05,897 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:05,908 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:05,908 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:06,019 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:06,030 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-                                                    0%|          | 8/7500 [00:15<3:27:10,  1.66s/it]  0%|          | 9/7500 [00:16<3:25:22,  1.65s/it]                                                    0%|          | 9/7500 [00:16<3:25:22,  1.65s/it][WARNING|trainer.py:820] 2025-11-25 10:21:07,490 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:07,490 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:07,505 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:07,505 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:07,612 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:07,627 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-                                                    0%|          | 9/7500 [00:17<3:25:22,  1.65s/it]  0%|          | 10/7500 [00:17<3:23:29,  1.63s/it]                                                     0%|          | 10/7500 [00:17<3:23:29,  1.63s/it][WARNING|trainer.py:820] 2025-11-25 10:21:09,098 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:09,098 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:09,110 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:09,110 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:09,220 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:09,232 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-                                                     0%|          | 10/7500 [00:19<3:23:29,  1.63s/it]  0%|          | 11/7500 [00:19<3:22:30,  1.62s/it]                                                     0%|          | 11/7500 [00:19<3:22:30,  1.62s/it][WARNING|trainer.py:820] 2025-11-25 10:21:10,713 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:10,713 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:10,714 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:10,715 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:10,836 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:10,836 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-                                                     0%|          | 11/7500 [00:20<3:22:30,  1.62s/it]  0%|          | 12/7500 [00:21<3:21:53,  1.62s/it]                                                     0%|          | 12/7500 [00:21<3:21:53,  1.62s/it][WARNING|trainer.py:820] 2025-11-25 10:21:12,310 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:12,311 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:12,315 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:12,315 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:12,433 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:12,436 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-                                                     0%|          | 12/7500 [00:22<3:21:53,  1.62s/it]  0%|          | 13/7500 [00:22<3:21:11,  1.61s/it]                                                     0%|          | 13/7500 [00:22<3:21:11,  1.61s/it][WARNING|trainer.py:820] 2025-11-25 10:21:13,916 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:13,916 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:13,925 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:13,926 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:14,047 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
-[WARNING|trainer.py:820] 2025-11-25 10:21:14,048 >> Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
