@@ -3,4 +3,7 @@ checkpoints/
 outputs/
 Sudoku/swanlog/
 Sudoku/wandb/
+Sudoku/data
+Sudoku/output
+
 

@@ -120,7 +120,7 @@ class CustomDiffusionTrainer(Trainer):
         """
         # 兼容新版transformers的compute_loss方法签名
         # num_items_in_batch参数在新版本中被添加，但我们不使用它
-        final_loss = self.inner_forward(model, inputs)
+        final_loss, _ = self.inner_forward(model, inputs)
         return final_loss
 
     @contextmanager
@@ -379,33 +379,44 @@ class CustomDiffusionTrainer(Trainer):
             model.eval()
         with torch.no_grad():
             logits = model(xt_plus, t_plus, attention_mask=attention_mask)
-            logits = torch.cat([logits[:, 0:1], logits[:, :-1]], dim=1)
+            # logits = torch.cat([logits[:, 0:1], logits[:, :-1]], dim=1) # Removed shift for bidirectional models
         if was_training:
             model.train()
         return logits
 
-    def _compute_weighted_loss(self, logits, target, loss_mask, t, vocab_size, sample_weights=None):
+    def _compute_weighted_loss(self, logits, target, loss_mask, t, vocab_size, sample_weights=None, token_loss=None):
         if loss_mask is None:
             loss_mask = torch.ones_like(target, dtype=torch.bool)
-        flat_logits = logits.reshape(-1, vocab_size)
-        flat_target = target.reshape(-1)
-        token_loss = F.cross_entropy(flat_logits, flat_target, reduction="none").float()
+        
+        if token_loss is None:
+            flat_logits = logits.reshape(-1, vocab_size)
+            flat_target = target.reshape(-1)
+            token_loss = F.cross_entropy(flat_logits, flat_target, reduction="none").float()
+        else:
+            token_loss = token_loss.reshape(-1)
+
         mask_flat = loss_mask.reshape(-1).bool()
         valid_count = mask_flat.float().sum()
         if valid_count.item() == 0:
-            return token_loss.new_zeros(())
-        token_loss = token_loss.masked_fill(~mask_flat, 0)
+            return token_loss.new_zeros(()), token_loss.new_zeros(())
+        
+        current_token_loss = token_loss.masked_fill(~mask_flat, 0)
 
         if sample_weights is not None:
             flat_weights = sample_weights.reshape(-1)
-            token_loss = token_loss * flat_weights
+            current_token_loss = current_token_loss * flat_weights
+
+        # 保存未经过 Focal Loss 变换的 loss 用于日志记录
+        original_token_loss = current_token_loss
 
         if self.diff_args.token_reweighting:
-            token_loss = self.diff_args.alpha * (1 - torch.exp(-token_loss)) ** self.diff_args.gamma * token_loss
+            current_token_loss = self.diff_args.alpha * (1 - torch.exp(-current_token_loss)) ** self.diff_args.gamma * current_token_loss
 
         time_weight = self._build_time_weight(t, loss_mask).reshape(-1)
-        weighted_loss = (token_loss * time_weight).sum()
-        return weighted_loss / valid_count
+        weighted_loss = (current_token_loss * time_weight).sum()
+        original_loss = (original_token_loss * time_weight).sum()
+        
+        return weighted_loss / valid_count, original_loss / valid_count
 
     def _build_time_weight(self, t, template_mask):
         num_timesteps = self.diff_args.diffusion_steps
@@ -505,7 +516,8 @@ class CustomDiffusionTrainer(Trainer):
         labels = inputs['input_ids'].masked_fill(inputs['src_mask'].bool(), self.tokenizer.pad_token_id)
         with torch.no_grad():
             # import pdb; pdb.set_trace();
-            final_loss = self.inner_forward(model, inputs)
+            _, final_loss_log = self.inner_forward(model, inputs)
+            final_loss = final_loss_log
             if prediction_loss_only:
                 preds = None
             else:
@@ -569,7 +581,12 @@ class CustomDiffusionTrainer(Trainer):
         attention_mask = torch.ones_like(x_t)
 
         logits_z = model(x_t, t, attention_mask=attention_mask)
-        logits_z = torch.cat([logits_z[:,0:1], logits_z[:,:-1]], dim=1)
+        # logits_z = torch.cat([logits_z[:,0:1], logits_z[:,:-1]], dim=1) # Removed shift for bidirectional models
+
+        # Precompute token loss for reuse
+        flat_logits_z = logits_z.reshape(-1, vocab_size)
+        flat_target = x.reshape(-1)
+        token_loss_z = F.cross_entropy(flat_logits_z, flat_target, reduction="none").float()
 
         sample_weights = None
         if getattr(self.diff_args, "z_mask", False) and getattr(self.diff_args, "reunmask", False) and extras is not None and "mask_t_plus" in extras and "final_mask" in extras:
@@ -578,35 +595,46 @@ class CustomDiffusionTrainer(Trainer):
              mask_re = mask_t_plus & (~final_mask)
              
              correction_weight = getattr(self.diff_args, "reunmask_correction_weight", 1.0)
-             if correction_weight != 1.0:
-                 incorrect_mask = (x_t != x) & mask_re
-                 sample_weights = torch.ones_like(x, dtype=torch.float)
-                 sample_weights = sample_weights.masked_fill(incorrect_mask, correction_weight)
+             sample_weights = self._compute_sample_weights(x, x_t, mask_re, correction_weight)
 
-        loss_z = self._compute_weighted_loss(logits_z, x, loss_mask, t, vocab_size, sample_weights=sample_weights)
+        loss_z, loss_z_log = self._compute_weighted_loss(logits_z, x, loss_mask, t, vocab_size, sample_weights=sample_weights, token_loss=token_loss_z)
 
         loss_re = None
         loss_mask_val = None
+        loss_re_log = None
+        loss_mask_val_log = None
         if getattr(self.diff_args, "reunmask", False) and extras is not None and "mask_t_plus" in extras and "final_mask" in extras:
              mask_t_plus = extras["mask_t_plus"]
              final_mask = extras["final_mask"]
              mask_re = mask_t_plus & (~final_mask)
-             loss_re = self._compute_weighted_loss(logits_z, x, mask_re, t, vocab_size, sample_weights=sample_weights)
-             loss_mask_val = self._compute_weighted_loss(logits_z, x, final_mask, t, vocab_size)
+             loss_re, loss_re_log = self._compute_weighted_loss(logits_z, x, mask_re, t, vocab_size, sample_weights=sample_weights, token_loss=token_loss_z)
+             loss_mask_val, loss_mask_val_log = self._compute_weighted_loss(logits_z, x, final_mask, t, vocab_size, token_loss=token_loss_z)
 
         loss = loss_z
+        loss_log = loss_z_log
         if extras is not None and "x_plain" in extras and "mask_plain" in extras:
             x_plain = extras["x_plain"]
             mask_plain = extras["mask_plain"]
             logits_o = model(x_plain, t, attention_mask=torch.ones_like(x_plain))
-            logits_o = torch.cat([logits_o[:,0:1], logits_o[:,:-1]], dim=1)
-            loss_o = self._compute_weighted_loss(logits_o, x, mask_plain, t, vocab_size)
+            # logits_o = torch.cat([logits_o[:,0:1], logits_o[:,:-1]], dim=1) # Removed shift for bidirectional models
+            loss_o, loss_o_log = self._compute_weighted_loss(logits_o, x, mask_plain, t, vocab_size)
             lambda_z = self._z_mask_weight_schedule()
             loss = (1 - lambda_z) * loss_o + lambda_z * loss_z
-            self._log_dual_losses(loss_o, loss_z, loss, lambda_z, loss_re, loss_mask_val)
+            
+            loss_log = (1 - lambda_z) * loss_o_log + lambda_z * loss_z_log
+            self._log_dual_losses(loss_o_log, loss_z_log, loss_log, lambda_z, loss_re_log, loss_mask_val_log)
 
-        return loss
+        return loss, loss_log
 
+    def _compute_sample_weights(self, x, x_t, mask_re, correction_weight):
+        """统一计算样本权重"""
+        if correction_weight == 1.0 or not mask_re.any():
+            return None
+        
+        sample_weights = torch.ones_like(x, dtype=torch.float)
+        incorrect_mask = (x_t != x) & mask_re
+        sample_weights = sample_weights.masked_fill(incorrect_mask, correction_weight)
+        return sample_weights
 
     def generate_samples(self, inputs):
         """
@@ -641,7 +669,7 @@ class CustomDiffusionTrainer(Trainer):
 
                 t_tensor = torch.full((batch_size, ), t, device=x.device)
                 logits = self.model(xt, t_tensor, attention_mask=attention_mask)
-                logits = torch.cat([logits[:,0:1], logits[:,:-1]], dim=1)
+                # logits = torch.cat([logits[:,0:1], logits[:,:-1]], dim=1) # Removed shift for bidirectional models
 
                 scores = torch.log_softmax(logits, dim=-1)
                 scores[:, :, self.tokenizer.vocab_size:] = -1000
