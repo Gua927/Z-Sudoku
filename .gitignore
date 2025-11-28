@@ -4,3 +4,6 @@ outputs/
 Sudoku/swanlog/
 Sudoku/wandb/
 
+
+# Logs
+**/*.log

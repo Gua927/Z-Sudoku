@@ -477,13 +477,18 @@ class CustomDiffusionTrainer(Trainer):
                 weight = exp_x / (1.0 + exp_x)
             return float(min(max(weight, 0.0), 1.0))
 
-        # piecewise: 前50%为0，后50%线性增加到1
+        # piecewise: 前 piecewise_ratio 为0，后 (1-piecewise_ratio) 线性增加到1
         if z_schedule == "piecewise":
-            if progress < 0.5:
+            ratio = float(getattr(self.diff_args, "piecewise_ratio", 0.5))
+            ratio = min(max(ratio, 0.0), 1.0)
+
+            if progress < ratio:
                 return 0.0
             else:
-                # 映射 [0.5, 1.0] -> [0, 1]
-                weight = (progress - 0.5) * 2
+                # 映射 [ratio, 1.0] -> [0, 1]
+                if ratio >= 1.0 - 1e-6: # Avoid division by zero
+                    return 0.0
+                weight = (progress - ratio) / (1.0 - ratio)
                 return float(min(max(weight, 0.0), 1.0))
 
         # oscillate: 3步loss_o，1步loss_z

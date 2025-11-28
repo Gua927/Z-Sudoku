@@ -66,6 +66,10 @@ class DiffusionArguments:
         default=0.5,
         metadata={"help": "Center b in [0,1] for sigmoid z_schedule; b * total_steps is the center step."}
     )
+    piecewise_ratio: float = field(
+        default=0.5,
+        metadata={"help": "Ratio of training steps to use loss_o before transitioning to loss_z in piecewise schedule."}
+    )
 
     downk_ratio: float = field(
         default=0.8,
@@ -111,3 +115,9 @@ class DiffusionArguments:
             self.z_sigmoid_center = 0.0
         elif self.z_sigmoid_center > 1.0:
             self.z_sigmoid_center = 1.0
+
+        # clamp piecewise_ratio into [0,1]
+        if self.piecewise_ratio < 0.0:
+            self.piecewise_ratio = 0.0
+        elif self.piecewise_ratio > 1.0:
+            self.piecewise_ratio = 1.0
