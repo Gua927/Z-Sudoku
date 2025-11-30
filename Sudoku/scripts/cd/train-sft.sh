@@ -21,7 +21,7 @@ src/train_bash.py \
     --logging_steps 1 \
     --val_size 448 \
     --per_device_eval_batch_size 32 \
-    --evaluation_strategy steps \
+    --eval_strategy steps \
     --eval_steps 100 \
     --save_steps 500 \
     --learning_rate 3e-4 \
