@@ -1,1 +1,0 @@
-{"columns": ["temperature", "accuracy", "dataset", "method"], "data": [[0.3, 0.296, "sudoku_test", "topk-margin"]]}
