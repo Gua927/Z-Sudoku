@@ -42,6 +42,10 @@ class DiffusionArguments:
         default="origin",
         metadata={"help": "Denoising method used during z-mask forward: origin | topk | topk-margin."}
     )
+    z_mask_noise_step: int = field(
+        default=1,
+        metadata={"help": "Number of steps to add noise in z-mask forward. -1 for random."}
+    )
     z_mask_temperature: Optional[float] = field(
         default=None,
         metadata={"help": "Sampling temperature for z-mask denoising; None falls back to main temperature."}

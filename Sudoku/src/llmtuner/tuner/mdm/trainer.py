@@ -328,11 +328,22 @@ class CustomDiffusionTrainer(Trainer):
         x_0 = inputs["input_ids"]
         steps = int(self.diff_args.diffusion_steps)
 
+        z_mask_noise_step = getattr(self.diff_args, "z_mask_noise_step", 1)
+        if z_mask_noise_step == -1:
+            low = t + 1
+            high = torch.full_like(t, steps - 1)
+            low = torch.min(low, high)
+            dist = high - low + 1
+            rand_offset = torch.rand(t.shape, device=t.device) * dist.float()
+            t_plus = low + rand_offset.long()
+        else:
+            t_plus = t + z_mask_noise_step
+            t_plus = torch.clamp(t_plus, max=steps - 1)
+
         uniform_noise = torch.rand_like(x_0, dtype=torch.float)
         ratios_t = (t + 1).float() / float(steps)
         mask_t = self._mask_from_uniform(uniform_noise, ratios_t, maskable_mask)
 
-        t_plus = torch.clamp(t + 1, max=steps - 1)
         ratios_t_plus = (t_plus + 1).float() / float(steps)
         mask_t_plus = self._mask_from_uniform(uniform_noise, ratios_t_plus, maskable_mask)
 
@@ -342,6 +353,8 @@ class CustomDiffusionTrainer(Trainer):
             xt_plus=x_0.masked_fill(mask_t_plus, self.tokenizer.mask_token_id),
             mask=mask_t_plus,
             t_plus=t_plus,
+            t_target=t + 1,
+            maskable_mask=maskable_mask,
             attention_mask=attention_mask,
         )
         
@@ -362,7 +375,7 @@ class CustomDiffusionTrainer(Trainer):
         ratios = ratios.clamp_(0.0, 1.0).unsqueeze(-1).to(uniform_noise.dtype)
         return (uniform_noise < ratios) & maskable_mask
 
-    def _z_mask_denoise(self, model, xt_plus, mask, t_plus, attention_mask):
+    def _z_mask_denoise(self, model, xt_plus, mask, t_plus, t_target, maskable_mask, attention_mask):
         method = getattr(self.diff_args, "z_mask_method", getattr(self.diff_args, "denoise_method", "origin"))
         z_temp = getattr(self.diff_args, "z_mask_temperature", self.temperature)
 
@@ -386,8 +399,8 @@ class CustomDiffusionTrainer(Trainer):
                 x0=x0,
                 selection_scores=selection_scores,
                 maskable_mask=mask,
-                init_maskable_mask=mask,
-                t=t_plus,
+                init_maskable_mask=maskable_mask,
+                t=t_target,
                 schedule=decoding_schedule,
                 is_batch=True,
             )

@@ -1,5 +1,6 @@
 {
   "activation_function": "gelu_new",
+  "attn_implementation": "eager",
   "architectures": [
     "GPT2LMHeadModel"
   ],

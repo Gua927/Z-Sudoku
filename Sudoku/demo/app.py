@@ -1,5 +1,9 @@
+# nohup python demo/app.py > demo/demo_app.out &
+# disown
+
 import sys
 import os
+os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
 import torch
 import gradio as gr
 import math
@@ -663,4 +667,4 @@ with gr.Blocks(title="Sudoku Diffusion Generation", css=css) as demo:
     step_slider.change(update_view, inputs=[step_slider, history_state, steps, solution_state, input_sudoku], outputs=[output_html, status])
 
 if __name__ == "__main__":
-    demo.queue().launch(server_name="0.0.0.0", server_port=7861)
+    demo.queue().launch(server_name="0.0.0.0", server_port=7861, share=True)
