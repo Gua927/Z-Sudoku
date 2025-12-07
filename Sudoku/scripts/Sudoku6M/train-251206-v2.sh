@@ -1,9 +1,9 @@
-# nohup bash scripts/Sudoku12M/train-251206-v2.sh > scripts/Sudoku12M/logs/train-251206-v2.log 2>&1 &
+# nohup bash scripts/Sudoku6M/train-251206-v2.sh > scripts/Sudoku6M/logs/train-251206-v2.log 2>&1 &
 # disown
 
 export WANDB_MODE=offline
-export WANDB_PROJECT="Sudoku-12M"
-export SWANLAB_PROJ_NAME="Sudoku-12M"
+export WANDB_PROJECT="Sudoku-6M"
+export SWANLAB_PROJ_NAME="Sudoku-6M"
 
 # Define dataset explicitly for run_name usage
 dataset=sudoku_train
@@ -12,13 +12,13 @@ seed=42
 devices=0,1,2,3,4,5,6,7
 
 # Ensure absolute path to model config to avoid cwd issues
-MODEL_DIR=$(pwd)/model_config_12M
+MODEL_DIR=$(pwd)/model_config_tiny
 
 echo "============z1-mask MDM Training============"
 
 z_schedule=all-z
 
-exp=output/sudoku12M/z-mask/z1-allz-lSDV-NORM
+exp=output/sudoku6M/z-mask/z1-allz-lSDV0.3-NORM-constant6e-4
 mkdir -p $exp
 
 python3 -c "import swanlab; swanlab.sync_wandb()" && \
@@ -41,10 +41,11 @@ src/train_bash.py \
     --z_mask True \
     --reunmask False \
     --z_mask_method loss_driven \
+    --loss_driven_ratio 0.3 \
     --z_mask_temperature 1 \
     --z_schedule $z_schedule \
     --gradient_accumulation_steps 1 \
-    --lr_scheduler_type cosine \
+    --lr_scheduler_type constant \
     --logging_steps 1 \
     --val_size 1000 \
     --per_device_eval_batch_size 125 \
@@ -55,7 +56,7 @@ src/train_bash.py \
     --save_steps 2000 \
     --learning_rate 6e-4 \
     --num_train_epochs 300.0 \
-    --run_name z1-allz-lSDV-NORM \
+    --run_name z1-allz-lSDV0.3-NORM-constant6e-4 \
     --preprocessing_num_workers 8 \
     --fp16 \
     --save_total_limit 1 \
@@ -68,7 +69,7 @@ src/train_bash.py \
     --gamma 1 \
     > $exp/train.log
 
-exp=output/sudoku12M/z-mask/z1-allz-lSDV-RM2
+exp=output/sudoku6M/z-mask/z1-allz-lSDV-RM2-constant6e-4
 mkdir -p $exp
 
 python3 -c "import swanlab; swanlab.sync_wandb()" && \
@@ -92,10 +93,11 @@ src/train_bash.py \
     --reunmask True \
     --reunmask_correction_weight 2.0 \
     --z_mask_method loss_driven \
+    --loss_driven_ratio 0.3 \
     --z_mask_temperature 1 \
     --z_schedule $z_schedule \
     --gradient_accumulation_steps 1 \
-    --lr_scheduler_type cosine \
+    --lr_scheduler_type constant \
     --logging_steps 1 \
     --val_size 1000 \
     --per_device_eval_batch_size 125 \
@@ -106,7 +108,7 @@ src/train_bash.py \
     --save_steps 2000 \
     --learning_rate 6e-4 \
     --num_train_epochs 300.0 \
-    --run_name z1-allz-lSDV-RM2 \
+    --run_name z1-allz-lSDV-RM2-constant6e-4 \
     --preprocessing_num_workers 8 \
     --fp16 \
     --save_total_limit 1 \
@@ -123,7 +125,7 @@ echo "============z2-mask MDM Training============"
 
 z_schedule=all-z
 
-exp=output/sudoku12M/z-mask/z2-allz-LSDV-NORM
+exp=output/sudoku6M/z-mask/z2-allz-LSDV0.3-NORM-constant6e-4
 mkdir -p $exp
 
 python3 -c "import swanlab; swanlab.sync_wandb()" && \
@@ -147,10 +149,11 @@ src/train_bash.py \
     --z_mask_noise_step 2 \
     --reunmask False \
     --z_mask_method loss_driven \
+    --loss_driven_ratio 0.3 \
     --z_mask_temperature 1 \
     --z_schedule $z_schedule \
     --gradient_accumulation_steps 1 \
-    --lr_scheduler_type cosine \
+    --lr_scheduler_type constant \
     --logging_steps 1 \
     --val_size 1000 \
     --per_device_eval_batch_size 125 \
@@ -161,7 +164,7 @@ src/train_bash.py \
     --save_steps 2000 \
     --learning_rate 6e-4 \
     --num_train_epochs 300.0 \
-    --run_name z2-allz-LSDV-NORM \
+    --run_name z2-allz-LSDV0.3-NORM-constant6e-4 \
     --preprocessing_num_workers 8 \
     --fp16 \
     --save_total_limit 1 \
@@ -174,7 +177,7 @@ src/train_bash.py \
     --gamma 1 \
     > $exp/train.log
 
-exp=output/sudoku12M/z-mask/z2-allz-LSDV-RM2
+exp=output/sudoku6M/z-mask/z2-allz-LSDV0.3-RM2-constant6e-4
 mkdir -p $exp
 
 python3 -c "import swanlab; swanlab.sync_wandb()" && \
@@ -199,10 +202,11 @@ src/train_bash.py \
     --reunmask True \
     --reunmask_correction_weight 2.0 \
     --z_mask_method loss_driven \
+    --loss_driven_ratio 0.3 \
     --z_mask_temperature 1 \
     --z_schedule $z_schedule \
     --gradient_accumulation_steps 1 \
-    --lr_scheduler_type cosine \
+    --lr_scheduler_type constant \
     --logging_steps 1 \
     --val_size 1000 \
     --per_device_eval_batch_size 125 \
@@ -213,7 +217,7 @@ src/train_bash.py \
     --save_steps 2000 \
     --learning_rate 6e-4 \
     --num_train_epochs 300.0 \
-    --run_name z2-allz-LSDV-RM2 \
+    --run_name z2-allz-LSDV0.3-RM2-constant6e-4 \
     --preprocessing_num_workers 8 \
     --fp16 \
     --save_total_limit 1 \

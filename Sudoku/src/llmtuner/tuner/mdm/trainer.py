@@ -410,7 +410,7 @@ class CustomDiffusionTrainer(Trainer):
                 selection_scores = -token_loss
 
             # For loss_driven, we use topk strategy
-            strategy_method = "topk" if method == "loss_driven" else None
+            strategy_method = "loss_driven" if method == "loss_driven" else None
 
             pos_only = getattr(self.diff_args, "pos_only", False)
             if pos_only:
@@ -775,7 +775,7 @@ class CustomDiffusionTrainer(Trainer):
                 return self._origin_denoise_step_batch(xt, x0, maskable_mask, t)
             return self._origin_denoise_step(xt, x0, maskable_mask, t)
 
-        if denoise_method in {"topk", "topk-margin", "downk", "downk-margin"}:
+        if denoise_method in {"topk", "topk-margin", "downk", "downk-margin", "loss_driven"}:
             if selection_scores is None:
                 raise ValueError(f"Selection scores are required for {denoise_method} denoising.")
             
@@ -790,6 +790,19 @@ class CustomDiffusionTrainer(Trainer):
                     self.diff_args.diffusion_steps,
                     self.tokenizer.mask_token_id,
                     getattr(self.diff_args, "downk_ratio", 0.8)
+                )
+
+            if denoise_method == "loss_driven":
+                return downk_decoding(
+                    x0,
+                    selection_scores,
+                    schedule,
+                    init_maskable_mask,
+                    maskable_mask,
+                    t,
+                    self.diff_args.diffusion_steps,
+                    self.tokenizer.mask_token_id,
+                    getattr(self.diff_args, "loss_driven_ratio", 1.0)
                 )
 
             new_xt, final_mask = topk_decoding(

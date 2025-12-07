@@ -14,9 +14,9 @@ devices=0,1,2,3,4,5,6,7
 # Ensure absolute path to model config to avoid cwd issues
 MODEL_DIR=$(pwd)/model_config_tiny
 
-z_schedule=all-z
+z_schedule=cos
 
-exp=output/sudoku6M/z-mask/z1-$z_schedule-DKMG-NORM
+exp=output/sudoku6M/z-mask/z1-$z_schedule-DKMG-NORM-100ep-1e-3
 mkdir -p $exp
 
 python3 -c "import swanlab; swanlab.sync_wandb()" && \
@@ -44,17 +44,17 @@ src/train_bash.py \
     --z_schedule $z_schedule \
     --gradient_accumulation_steps 1 \
     --lr_scheduler_type cosine \
-    --logging_steps 1 \
+    --logging_steps 50 \
     --val_size 1000 \
     --per_device_eval_batch_size 125 \
-    --eval_steps 500 \
+    --eval_steps 100 \
     --eval_strategy steps \
     --eval_denoise_methods origin downk-margin \
     --eval_temperatures 0.0 \
-    --save_steps 2000 \
-    --learning_rate 6e-4 \
-    --num_train_epochs 300.0 \
-    --run_name z1-$z_schedule-DKMG-NORM \
+    --save_steps 500 \
+    --learning_rate 1e-3 \
+    --num_train_epochs 100.0 \
+    --run_name z1-$z_schedule-DKMG-NORM-1e-3 \
     --preprocessing_num_workers 8 \
     --fp16 \
     --save_total_limit 1 \
@@ -67,7 +67,9 @@ src/train_bash.py \
     --gamma 1 \
     > $exp/train.log
 
-exp=output/sudoku6M/z-mask/z1-$z_schedule-DKMG-RM2
+
+
+exp=output/sudoku6M/z-mask/z1-$z_schedule-DKMG-RM2-1e-3
 mkdir -p $exp
 
 python3 -c "import swanlab; swanlab.sync_wandb()" && \
@@ -96,17 +98,17 @@ src/train_bash.py \
     --z_schedule $z_schedule \
     --gradient_accumulation_steps 1 \
     --lr_scheduler_type cosine \
-    --logging_steps 1 \
+    --logging_steps 100 \
     --val_size 1000 \
     --per_device_eval_batch_size 125 \
-    --eval_steps 500 \
+    --eval_steps 100 \
     --eval_strategy steps \
     --eval_denoise_methods origin downk-margin \
     --eval_temperatures 0.0 \
-    --save_steps 2000 \
-    --learning_rate 6e-4 \
-    --num_train_epochs 300.0 \
-    --run_name z1-$z_schedule-DKMG-RM2 \
+    --save_steps 500 \
+    --learning_rate 1e-3 \
+    --num_train_epochs 100.0 \
+    --run_name z1-$z_schedule-DKMG-RM2-1e-3 \
     --preprocessing_num_workers 8 \
     --fp16 \
     --save_total_limit 1 \

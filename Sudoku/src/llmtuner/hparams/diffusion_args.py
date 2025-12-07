@@ -83,6 +83,10 @@ class DiffusionArguments:
         default=0.8,
         metadata={"help": "Ratio of hard mask (topk) in downk decoding. Remaining part is soft mask (origin)."}
     )
+    loss_driven_ratio: float = field(
+        default=1.0,
+        metadata={"help": "Ratio of loss driven mask in loss_driven decoding. Remaining part is soft mask (origin)."}
+    )
     reunmask: bool = field(
         default=False,
         metadata={"help": "If True, predict logits for unmasked positions in z-mask step and include them in loss."}
@@ -93,7 +97,7 @@ class DiffusionArguments:
     )
 
     def __post_init__(self):
-        supported = {"origin", "topk", "topk-margin", "downk", "downk-margin"}
+        supported = {"origin", "topk", "topk-margin", "downk", "downk-margin", "loss_driven"}
         if self.denoise_method not in supported:
             raise ValueError(f"Unsupported denoise_method: {self.denoise_method}. Choose from {supported}.")
 
