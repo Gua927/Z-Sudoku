@@ -48,7 +48,11 @@ class DiffusionArguments:
     )
     z_mask_temperature: Optional[float] = field(
         default=None,
-        metadata={"help": "Sampling temperature for z-mask denoising; None falls back to main temperature."}
+        metadata={"help": "Temperature for z-mask sampling. If None, use main temperature."}
+    )
+    pos_only: bool = field(
+        default=False,
+        metadata={"help": "If True, z-mask unmasking only selects positions, but fills with ground truth."}
     )
     eval_denoise_method: Optional[str] = field(
         default=None,
@@ -95,8 +99,10 @@ class DiffusionArguments:
 
         if self.eval_denoise_method is not None and self.eval_denoise_method not in supported:
             raise ValueError(f"Unsupported eval_denoise_method: {self.eval_denoise_method}. Choose from {supported}.")
-        if self.z_mask_method not in supported:
-            raise ValueError(f"Unsupported z_mask_method: {self.z_mask_method}. Choose from {supported}.")
+        
+        z_mask_supported = supported | {"loss_driven"}
+        if self.z_mask_method not in z_mask_supported:
+            raise ValueError(f"Unsupported z_mask_method: {self.z_mask_method}. Choose from {z_mask_supported}.")
 
         if self.eval_denoise_methods:
             invalid = [m for m in self.eval_denoise_methods if m not in supported]

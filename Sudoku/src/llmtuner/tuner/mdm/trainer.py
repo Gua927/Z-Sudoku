@@ -356,6 +356,7 @@ class CustomDiffusionTrainer(Trainer):
             t_target=t + 1,
             maskable_mask=maskable_mask,
             attention_mask=attention_mask,
+            x0_gt=x_0,
         )
         
         loss_mask = final_mask
@@ -375,7 +376,7 @@ class CustomDiffusionTrainer(Trainer):
         ratios = ratios.clamp_(0.0, 1.0).unsqueeze(-1).to(uniform_noise.dtype)
         return (uniform_noise < ratios) & maskable_mask
 
-    def _z_mask_denoise(self, model, xt_plus, mask, t_plus, t_target, maskable_mask, attention_mask):
+    def _z_mask_denoise(self, model, xt_plus, mask, t_plus, t_target, maskable_mask, attention_mask, x0_gt=None):
         method = getattr(self.diff_args, "z_mask_method", getattr(self.diff_args, "denoise_method", "origin"))
         z_temp = getattr(self.diff_args, "z_mask_temperature", self.temperature)
 
@@ -392,16 +393,43 @@ class CustomDiffusionTrainer(Trainer):
                 selection_scores, _ = scores.max(-1)
             elif method in ["topk-margin", "downk-margin"]:
                 selection_scores = self._compute_margin_scores(scores)
+            elif method == "loss_driven":
+                if x0_gt is None:
+                    raise ValueError("x0_gt is required for loss_driven method")
+                
+                bsz, seq_len, vocab_size = raw_logits.shape
+                flat_logits = raw_logits.view(-1, vocab_size)
+                flat_target = x0_gt.view(-1)
+                
+                token_loss = F.cross_entropy(flat_logits, flat_target, reduction='none')
+                token_loss = token_loss.view(bsz, seq_len)
+                
+                # We want to unmask tokens with smallest loss.
+                # The unmasking strategy (topk) selects tokens with highest scores.
+                # So score = -loss.
+                selection_scores = -token_loss
+
+            # For loss_driven, we use topk strategy
+            strategy_method = "topk" if method == "loss_driven" else None
+
+            pos_only = getattr(self.diff_args, "pos_only", False)
+            if pos_only:
+                if x0_gt is None:
+                    raise ValueError("x0_gt is required for pos_only method")
+                x0_for_strategy = x0_gt
+            else:
+                x0_for_strategy = x0
 
             decoding_schedule = self._extract_schedule(getattr(self.diff_args, "decoding_strategy", "linear"))
             xt, final_mask = self._apply_denoise_strategy(
                 xt=xt_plus,
-                x0=x0,
+                x0=x0_for_strategy,
                 selection_scores=selection_scores,
                 maskable_mask=mask,
                 init_maskable_mask=maskable_mask,
                 t=t_target,
                 schedule=decoding_schedule,
+                method=strategy_method,
                 is_batch=True,
             )
         return final_mask, xt
@@ -618,8 +646,11 @@ class CustomDiffusionTrainer(Trainer):
              correction_weight = getattr(self.diff_args, "reunmask_correction_weight", 1.0)
              if correction_weight != 1.0:
                  incorrect_mask = (x_t != x) & mask_re
-                 sample_weights = torch.ones_like(x, dtype=torch.float)
-                 sample_weights = sample_weights.masked_fill(incorrect_mask, correction_weight)
+                 
+                 sample_has_error = incorrect_mask.any(dim=1)
+                 batch_weights = torch.ones(x.size(0), device=x.device, dtype=torch.float)
+                 batch_weights = batch_weights.masked_fill(sample_has_error, correction_weight)
+                 sample_weights = batch_weights.unsqueeze(1).expand_as(x)
 
         loss_z = self._compute_weighted_loss(logits_z, x, loss_mask, t, vocab_size, sample_weights=sample_weights)
 
