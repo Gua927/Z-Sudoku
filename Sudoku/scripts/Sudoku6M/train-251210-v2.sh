@@ -1,23 +1,29 @@
-# nohup bash scripts/cd/cd4/train-vanilla-6M.sh > scripts/cd/logs/train-cd4-6M-vanilla.log 2>&1 &
+# nohup bash scripts/Sudoku6M/train-251210-v2.sh > scripts/Sudoku6M/logs/train-251210-v2.log 2>&1 &
 # disown
 
 export WANDB_MODE=offline
-export WANDB_PROJECT="cd4"
-export SWANLAB_PROJ_NAME="cd4"
+export WANDB_PROJECT="Sudoku-6M"
+export SWANLAB_PROJ_NAME="Sudoku-6M"
 
 # Define dataset explicitly for run_name usage
-dataset=cd4_train
+dataset=sudoku_train
+testdataset=sudoku_test
+seed=42
 devices=0,1,2,3,4,5,6,7
+
+# Ensure absolute path to model config to avoid cwd issues
 MODEL_DIR=$(pwd)/model_config_tiny
 
-seed=42
 
-exp=output/Cutdown/cd4-6M/Vanilla-seed$seed
+z_schedule=all-z
+
+
+exp=output/sudoku6M/z-mask/z2-allz-DKMG-temp1-NORM-1e-3
 mkdir -p $exp
 
 python3 -c "import swanlab; swanlab.sync_wandb()" && \
 CUDA_VISIBLE_DEVICES=$devices \
-accelerate launch --multi_gpu --num_machines 1 --mixed_precision fp16 --num_processes 8 --main_process_port 20099 \
+accelerate launch --multi_gpu --num_machines 1 --mixed_precision fp16 --num_processes 8 --main_process_port 20100 \
 src/train_bash.py \
     --stage mdm --overwrite_output_dir \
     --cache_dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache \
@@ -26,25 +32,32 @@ src/train_bash.py \
     --do_eval \
     --seed $seed \
     --dataset $dataset \
+    --eval_dataset sudoku_test \
     --finetuning_type full \
-    --cutoff_len 64 \
+    --cutoff_len 164 \
     --output_dir $exp \
     --overwrite_cache \
     --per_device_train_batch_size 128 \
-    --z_mask False \
+    --z_mask True \
+    --z_mask_noise_step 2 \
+    --reunmask False \
+    --z_mask_method downk-margin \
+    --downk_ratio 0.3 \
+    --z_mask_temperature 1 \
+    --z_schedule $z_schedule \
     --gradient_accumulation_steps 1 \
     --lr_scheduler_type cosine \
     --logging_steps 1 \
     --val_size 1000 \
     --per_device_eval_batch_size 125 \
-    --eval_steps 1000 \
+    --eval_steps 500 \
     --eval_strategy steps \
-    --eval_denoise_methods origin topk topk-margin downk-margin \
-    --eval_temperatures 0.0 1.0 \
+    --eval_denoise_methods origin downk-margin \
+    --eval_temperatures 0.0 \
     --save_steps 2000 \
     --learning_rate 1e-3 \
     --num_train_epochs 300.0 \
-    --run_name 6M-Vanilla-seed$seed \
+    --run_name z2-allz-DKMG-temp1-NORM-1e-3 \
     --preprocessing_num_workers 8 \
     --fp16 \
     --save_total_limit 1 \
@@ -54,17 +67,16 @@ src/train_bash.py \
     --token_reweighting False \
     --time_reweighting linear \
     --alpha 0.25 \
-    --gamma 2 \
+    --gamma 1 \
     > $exp/train.log
 
-seed=114
 
-exp=output/Cutdown/cd4-6M/Vanilla-seed$seed
+exp=output/sudoku6M/z-mask/z2-allz-DKMG-temp2-NORM-1e-3
 mkdir -p $exp
 
 python3 -c "import swanlab; swanlab.sync_wandb()" && \
 CUDA_VISIBLE_DEVICES=$devices \
-accelerate launch --multi_gpu --num_machines 1 --mixed_precision fp16 --num_processes 8 --main_process_port 20099 \
+accelerate launch --multi_gpu --num_machines 1 --mixed_precision fp16 --num_processes 8 --main_process_port 20100 \
 src/train_bash.py \
     --stage mdm --overwrite_output_dir \
     --cache_dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache \
@@ -73,12 +85,19 @@ src/train_bash.py \
     --do_eval \
     --seed $seed \
     --dataset $dataset \
+    --eval_dataset sudoku_test \
     --finetuning_type full \
-    --cutoff_len 64 \
+    --cutoff_len 164 \
     --output_dir $exp \
     --overwrite_cache \
     --per_device_train_batch_size 128 \
-    --z_mask False \
+    --z_mask True \
+    --z_mask_noise_step 2 \
+    --reunmask False \
+    --z_mask_method downk-margin \
+    --downk_ratio 0.3 \
+    --z_mask_temperature 2 \
+    --z_schedule $z_schedule \
     --gradient_accumulation_steps 1 \
     --lr_scheduler_type cosine \
     --logging_steps 1 \
@@ -86,12 +105,12 @@ src/train_bash.py \
     --per_device_eval_batch_size 125 \
     --eval_steps 500 \
     --eval_strategy steps \
-    --eval_denoise_methods origin topk topk-margin downk-margin \
-    --eval_temperatures 0.0 1.0 \
-    --save_steps 1000 \
+    --eval_denoise_methods origin downk-margin \
+    --eval_temperatures 0.0 \
+    --save_steps 2000 \
     --learning_rate 1e-3 \
     --num_train_epochs 300.0 \
-    --run_name 6M-Vanilla-seed$seed \
+    --run_name z2-allz-DKMG-temp2-NORM-1e-3 \
     --preprocessing_num_workers 8 \
     --fp16 \
     --save_total_limit 1 \
@@ -101,17 +120,15 @@ src/train_bash.py \
     --token_reweighting False \
     --time_reweighting linear \
     --alpha 0.25 \
-    --gamma 2 \
+    --gamma 1 \
     > $exp/train.log
 
-seed=514
-
-exp=output/Cutdown/cd4-6M/Vanilla-seed$seed
+exp=output/sudoku6M/z-mask/z2-allz-DKMG-temp3-NORM-1e-3
 mkdir -p $exp
 
 python3 -c "import swanlab; swanlab.sync_wandb()" && \
 CUDA_VISIBLE_DEVICES=$devices \
-accelerate launch --multi_gpu --num_machines 1 --mixed_precision fp16 --num_processes 8 --main_process_port 20099 \
+accelerate launch --multi_gpu --num_machines 1 --mixed_precision fp16 --num_processes 8 --main_process_port 20100 \
 src/train_bash.py \
     --stage mdm --overwrite_output_dir \
     --cache_dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache \
@@ -120,12 +137,19 @@ src/train_bash.py \
     --do_eval \
     --seed $seed \
     --dataset $dataset \
+    --eval_dataset sudoku_test \
     --finetuning_type full \
-    --cutoff_len 64 \
+    --cutoff_len 164 \
     --output_dir $exp \
     --overwrite_cache \
     --per_device_train_batch_size 128 \
-    --z_mask False \
+    --z_mask True \
+    --z_mask_noise_step 2 \
+    --reunmask False \
+    --z_mask_method downk-margin \
+    --downk_ratio 0.3 \
+    --z_mask_temperature 3 \
+    --z_schedule $z_schedule \
     --gradient_accumulation_steps 1 \
     --lr_scheduler_type cosine \
     --logging_steps 1 \
@@ -133,12 +157,12 @@ src/train_bash.py \
     --per_device_eval_batch_size 125 \
     --eval_steps 500 \
     --eval_strategy steps \
-    --eval_denoise_methods origin topk topk-margin downk-margin \
-    --eval_temperatures 0.0 1.0 \
-    --save_steps 1000 \
+    --eval_denoise_methods origin downk-margin \
+    --eval_temperatures 0.0 \
+    --save_steps 2000 \
     --learning_rate 1e-3 \
     --num_train_epochs 300.0 \
-    --run_name 6M-Vanilla-seed$seed \
+    --run_name z2-allz-DKMG-temp3-NORM-1e-3 \
     --preprocessing_num_workers 8 \
     --fp16 \
     --save_total_limit 1 \
@@ -148,5 +172,5 @@ src/train_bash.py \
     --token_reweighting False \
     --time_reweighting linear \
     --alpha 0.25 \
-    --gamma 2 \
+    --gamma 1 \
     > $exp/train.log
