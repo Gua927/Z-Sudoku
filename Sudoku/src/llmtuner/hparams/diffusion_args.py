@@ -95,6 +95,14 @@ class DiffusionArguments:
         default=1.0,
         metadata={"help": "Weight multiplier for incorrect tokens in reunmask loss."}
     )
+    z_loss: bool = field(
+        default=False,
+        metadata={"help": "If True, calculate and log z_loss metrics (loss_former/latter) every z_loss_step_interval steps."}
+    )
+    z_loss_step_interval: int = field(
+        default=500,
+        metadata={"help": "Step interval for calculating z_loss metrics."}
+    )
 
     def __post_init__(self):
         supported = {"origin", "topk", "topk-margin", "downk", "downk-margin", "loss_driven"}

@@ -56,6 +56,64 @@ def _log_prefixed_metrics(trainer, metric_prefix: str, metrics: Dict[str, float]
     if loggable:
         trainer.log(loggable)
 
+class ZLossCallback(TrainerCallback):
+    def on_step_end(self, args, state, control, model=None, trainer=None, **kwargs):
+        trainer = trainer or getattr(self, "trainer", None)
+        if trainer is None:
+            return
+        interval = getattr(trainer.diff_args, "z_loss_step_interval", 500)
+        if state.global_step % interval == 0 and hasattr(trainer, "stored_z_loss_data") and trainer.stored_z_loss_data is not None:
+            data = trainer.stored_z_loss_data
+            
+            with torch.no_grad():
+                # Use trainer.model which is the current model
+                model_to_run = trainer.model
+                
+                # Ensure eval mode for consistency with loss_former (which uses _run_model_for_z_mask)
+                was_training = model_to_run.training
+                if was_training:
+                    model_to_run.eval()
+
+                logits_z = model_to_run(data["x_t"], data["t"], attention_mask=data["attention_mask"])
+                logits_z = torch.cat([logits_z[:,0:1], logits_z[:,:-1]], dim=1)
+
+                if was_training:
+                    model_to_run.train()
+                
+                loss_latter = trainer._compute_weighted_loss(
+                    logits_z, 
+                    data["x"], 
+                    data["loss_mask"], 
+                    data["t"], 
+                    data["vocab_size"], 
+                    sample_weights=data["sample_weights"]
+                )
+
+                loss_latter_token = trainer._compute_weighted_loss(
+                    logits_z, 
+                    data["x"], 
+                    data["loss_mask_token"], 
+                    data["t"], 
+                    data["vocab_size"], 
+                    sample_weights=data["sample_weights"]
+                )
+                
+            log_payload = {
+                "z_loss/loss_former": data["loss_former"].item(),
+                "z_loss/loss_latter": loss_latter.item(),
+                "z_loss/loss_former_token": data["loss_former_token"].item(),
+                "z_loss/loss_latter_token": loss_latter_token.item(),
+                "z_loss/step": state.global_step
+            }
+
+            if wandb is not None and wandb.run is not None:
+                wandb.log(log_payload)
+
+            # Also log via Trainer so it is visible in train.log
+            trainer.log(log_payload)
+            
+            trainer.stored_z_loss_data = None
+
 class CustomDiffusionTrainer(Trainer):
     def __init__(
         self,
@@ -77,6 +135,14 @@ class CustomDiffusionTrainer(Trainer):
         eval_temperatures: Optional[List[float]] = None,
     ):
         optimizers = optimizers or (None, None)
+        
+        if callbacks is None:
+            callbacks = []
+        
+        z_loss_callback = ZLossCallback()
+        z_loss_callback.trainer = self
+        callbacks.append(z_loss_callback)
+
         super().__init__(
             model=model,
             args=args,
@@ -348,7 +414,7 @@ class CustomDiffusionTrainer(Trainer):
         mask_t_plus = self._mask_from_uniform(uniform_noise, ratios_t_plus, maskable_mask)
 
         x_plain = x_0.masked_fill(mask_t, self.tokenizer.mask_token_id)
-        final_mask, x_t = self._z_mask_denoise(
+        final_mask, x_t, logits_t_plus = self._z_mask_denoise(
             model=model,
             xt_plus=x_0.masked_fill(mask_t_plus, self.tokenizer.mask_token_id),
             mask=mask_t_plus,
@@ -368,6 +434,8 @@ class CustomDiffusionTrainer(Trainer):
             "mask_plain": mask_t,
             "mask_t_plus": mask_t_plus,
             "final_mask": final_mask,
+            "t_plus": t_plus,
+            "logits_t_plus": logits_t_plus,
         }
         return x_t, t, loss_mask, extras
 
@@ -432,7 +500,7 @@ class CustomDiffusionTrainer(Trainer):
                 method=strategy_method,
                 is_batch=True,
             )
-        return final_mask, xt
+        return final_mask, xt, raw_logits
 
     def _run_model_for_z_mask(self, model, xt_plus, t_plus, attention_mask):
         was_training = model.training if hasattr(model, "training") else False
@@ -654,6 +722,40 @@ class CustomDiffusionTrainer(Trainer):
 
         loss_z = self._compute_weighted_loss(logits_z, x, loss_mask, t, vocab_size, sample_weights=sample_weights)
 
+        z_loss_interval = getattr(self.diff_args, "z_loss_step_interval", 500)
+        if getattr(self.diff_args, "z_loss", False) and getattr(self.diff_args, "z_mask", False) and self.state.global_step % z_loss_interval == 0 and extras is not None:
+             # Reconstruct xt_plus (x_t+1)
+             mask_t_plus = extras["mask_t_plus"]
+             xt_plus = x.masked_fill(mask_t_plus, self.tokenizer.mask_token_id)
+             t_plus = extras["t_plus"]
+             
+             # Calculate loss_former on xt_plus
+             if "logits_t_plus" in extras:
+                 logits_z_former = extras["logits_t_plus"]
+             else:
+                 with torch.no_grad():
+                     logits_z_former = model(xt_plus, t_plus, attention_mask=attention_mask)
+                     logits_z_former = torch.cat([logits_z_former[:,0:1], logits_z_former[:,:-1]], dim=1)
+             
+             loss_former = self._compute_weighted_loss(logits_z_former, x, mask_t_plus, t_plus, vocab_size)
+             
+             final_mask = extras["final_mask"]
+             mask_unmasked = mask_t_plus & (~final_mask)
+             loss_former_token = self._compute_weighted_loss(logits_z_former, x, mask_unmasked, t_plus, vocab_size)
+
+             self.stored_z_loss_data = {
+                 "x_t": xt_plus.detach(),
+                 "t": t_plus.detach(),
+                 "attention_mask": attention_mask.detach(),
+                 "loss_former": loss_former.detach(),
+                 "loss_former_token": loss_former_token.detach(),
+                 "x": x.detach(),
+                 "loss_mask": mask_t_plus.detach(),
+                 "loss_mask_token": mask_unmasked.detach(),
+                 "sample_weights": None,
+                 "vocab_size": vocab_size
+             }
+
         loss_re = None
         loss_mask_val = None
         if getattr(self.diff_args, "reunmask", False) and extras is not None and "mask_t_plus" in extras and "final_mask" in extras:
@@ -858,9 +960,16 @@ class CustomDiffusionTrainer(Trainer):
         if temperature <= 0:
             return probs.argmax(dim=-1)
 
+        # Handle NaNs and Infs in probs to prevent device-side asserts
+        probs = torch.nan_to_num(probs, nan=0.0, posinf=0.0, neginf=0.0)
+
         scaled = torch.clamp(probs, min=0)
         exponent = 1.0 / max(temperature, torch.finfo(probs.dtype).tiny)
         scaled = torch.pow(scaled, exponent)
+        
+        # Handle potential overflows from pow
+        scaled = torch.nan_to_num(scaled, nan=0.0, posinf=0.0, neginf=0.0)
+
         scaled_sum = scaled.sum(dim=-1, keepdim=True)
         zero_mask = scaled_sum <= 0
         scaled_sum = scaled_sum.clamp_min(1e-12)
@@ -869,6 +978,17 @@ class CustomDiffusionTrainer(Trainer):
             uniform = torch.full_like(scaled, 1.0 / scaled.size(-1))
             scaled = torch.where(zero_mask, uniform, scaled)
         flat = scaled.view(-1, scaled.size(-1)).to(dtype=torch.float32)
+        
+        # Final safety check before multinomial
+        if torch.isnan(flat).any() or torch.isinf(flat).any() or (flat < 0).any():
+             flat = torch.nan_to_num(flat, nan=0.0, posinf=0.0, neginf=0.0)
+             flat = torch.clamp(flat, min=0.0)
+             # If row sum is 0 after sanitization, set to uniform
+             row_sums = flat.sum(dim=-1, keepdim=True)
+             bad_rows = row_sums <= 0
+             if bad_rows.any():
+                 flat[bad_rows.squeeze(-1)] = 1.0 / flat.size(-1)
+
         samples = torch.multinomial(flat, num_samples=1).squeeze(-1)
         return samples.view(*probs.shape[:-1])
 
