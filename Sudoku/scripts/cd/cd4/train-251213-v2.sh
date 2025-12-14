@@ -1,4 +1,4 @@
-# nohup bash scripts/cd/cd4/train-251213-v1.sh > scripts/cd/logs/train-251213-v1.log 2>&1 &
+# nohup bash scripts/cd/cd4/train-251213-v2.sh > scripts/cd/logs/train-251213-v2.log 2>&1 &
 # disown
 
 export WANDB_MODE=offline

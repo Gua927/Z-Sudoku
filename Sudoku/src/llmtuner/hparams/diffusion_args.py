@@ -50,6 +50,10 @@ class DiffusionArguments:
         default=None,
         metadata={"help": "Temperature for z-mask sampling. If None, use main temperature."}
     )
+    z_mask_temperature_schedule: str = field(
+        default="constant",
+        metadata={"help": "Schedule for z_mask_temperature: constant | cosine | linear."}
+    )
     pos_only: bool = field(
         default=False,
         metadata={"help": "If True, z-mask unmasking only selects positions, but fills with ground truth."}

@@ -97,12 +97,26 @@ class ZLossCallback(TrainerCallback):
                     data["vocab_size"], 
                     sample_weights=data["sample_weights"]
                 )
+
+                z_temp = trainer._get_scheduled_z_mask_temperature()
+                safe_z_temp = max(z_temp, 1e-4)
+                loss_latter_temp_token = trainer._compute_weighted_loss(
+                    logits_z / safe_z_temp, 
+                    data["x"], 
+                    data["loss_mask_token"], 
+                    data["t"], 
+                    data["vocab_size"], 
+                    sample_weights=data["sample_weights"]
+                )
                 
             log_payload = {
                 "z_loss/loss_former": data["loss_former"].item(),
                 "z_loss/loss_latter": loss_latter.item(),
                 "z_loss/loss_former_token": data["loss_former_token"].item(),
                 "z_loss/loss_latter_token": loss_latter_token.item(),
+                "z_loss/loss_former_temp_token": data["loss_former_temp_token"].item(),
+                "z_loss/loss_latter_temp_token": loss_latter_temp_token.item(),
+                "z_loss/acc_z": data["acc_z"].item() if hasattr(data["acc_z"], "item") else data["acc_z"],
                 "z_loss/step": state.global_step
             }
 
@@ -414,7 +428,7 @@ class CustomDiffusionTrainer(Trainer):
         mask_t_plus = self._mask_from_uniform(uniform_noise, ratios_t_plus, maskable_mask)
 
         x_plain = x_0.masked_fill(mask_t, self.tokenizer.mask_token_id)
-        final_mask, x_t, logits_t_plus = self._z_mask_denoise(
+        final_mask, x_t, logits_t_plus, metrics = self._z_mask_denoise(
             model=model,
             xt_plus=x_0.masked_fill(mask_t_plus, self.tokenizer.mask_token_id),
             mask=mask_t_plus,
@@ -435,7 +449,6 @@ class CustomDiffusionTrainer(Trainer):
             "mask_t_plus": mask_t_plus,
             "final_mask": final_mask,
             "t_plus": t_plus,
-            "logits_t_plus": logits_t_plus,
         }
         return x_t, t, loss_mask, extras
 
@@ -444,13 +457,41 @@ class CustomDiffusionTrainer(Trainer):
         ratios = ratios.clamp_(0.0, 1.0).unsqueeze(-1).to(uniform_noise.dtype)
         return (uniform_noise < ratios) & maskable_mask
 
+    def _get_scheduled_z_mask_temperature(self):
+        z_temp = getattr(self.diff_args, "z_mask_temperature", None)
+        if z_temp is None:
+            z_temp = self.temperature
+
+        schedule = getattr(self.diff_args, "z_mask_temperature_schedule", "constant")
+        
+        if schedule == "constant":
+            return z_temp
+
+        current_step = getattr(self.state, "global_step", 0)
+        max_steps = getattr(self.state, "max_steps", 0)
+        
+        if max_steps <= 0:
+            return z_temp
+
+        ratio = float(current_step) / float(max_steps)
+        ratio = max(0.0, min(1.0, ratio))
+        
+        if schedule == "linear":
+            return 1.0 + (z_temp - 1.0) * ratio
+        elif schedule == "cosine":
+            return 1.0 + (z_temp - 1.0) * (1.0 - math.cos(math.pi * ratio)) / 2.0
+            
+        return z_temp
+
     def _z_mask_denoise(self, model, xt_plus, mask, t_plus, t_target, maskable_mask, attention_mask, x0_gt=None):
         method = getattr(self.diff_args, "z_mask_method", getattr(self.diff_args, "denoise_method", "origin"))
-        z_temp = getattr(self.diff_args, "z_mask_temperature", self.temperature)
+        z_temp = self._get_scheduled_z_mask_temperature()
 
         raw_logits = self._run_model_for_z_mask(model, xt_plus, t_plus, attention_mask)
         scores = torch.log_softmax(raw_logits, dim=-1)
         probs = scores.exp()
+
+        metrics = {}
 
         with self._apply_eval_overrides(temperature=z_temp, method=method):
             sampled_x0 = self._sample_tokens(probs)
@@ -500,7 +541,8 @@ class CustomDiffusionTrainer(Trainer):
                 method=strategy_method,
                 is_batch=True,
             )
-        return final_mask, xt, raw_logits
+
+        return final_mask, xt, raw_logits, metrics
 
     def _run_model_for_z_mask(self, model, xt_plus, t_plus, attention_mask):
         was_training = model.training if hasattr(model, "training") else False
@@ -730,12 +772,7 @@ class CustomDiffusionTrainer(Trainer):
              t_plus = extras["t_plus"]
              
              # Calculate loss_former on xt_plus
-             if "logits_t_plus" in extras:
-                 logits_z_former = extras["logits_t_plus"]
-             else:
-                 with torch.no_grad():
-                     logits_z_former = model(xt_plus, t_plus, attention_mask=attention_mask)
-                     logits_z_former = torch.cat([logits_z_former[:,0:1], logits_z_former[:,:-1]], dim=1)
+             logits_z_former = self._run_model_for_z_mask(model, xt_plus, t_plus, attention_mask)
              
              loss_former = self._compute_weighted_loss(logits_z_former, x, mask_t_plus, t_plus, vocab_size)
              
@@ -743,12 +780,26 @@ class CustomDiffusionTrainer(Trainer):
              mask_unmasked = mask_t_plus & (~final_mask)
              loss_former_token = self._compute_weighted_loss(logits_z_former, x, mask_unmasked, t_plus, vocab_size)
 
+             z_temp = self._get_scheduled_z_mask_temperature()
+             safe_z_temp = max(z_temp, 1e-4)
+             loss_former_temp_token = self._compute_weighted_loss(logits_z_former / safe_z_temp, x, mask_unmasked, t_plus, vocab_size)
+
+             acc_z = 0.0
+             mask_flat = mask_unmasked.view(-1)
+             if mask_flat.sum() > 0:
+                 sampled_flat = x_t.view(-1)
+                 gt_flat = x.view(-1)
+                 correct = (sampled_flat == gt_flat) & mask_flat
+                 acc_z = correct.sum().float() / mask_flat.sum().float()
+
              self.stored_z_loss_data = {
                  "x_t": xt_plus.detach(),
                  "t": t_plus.detach(),
                  "attention_mask": attention_mask.detach(),
                  "loss_former": loss_former.detach(),
                  "loss_former_token": loss_former_token.detach(),
+                 "loss_former_temp_token": loss_former_temp_token.detach(),
+                 "acc_z": acc_z,
                  "x": x.detach(),
                  "loss_mask": mask_t_plus.detach(),
                  "loss_mask_token": mask_unmasked.detach(),
@@ -774,6 +825,7 @@ class CustomDiffusionTrainer(Trainer):
             loss_o = self._compute_weighted_loss(logits_o, x, mask_plain, t, vocab_size)
             lambda_z = self._z_mask_weight_schedule()
             loss = (1 - lambda_z) * loss_o + lambda_z * loss_z
+            
             self._log_dual_losses(loss_o, loss_z, loss, lambda_z, loss_re, loss_mask_val)
 
         return loss
@@ -960,16 +1012,9 @@ class CustomDiffusionTrainer(Trainer):
         if temperature <= 0:
             return probs.argmax(dim=-1)
 
-        # Handle NaNs and Infs in probs to prevent device-side asserts
-        probs = torch.nan_to_num(probs, nan=0.0, posinf=0.0, neginf=0.0)
-
         scaled = torch.clamp(probs, min=0)
         exponent = 1.0 / max(temperature, torch.finfo(probs.dtype).tiny)
         scaled = torch.pow(scaled, exponent)
-        
-        # Handle potential overflows from pow
-        scaled = torch.nan_to_num(scaled, nan=0.0, posinf=0.0, neginf=0.0)
-
         scaled_sum = scaled.sum(dim=-1, keepdim=True)
         zero_mask = scaled_sum <= 0
         scaled_sum = scaled_sum.clamp_min(1e-12)
@@ -978,17 +1023,6 @@ class CustomDiffusionTrainer(Trainer):
             uniform = torch.full_like(scaled, 1.0 / scaled.size(-1))
             scaled = torch.where(zero_mask, uniform, scaled)
         flat = scaled.view(-1, scaled.size(-1)).to(dtype=torch.float32)
-        
-        # Final safety check before multinomial
-        if torch.isnan(flat).any() or torch.isinf(flat).any() or (flat < 0).any():
-             flat = torch.nan_to_num(flat, nan=0.0, posinf=0.0, neginf=0.0)
-             flat = torch.clamp(flat, min=0.0)
-             # If row sum is 0 after sanitization, set to uniform
-             row_sums = flat.sum(dim=-1, keepdim=True)
-             bad_rows = row_sums <= 0
-             if bad_rows.any():
-                 flat[bad_rows.squeeze(-1)] = 1.0 / flat.size(-1)
-
         samples = torch.multinomial(flat, num_samples=1).squeeze(-1)
         return samples.view(*probs.shape[:-1])
 
