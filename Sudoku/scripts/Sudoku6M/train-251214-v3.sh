@@ -18,12 +18,12 @@ echo "============z1-mask MDM Training============"
 
 z_schedule=all-z
 
-exp=output/sudoku6M/z-mask/z1-allz-DKMG-temp2.5-NORM-bf16
+exp=output/sudoku6M/z-mask/z1-allz-DKMG-temp2.5-NORM-NEW
 mkdir -p $exp
 
 python3 -c "import swanlab; swanlab.sync_wandb()" && \
 CUDA_VISIBLE_DEVICES=$devices \
-accelerate launch --multi_gpu --num_machines 1 --mixed_precision bf16 --num_processes 8 --main_process_port 20100 \
+accelerate launch --multi_gpu --num_machines 1 --mixed_precision fp16 --num_processes 8 --main_process_port 20100 \
 src/train_bash.py \
     --stage mdm --overwrite_output_dir \
     --cache_dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache \
@@ -58,9 +58,9 @@ src/train_bash.py \
     --save_steps 2000 \
     --learning_rate 1e-3 \
     --num_train_epochs 300.0 \
-    --run_name z1-allz-DKMG-temp2.5-NORM-bf16 \
+    --run_name z1-allz-DKMG-temp2.5-NORM-NEW \
     --preprocessing_num_workers 8 \
-    --bf16 \
+    --fp16 \
     --save_total_limit 1 \
     --remove_unused_columns False \
     --diffusion_steps 20 \
@@ -72,12 +72,12 @@ src/train_bash.py \
     > $exp/train.log
 
 
-exp=output/sudoku6M/z-mask/z1-allz-TOPK-temp2.5-NORM-bf16
+exp=output/sudoku6M/z-mask/z1-allz-TOPK-temp2.5-NORM-NEW
 mkdir -p $exp
 
 python3 -c "import swanlab; swanlab.sync_wandb()" && \
 CUDA_VISIBLE_DEVICES=$devices \
-accelerate launch --multi_gpu --num_machines 1 --mixed_precision bf16 --num_processes 8 --main_process_port 20102 \
+accelerate launch --multi_gpu --num_machines 1 --mixed_precision fp16 --num_processes 8 --main_process_port 20102 \
 src/train_bash.py \
     --stage mdm --overwrite_output_dir \
     --cache_dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/cache \
@@ -111,9 +111,9 @@ src/train_bash.py \
     --save_steps 2000 \
     --learning_rate 1e-3 \
     --num_train_epochs 300.0 \
-    --run_name z1-allz-TOPK-temp2.5-NORM-bf16 \
+    --run_name z1-allz-TOPK-temp2.5-NORM-NEW \
     --preprocessing_num_workers 8 \
-    --bf16 \
+    --fp16 \
     --save_total_limit 1 \
     --remove_unused_columns False \
     --diffusion_steps 20 \

@@ -1,4 +1,4 @@
-# nohup python demo/app.py > demo/demo_app.out &
+# nohup python demo/app.py &
 # disown
 
 import sys
@@ -30,7 +30,7 @@ def load_the_model():
         return
 
     print("Loading model...")
-    model_path = "/root/code/EasyMDM/Sudoku/output/sudoku/Z-mask-RE/Weight2-downk0.3-margin-all-z-seed114"
+    model_path = "/root/code/EasyMDM/Sudoku/output/sudoku6M/z-mask/z1-allz-DKMG-temp2.5-NORM-NEW"
     
     parser = HfArgumentParser((ModelArguments, FinetuningArguments, DiffusionArguments))
     model_args, finetuning_args, diffusion_args = parser.parse_args_into_dataclasses(args=[
@@ -666,4 +666,4 @@ with gr.Blocks(title="Sudoku Diffusion Generation", css=css) as demo:
     step_slider.change(update_view, inputs=[step_slider, history_state, steps, solution_state, input_sudoku], outputs=[output_html, status])
 
 if __name__ == "__main__":
-    demo.queue().launch(server_name="0.0.0.0", server_port=7860, share=False)
+    demo.queue().launch(server_name="0.0.0.0", server_port=7861, share=False)
