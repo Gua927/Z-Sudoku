@@ -1,383 +1,100 @@
-# Text Generation Experiments
+# Z-Sudoku
 
-[![arXiv](https://img.shields.io/badge/arXiv-2505.18495-b31b1b.svg?logo=arxiv&logoColor=red)](https://arxiv.org/abs/2505.18495) [![deploy](https://img.shields.io/badge/🤗_HuggingFace%20-MDM_Prime%20-orange)](https://huggingface.co/chen-hao-chao/mdm-prime) [<img src="https://img.shields.io/badge/dockerhub-MDLM_Prime-blue.svg?logo=docker">](https://hub.docker.com/r/chenhaochao/mdlm-prime)
+## 项目简介
 
+本项目 "Z-Sudoku" 是我的期末大作业。它探索了基于 Diffusion 模型（MDM）的数独生成与求解任务，并引入了 Z-Mask 机制进行改进。项目包含了模型训练、评估以及一个可视化的 Gradio 演示程序。
 
-This folder contains the code implementation of the text generation experiments presented in **Section 4.1** of [our paper](https://arxiv.org/abs/2505.18495).
+## 环境配置
 
-<img src="assets/text_demo.gif" alt="text_demo" width="800px">
+推荐使用 Conda 进行环境管理。本项目基于 Python 3.9+ 开发。
 
-## Install Dependencies
+### 1. 创建并激活环境
 
-You can choose to lunch our pre-built docker image or manually install the dependencies via conda:
-
-### :whale: Docker
-
-1. Pull our pre-built docker image:
-```bash
-docker pull chenhaochao/mdlm-prime:latest
-```
-or build a docker image locally through the following command:
+建议创建一个新的 Conda 环境以避免依赖冲突：
 
 ```bash
-docker build -t mdlm-prime:latest .
+# 创建名为 z-sudoku 的环境
+conda create -n z-sudoku python=3.9 -y
+
+# 激活环境
+conda activate z-sudoku
 ```
 
-2. Launch the docker image at `mdm-prime/text` through the following commands:
-```bash
-docker run -v $(pwd):/app --rm -it --gpus all --ipc=host chenhaochao/mdlm-prime:latest
-```
+*(如果您已有名为 `mdm` 的环境，也可以直接使用 `conda activate mdm`)*
 
-### :snake: Conda
-    
-1. Install conda environment:
+### 2. 安装依赖
+
+项目根目录下提供了 `requirements.txt` 文件，包含了运行所需的全部核心依赖（包括 PyTorch 2.x, Transformers, Accelerate, SwanLab, Gradio 等）。请确保在项目根目录下运行：
+
 ```bash
-# Create conda environment
-conda env create -f environment.yml
-conda activate mdlm-prime
-# Install default dependencies via pip
 pip install -r requirements.txt
 ```
 
-2. Install additional dependencies via pip:
-```
-pip install flash-attn==2.6.3
-```
+### 3. 配置说明
 
-<details>
-<summary><strong>Possible Error Messages & Solutions</strong></summary>
+- **Accelerate**: 本项目使用 HuggingFace Accelerate 进行多卡训练。训练脚本中通过命令行参数指定了分布式配置。
+- **实验记录**: 默认集成了 SwanLab 和 WandB。脚本中设置了 `WANDB_MODE=offline` 进行离线记录。如需在线同步，请在环境中配置相应的 API Key。
 
-**Error**. When executing `pip install -r requirements.txt`:
+## 数据准备
+
+训练和测试数据位于 `data/` 目录下：
+- `data/sudoku_train.csv`: 训练数据集
+- `data/sudoku_test.csv`: 测试数据集
+
+## 模型训练
+
+本项目提供了两种训练模式的脚本：Standard Vanilla Diffusion 和 Z-Mask Diffusion。
+
+### 1. 训练 Vanilla 模型
+运行以下脚本开始训练基础模型：
 ```bash
-ERROR: Could not build wheels for faiss-cpu, which is required to install pyproject.toml-based projects
+bash scripts/train-vanilla.sh
 ```
-**Solution**. Install `faiss` using the following command and then reinstall `flash-attn` again:
-```
-pip install faiss-cpu==1.7.4
-pip install faiss-gpu-cu12
-pip install flash-attn==2.6.3
-```
+该脚本会将相应的输出保存到 `output/Vanilla/` 目录下。
 
-**Error**. When executing `pip install -r requirements.txt`:
+### 2. 训练 Z-Mask 模型
+运行以下脚本开始训练带有 Z-Mask 机制的模型：
 ```bash
-ERROR: Could not build wheels for pyarrow, which is required to install pyproject.toml-based projects
+bash scripts/train-zmask.sh
 ```
-**Solution**. Install `pyarrow` using the following command and then reinstall `requirements.txt` again:
-```
-pip install pyarrow==17.0.0
-```
+该脚本会将相应的输出保存到 `output/z-mask/` 目录下。
 
-**Error**. When executing `pip install flash-attn==2.6.3`:
+**注意**: 训练脚本默认使用多卡 (8卡) 并行训练，如需修改使用的 GPU 数量或编号，请编辑脚本中的 `devices` 变量和 `accelerate launch` 的参数。
+
+## 实验结果
+
+我们在数独生成任务上对比了 Z-Mask 方法与传统 Vanilla Diffusion 的性能。
+
+![Training Comparison](assets/training_comparison.png)
+
+如上图所示，在相同的训练步数下：
+- **Vanilla Baseline**: 准确率停滞在 **39%** 左右（图中灰色虚线）。
+- **Z-Mask**: 在不同温度参数（Temperature）设置下均取得了显著优于 Vanilla 的性能。
+    - **Temp 2.5** (橙色曲线) 表现最佳，最终准确率达到 **63%** 以上。
+    - **Temp 2.0** (粉色曲线) 次之，达到约 56%。
+    - 即使是较低的温度设置 (Temp 1.0)，准确率也能稳定在 40% 左右，略高于 Baseline。
+
+这证明了 Z-Mask 机制在数独求解/生成任务中的有效性。
+
+## 运行演示 (Demo)
+
+项目包含一个基于 Gradio 的交互式演示应用。
+
+运行命令：
 ```bash
-ERROR: Could not build wheels for flash_attn, which is required to install pyproject.toml-based projects
+python demo/app.py
 ```
-**Solution**. `flash-attn` requires NVIDIA Ampere or newer GPUs for installation. You may need to find compatible hardware. See [Dao-AILab/flash-attention](https://github.com/Dao-AILab/flash-attention) for more details.
-
-**Error**. When executing the training / sampling code:
-```bash
-AttributeError: module 'faiss._swigfaiss' has no attribute 'delete_MaybeOwnedVectorUInt8Vector' 
-```
-**Solution**. Uninstall `faiss` using the following command:
-```
-pip uninstall faiss-cpu
-pip uninstall faiss-gpu
-```
-
-</details>
-
-## Commands
-
-### Training
-
-Before starting training, set up your [Weights & Biases](https://wandb.ai/site/) account by exporting the API key.
-
-```
-export WANDB_API_KEY=${your_wandb_key}
-```
-
-:pushpin: **MDLM**
-
-```bash
-python -u -m main data=openwebtext-split data.cache_dir=/app/huggingface_cache \
-                  loader.batch_size=16 loader.eval_batch_size=16 model=small \
-                  wandb.name=mdlm_owt checkpointing.save_dir=/app/results_mdlm_owt \
-                  eval.compute_zero_shot=False eval.conditional_sampling=False \
-                  eval.compute_generative_perplexity=False sampling.steps=512
-```
-- **Arguments:**
-    - `data`: name of the dataset. (default: `openwebtext`)
-    - `data.cache_dir`: path to the saving directory of data. (default: `/app/huggingface_cache`)
-    - `model`: `small` / `small-ar`. (default: `small`)
-    - `wandb.name`: name of the wandb run. (default: `null`)
-    - `checkpointing.save_dir`: path to the saving directory of weights. (default: `${cwd:}`)
-    - `eval.compute_zero_shot`: whether to evaluate zero-shot PPL during training. (default: `False`)
-    - `eval.conditional_sampling`: whether to evaluate conditional sampling during training. (default: `False`)
-    - `eval.compute_generative_perplexity`: whether to evaluate Gen PPL during training. (default: `False`)
-    - `sampling.steps`: number of steps used for sampling. (default: `256`)
-
-
-:pushpin: **MDLM-Prime**
-
-```bash
-python -u -m main data=openwebtext-split data.cache_dir=/app/huggingface_cache \
-                  loader.batch_size=16 loader.eval_batch_size=16 model=small \
-                  wandb.name=results_prime_l2_owt checkpointing.save_dir=/app/results_prime_l2_owt \
-                  prime.target_length=2 prime.carry_over=False \
-                  eval.compute_zero_shot=False eval.conditional_sampling=False \
-                  eval.compute_generative_perplexity=False sampling.steps=512
-```
-
-- **Arguments:**
-    - `prime.target_length`: number of sub-tokens, i.e., $\ell$. (default: `1`)
-    - `prime.carry_over`: whether to enable carry-over parameterization. (default: `False`)
-
-
-:pushpin: **ARM**
-
-```bash
-python -u -m main data=openwebtext-split data.cache_dir=/app/huggingface_cache \
-                  loader.batch_size=16 loader.eval_batch_size=16 model=small-ar \
-                  backbone=ar parameterization=ar sampling.predictor=ar \
-                  wandb.name=arm_owt checkpointing.save_dir=/app/arm \
-                  eval.compute_zero_shot=False eval.conditional_sampling=False \
-                  eval.compute_generative_perplexity=False sampling.steps=512
-```
-
-- **Arguments:**
-    - `backbone`: `dit` / `ar`. (default: `dit`)
-    - `parameterization`: flag to select the design of output logits. (default: `subs`)
-    - `sampling.predictor`: flag to select the designs of samplers. (default: `ddpm_cache`)
-
-### Likelihood Evaluation
-
-:pushpin: **Perplexity**
-
-```
-python -u -m main mode=ppl_eval eval.compute_zero_shot=True eval.generate_samples=False \
-    eval.checkpoint_path=/root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
-    data=openwebtext-split data.cache_dir=/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
-    loader.batch_size=16 loader.eval_batch_size=16 model=small \
-    prime.target_length=1 prime.carry_over=True
-```
-
-- **Arguments:**
-    - `mode`: `train` / `ppl_eval` / `sample_and_save`. (default: `train`)
-    - `eval.checkpoint_path`: path to the checkpoint. (default: ` `)
-    - 默认的 AR 评估模型为 `meta-llama/Llama-2-7b-hf` (LLaMA 7B)。如需使用其它模型，可将 `eval.gen_ppl_eval_model_name_or_path` 设置为单个字符串或字符串列表（按优先级排列），也可在脚本中通过 `--eval-model gpt2-large meta-llama/Llama-2-7b-hf` 之类的形式传入可选项。
-
-```bash
-python -u -m main mode=ppl_eval \
-  eval-model gpt2-large \
-  eval.checkpoint_path=/root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
-  eval.generate_samples=True \
-  eval.compute_generative_perplexity=True \
-  eval.perplexity_batch_size=20 \
-  loader.eval_batch_size=20 \
-  sampling.num_sample_batches=2 \
-  sampling.steps=512
-```
-
-```bash
-python scripts/plot_genppl_vs_steps.py \
-  --checkpoint /root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
-  --eval-model gpt2-large
-  --steps 256 512 1024 2048 \
-  --total-samples 10 \
-  --batch-size 10 \
-  --perplexity-batch 5 \
-  --cache-dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
-  --output plots/genppl_vs_steps.png
-```
-
-```bash
-python scripts/plot_genppl_vs_steps.py \
- --checkpoint /root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
- --model-config small \
- --eval-model Qwen/Qwen2.5-7b \
- --steps 512  \
- --total-samples 50 \
- --batch-size 50 \
- --perplexity-batch 1 \
- --cache-dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
- --output plots/genppl_vs_steps_topk-margin.png \
- --sample-method top-k-margin
-```
-
-
-`top-k-margin` 会使用掩码位置预测分布中的最大与次大 log-prob 差值来排序，因此更易与传统 `top-k` 区分，同时延续相同的解码条数控制逻辑。
-
-```bash
-nohup python scripts/plot_genppl_vs_steps.py \
- --checkpoint /root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
- --eval-model Qwen/Qwen2.5-7b \
- --temperature 0.7 \
- --steps 256 512 1024 2048\
- --total-samples 64 \
- --batch-size 64 \
- --perplexity-batch 1 \
- --cache-dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
- --output plots/genppl_vs_steps-temp0.7.png \
- --sample-method origin top-k top-k-margin > temperature0.7.log 2>&1 &
-
-CUDA_VISIBLE_DEVICES=1 nohup python scripts/plot_genppl_vs_steps.py \
- --checkpoint /root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
- --eval-model Qwen/Qwen2.5-7b \
- --temperature 0.9 \
- --steps 256 512 1024 2048\
- --total-samples 512 \
- --batch-size 64 \
- --perplexity-batch 1 \
- --cache-dir /GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
- --output plots/genppl_vs_steps-temp0.9.png \
- --sample-method origin top-k top-k-margin > temperature0.9.log 2>&1 &
-```
-
-
-
-### Sampling
-
-:pushpin: **Unconditional Sampling**
-
-```
-python -u -m main mode=sample_and_save eval.checkpoint_path=/root/code/mdm-prime/text/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
-                  sampling.split_size=100 sampling.steps=512 \
-                  sampling.sampling_dir=/root/code/mdm-prime/text/outputs/results_prime_l1_owt/samples \
-                  sampling.sampling_dtype=fp64 sampling.nucleus_p=0.95 \
-                  loader.eval_batch_size=50 model=small \
-                  prime.target_length=1 prime.carry_over=False
-```
-
-- **Arguments:**
-    - `sampling.split_size`: total number of samples of a sampling split. (default: `625`)
-    - `sampling.sampling_dir`: path to the saving directory for the generated samples. (default: `/app/results`)
-    - `sampling.sampling_dtype`: floating-point precision: `fp32` / `fp64`. (default: `fp32`)
-    - `sampling.nucleus_p`: parameter that controls the sharpness of the output distribution in [nucleus sampling](https://arxiv.org/abs/1904.09751). (default: `1.0`)
-
-
-:pushpin: **Conditional Sampling**
-
-```
-python -u -m main mode=sample_and_save eval.checkpoint_path=/root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
-                  sampling.split_size=100 sampling.steps=512 \
-                  sampling.sampling_dir=outputs/results_prime_l1_owt/samples \
-                  sampling.sampling_dtype=fp64 sampling.nucleus_p=0.95 \
-                  sampling.conditions=True sampling.prefix_len=35 \
-                  data=openwebtext-split data.cache_dir=/app/huggingface_cache \
-                  loader.eval_batch_size=25 model=small \
-                  prime.target_length=2 prime.carry_over=False
-```
-
-- **Arguments:**
-    - `sampling.conditions`: whether to provide the model with prefix information. (default: `False`)
-    - `sampling.prefix_len`: length of the prefix text sequence. (default: `50`)
-
-
-## Pretrained Weights
-
-The following table (click the toggle-down button) presents the pretrained weights of different configurations:
-
-<details>
-<summary><strong>OpenWebText</strong> (OWT)</summary>
-
-| Dataset | Model | $\ell$ | `carry_over` | Weight | `${setup_dir}` |
-| ------- | ----- | ------ | ---------- | ---- | ---- |
-| `OWT`   | MDLM-Prime | 2 | False | [🤗 link](https://huggingface.co/chen-hao-chao/mdm-prime/blob/main/text/owt/results_prime_l2_owt/checkpoint.ckpt) | `results_prime_l2_owt` |
-|         |            |   | True  | [🤗 link](https://huggingface.co/chen-hao-chao/mdm-prime/blob/main/text/owt/results_prime_l2_co_owt/checkpoint.ckpt) | `results_prime_l2_co_owt` |
-|         |            | 3 | False | [🤗 link](https://huggingface.co/chen-hao-chao/mdm-prime/blob/main/text/owt/results_prime_l3_owt/checkpoint.ckpt) | `results_prime_l3_owt` |
-|         |            |   | True  | [🤗 link](https://huggingface.co/chen-hao-chao/mdm-prime/blob/main/text/owt/results_prime_l3_co_owt/checkpoint.ckpt) | `results_prime_l3_co_owt` |
-|         |            | 4 | False | [🤗 link](https://huggingface.co/chen-hao-chao/mdm-prime/blob/main/text/owt/results_prime_l4_owt/checkpoint.ckpt) | `results_prime_l4_owt` |
-|         |            |   | True  | [🤗 link](https://huggingface.co/chen-hao-chao/mdm-prime/blob/main/text/owt/results_prime_l4_co_owt/checkpoint.ckpt) | `results_prime_l4_co_owt` |
-|         |            | 6 | False | [🤗 link](https://huggingface.co/chen-hao-chao/mdm-prime/blob/main/text/owt/results_prime_l6_owt/checkpoint.ckpt) | `results_prime_l6_owt` |
-|         |            |   | True  | [🤗 link](https://huggingface.co/chen-hao-chao/mdm-prime/blob/main/text/owt/results_prime_l6_co_owt/checkpoint.ckpt) | `results_prime_l6_co_owt` |
-|         |            | 8 | False | [🤗 link](https://huggingface.co/chen-hao-chao/mdm-prime/blob/main/text/owt/results_prime_l8_owt/checkpoint.ckpt) | `results_prime_l8_owt` |
-|         |            |   | True  | [🤗 link](https://huggingface.co/chen-hao-chao/mdm-prime/blob/main/text/owt/results_prime_l8_co_owt/checkpoint.ckpt) | `results_prime_l8_co_owt` |
-
-</details>
-
-We reproduced the results using this code implementaion. The results of MDLM-Prime ($\ell=4$) are slightly better (PPL=15.21) than those reported in the main manuscript. The training and evaluation curves are shown as follows:
-
-|<img src="assets/curves.png" alt="fid" width="800px">|
-|-|
-
-<details>
-<summary><strong>Reproduced Results</strong></summary>
-
-| Dataset | Model | Weight | `${setup_dir}` |
-| ------- | ----- | ---- | ---- |
-| `OWT`   | ARM                   | [🤗 link](https://huggingface.co/chen-hao-chao/mdm-prime/blob/main/text/owt/results_ar_owt_reproduce/checkpoint.ckpt) | `results_ar_owt_reproduce` |
-|         | MDLM                  | [🤗 link](https://huggingface.co/chen-hao-chao/mdm-prime/blob/main/text/owt/results_mdm_owt_reproduce/checkpoint.ckpt) | `results_mdm_owt_reproduce` |
-|         | MDLM-Prime ($\ell=4$) | [🤗 link](https://huggingface.co/chen-hao-chao/mdm-prime/blob/main/text/owt/results_prime_l4_owt_reproduce/checkpoint.ckpt) | `results_prime_l4_owt_reproduce` |
-
-</details>
-
-Click the toggle-down button :point_up: to access the weights of the reproduced results.
-
-<br>
-
-:pushpin: **Example Usage of Pretrained Weights**
-
-Pass `checkpointing.from_huggingface=True` and set `eval.checkpoint_path=text/owt/${setup_dir}/checkpoint.ckpt` to download the checkpoint from our huggingface repository.
-
-**Example.** Evalute PPL using MDLM-Prime ($\ell=2$)
-
-```bash
-nohup python -u -m main mode=ppl_eval \
-    eval.compute_zero_shot=True \
-    eval.generate_samples=False \
-    eval.checkpoint_path=/root/code/EasyMDM/checkpoints/results_mdm_l1_owt_reproduce/checkpoint.ckpt \
-    data=wikitext2 \
-    data.cache_dir=/GenSIvePFS/users/zlzhang/trz/DLM-A100-2/hf-cache \
-    loader.batch_size=16 \
-    loader.eval_batch_size=16 \
-    model=small \
-    prime.target_length=1 \
-    prime.carry_over=False \
-    checkpointing.from_huggingface=False & nohup2.txt
-```
-
-**Example.** Sampling using MDLM-Prime ($\ell=2$)
-
-```bash
-python -u -m main mode=sample_and_save eval.checkpoint_path=text/owt/results_prime_l2_owt/checkpoint.ckpt \
-                  sampling.split_size=10 sampling.steps=512 \
-                  sampling.sampling_dir=/app/results_prime_l2_owt/samples \
-                  sampling.sampling_dtype=fp64 sampling.nucleus_p=0.95 \
-                  loader.eval_batch_size=10 model=small \
-                  prime.target_length=2 prime.carry_over=False \
-                  checkpointing.from_huggingface=True
-```
-
-:pushpin: **Manually Download the Pretrained Weights**
-
-Execute the following python code, and the downloaded files will appear in your huggingface cache directory (e.g., `~/.cache/huggingface/hub`):
-```python
-from huggingface_hub import hf_hub_download
-
-checkpoint_path = hf_hub_download(
-    repo_id="chen-hao-chao/mdm-prime",
-    filename="text/owt/${setup_dir}/checkpoint.ckpt"
-)
-```
-
-For more details, please refer to our huggingface repository: [🤗 chen-hao-chao/mdm-prime](https://huggingface.co/chen-hao-chao/mdm-prime).
-
-## License
-This code implementation is developed based on the following repository.
-
-- [kuleshov-group/mdlm](https://github.com/kuleshov-group/mdlm) (at commit `3ecb6dc`), licensed under the `Apache-2.0` license.
-
-Further changes based on the code in this folder are licensed under the `Apache-2.0` license.
-
-
-## Citing MDM-Prime
-
-If you find this code implementation useful, please consider citing our paper.
-
-```bib
-@inproceedings{chao2025mdmprime,
-      title = {{Beyond Masked and Unmasked: Discrete Diffusion Models via Partial Masking}}, 
-      author = {Chen-Hao Chao, Wei-Fang Sun, Hanwen Liang, Chun-Yi Lee, Rahul G. Krishnan},
-      booktitle = {Proceedings of the Conference on Neural Information Processing Systems (NeurIPS)},
-      year = {2025},
-}
-```
+启动后，可以通过浏览器访问终端输出的 URL 进行体验。
+*(注意：`demo/app.py` 中加载的模型路径可能需要根据您实际训练出的模型路径进行修改)*
+
+## 文件结构说明
+
+- `data/`: 存放数据集及数据生成脚本
+- `demo/`: 存放 Gradio 演示代码
+- `model_config_tiny/`: 预定义的模型配置文件
+- `output/`: 训练产生的模型检查点和日志（训练后生成）
+- `scripts/`: 训练脚本 (Shell scripts)
+- `src/`: 核心源代码，包含模型定义、Trainer 实现及相关工具函数
+    - `llmtuner/`: 核心微调与训练逻辑
+    - `train_bash.py`: 训练入口文件
+- `LICENSE`: 项目许可证

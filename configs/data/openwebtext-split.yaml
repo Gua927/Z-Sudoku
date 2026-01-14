@@ -1,6 +1,0 @@
-train: openwebtext-train
-valid: openwebtext-valid
-test: openwebtext-test
-tokenizer_name_or_path: gpt2
-wrap: True
-streaming: False

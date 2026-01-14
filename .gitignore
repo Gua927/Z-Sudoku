@@ -1,9 +1,0 @@
-# Train artifacts
-checkpoints/
-outputs/
-Sudoku/swanlog/
-Sudoku/wandb/
-
-
-# Logs
-**/*.log
